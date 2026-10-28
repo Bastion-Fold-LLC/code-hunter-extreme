@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Mellow Core Vaults",
+  "url": "https://audits.sherlock.xyz/bug-bounties/125",
+  "max_payout_usd": 100000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Mellow Core Vaults",
+      "100,000 USDC",
+      "Payout",
+      "Sep 25, 2025",
+      "Last Updated"
+    ]
+  }
+}

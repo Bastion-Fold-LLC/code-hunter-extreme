@@ -1,0 +1,26 @@
+{
+  "platform": "codehawks",
+  "name": "Era",
+  "url": "https://codehawks.cyfrin.io/c/2024-10-zksync",
+  "max_payout_usd": 500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "Era",
+      "ZKsync",
+      "Foundry",
+      "Layer 2",
+      "Private",
+      "500,000",
+      "USDC",
+      "Ended",
+      "Ended 666d, 14h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  },
+  "score": 750000.0
+}

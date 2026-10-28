@@ -1,0 +1,95 @@
+name: validate
+
+# Deterministic validation stack (your CLAUDE.md doctrine), as GitHub Actions.
+# v1 is REPORT-ONLY: every step ends with `|| true` so legacy noise never blocks
+# a PR. Promote a tool to a hard gate by deleting its `|| true` once that repo is
+# clean for it (start with gitleaks + bandit, then ruff/flake8, then the rest).
+# Runs on the same code already on GitHub — no external key, no extra egress.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@22695119d769bdb6f7032ad67b9bca0ef8c4a174 # v5.4.0
+      - name: Install tools + project deps
+        run: |
+          uv sync --frozen --extra dev
+
+      # ---- security (promote these first) ----
+      # Download + checksum are a HARD gate: an unverified archive is never
+      # extracted or executed. The detect result stays advisory (|| true)
+      # until the repo baseline is clean, per the header doctrine.
+      - name: gitleaks (secret scan)
+        run: |
+          set -euo pipefail
+          TAG="8.24.3"
+          ARCHIVE="gitleaks_${TAG}_linux_x64.tar.gz"
+          SHA256="9991e0b2903da4c8f6122b5c3186448b927a5da4deef1fe45271c3793f4ee29c"
+          curl --fail --location --silent --show-error \
+            --output "/tmp/${ARCHIVE}" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${TAG}/${ARCHIVE}"
+          echo "${SHA256}  /tmp/${ARCHIVE}" | sha256sum --check -
+          tar -xzf "/tmp/${ARCHIVE}" -C /tmp
+          /tmp/gitleaks detect --source . --no-git --redact --verbose || true
+      - name: bandit
+        run: git ls-files -z -- '*.py' ':!tests/*' ':!test_*.py' | xargs -0 uv run bandit -ll || true
+      - name: semgrep
+        run: uv run semgrep scan --config p/python --config p/security-audit || true
+
+      # ---- tests (hypothesis + any z3 proofs run inside pytest) ----
+      - name: pytest + coverage (hard gate; live tests excluded by default)
+        run: uv run coverage run -m pytest -q
+
+
+      # ---- optional SaaS scanners (dormant until you add the secret) ----
+      - name: Snyk (SCA + code, if SNYK_TOKEN set)
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          [ -z "$SNYK_TOKEN" ] && echo "SNYK_TOKEN not set — skipping Snyk." && exit 0
+          npx --yes snyk test --all-projects || true
+          npx --yes snyk code test || true
+      - name: Socket (supply-chain, if SOCKET_SECURITY_API_KEY set)
+        continue-on-error: true
+        env:
+          SOCKET_SECURITY_API_KEY: ${{ secrets.SOCKET_SECURITY_API_KEY }}
+        run: |
+          [ -z "$SOCKET_SECURITY_API_KEY" ] && echo "SOCKET_SECURITY_API_KEY not set — skipping Socket." && exit 0
+          npx --yes @socketsecurity/cli scan create . || true
+      - name: Semgrep Supply Chain (reachability SCA, if SEMGREP_APP_TOKEN set)
+        continue-on-error: true
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+        run: |
+          [ -z "$SEMGREP_APP_TOKEN" ] && echo "SEMGREP_APP_TOKEN not set — skipping Semgrep Supply Chain." && exit 0
+          semgrep ci || true
+
+      # ---- style / types / dead code / docs (noisiest; promote last) ----
+      - name: ruff
+        run: uv run ruff check . || true
+      - name: flake8
+        run: uv run flake8 . || true
+      - name: black (format check)
+        run: uv run black --check . || true
+      - name: mypy
+        run: uv run mypy . || true
+      - name: pylint
+        run: uv run pylint $(git ls-files '*.py') || true
+      - name: vulture (dead code)
+        run: uv run vulture . || true
+      - name: interrogate (docstring coverage)
+        run: uv run interrogate -v . || true

@@ -1,0 +1,7 @@
+# SECURITY.TXT for yeswehack.com
+# https://securitytxt.org/
+#
+Contact: https://vdp.yeswehack.com
+Policy: https://vdp.yeswehack.com
+Hiring: https://www.welcometothejungle.com/fr/companies/yeswehack
+Expires: 2027-06-30T23:59:59.000Z

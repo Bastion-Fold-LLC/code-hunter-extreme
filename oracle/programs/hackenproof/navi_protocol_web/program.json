@@ -1,0 +1,13 @@
+{
+  "platform": "hackenproof",
+  "name": "NAVI Protocol Web",
+  "url": "https://hackenproof.com/programs/navi-protocol-web",
+  "max_payout_usd": 10000,
+  "kind": "web3",
+  "fast_triage": true,
+  "scope": "naviprotocol.io\n*.naviprotocol.io",
+  "targets": "naviprotocol.io",
+  "raw": {
+    "card_text": "TRIAGED BY HACKENPROOF | NAVI Protocol Web | STARTED DATE: | 16 Oct 2025 | LAST UPDATED: | 18 Sep 2026 | SCOPE REVIEW: | 267121 | PAID | $0 | UP TO | $10,000"
+  }
+}

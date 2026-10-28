@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# oracle-bounty — launcher for Oracle Bounty Daemon
+exec python3 "$(dirname "$(readlink -f "$0")")/oracle_bounty.py" "$@"

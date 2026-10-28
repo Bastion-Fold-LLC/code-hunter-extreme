@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Bitso Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/bitso-mbb-og",
+  "max_payout_usd": 7500,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Bitso Managed Bug Bounty Engagement",
+    "tagline": "Bitso is Latin America’s leading Financial Services company powered by crypto.",
+    "briefUrl": "/engagements/bitso-mbb-og",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/ce49/1668/78d6da33/7e0b508eecb365dabe2dd93e58906b2b_Avatar-Square-X.png",
+    "rewardSummary": {
+      "summary": "$50 - $7,500",
+      "hint": null,
+      "minReward": "$50",
+      "maxReward": "$7,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 2,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/bitso-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 11250.0
+}

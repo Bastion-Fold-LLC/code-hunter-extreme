@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "Liquid Staking",
+  "url": "https://codehawks.cyfrin.io/c/2024-09-stakelink",
+  "max_payout_usd": 50000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Liquid Staking",
+      "Stakelink",
+      "DeFi",
+      "Hardhat",
+      "Oracle",
+      "Public",
+      "50,000",
+      "USDC",
+      "Ended",
+      "Ended 711d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

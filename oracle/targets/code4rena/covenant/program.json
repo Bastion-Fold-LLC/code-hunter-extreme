@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "Covenant",
+ "url": "https://code4rena.com/audits/2025-10-covenant",
+ "max_payout_usd": 43000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Covenant",
+   "Covenant transforms assets into leverage and yield - creating fully-backed credit that multiplies DeFi liquidity.",
+   "EVM",
+   "Solidity",
+   "22 Oct 2025 3:00 PM - 03 Nov 2025 2:00 PM",
+   "$43,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-10-covenant",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-10-covenant-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

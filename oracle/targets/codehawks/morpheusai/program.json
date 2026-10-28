@@ -1,0 +1,23 @@
+{
+  "platform": "codehawks",
+  "name": "MorpheusAI",
+  "url": "https://codehawks.cyfrin.io/c/2024-01-Morpheus",
+  "max_payout_usd": 22500,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "MorpheusAI",
+      "MorpheusAI",
+      "Foundry",
+      "Public",
+      "22,500",
+      "USDC",
+      "Ended",
+      "Ended 968d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

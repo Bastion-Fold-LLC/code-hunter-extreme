@@ -1,0 +1,28 @@
+{
+ "platform": "sherlock",
+ "name": "Tenor Labs",
+ "url": "https://audits.sherlock.xyz/bug-bounties/407",
+ "max_payout_usd": 200000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "type": "bug-bounty",
+  "lines": [
+   "Tenor Labs",
+   "200,000 USDC",
+   "Payout",
+   "Sep 11, 2026",
+   "Last Updated"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/tenor-labs/tenor-contracts",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

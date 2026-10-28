@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Magic Labs Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/magiclabs-mbb-og",
+  "max_payout_usd": 3000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Magic Labs Managed Bug Bounty Engagement",
+    "tagline": "Magic Labs provides web3 wallet infrastructure to make it easier for users to access decentralized applications.",
+    "briefUrl": "/engagements/magiclabs-mbb-og",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/ad3b/7302/69bf13d3/d8e58ad0336dee961d369d4f608d3c05_magiclabs_inc_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$250 - $3,000",
+      "hint": null,
+      "minReward": "$250",
+      "maxReward": "$3,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Computer Software",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": "updated",
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/magiclabs-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 4500.0
+}

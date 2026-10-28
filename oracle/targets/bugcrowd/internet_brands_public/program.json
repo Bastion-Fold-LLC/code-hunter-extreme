@@ -1,0 +1,39 @@
+{
+  "platform": "bugcrowd",
+  "name": "Internet Brands Public",
+  "url": "https://bugcrowd.com/engagements/internetbrands-public",
+  "max_payout_usd": 2000,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "Internet Brands Public",
+    "tagline": "Internet Brands is an online media and technology company that serves businesses and consumers in four major categories: Automotive, Health, Legal, and Home/Travel.",
+    "briefUrl": "/engagements/internetbrands-public",
+    "backgroundColor": "#ffffff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/cbac/36d8/5c4ca4e6/3b24d672a54a33c9f9c421d0101b7ef9_1522877502127.png",
+    "rewardSummary": {
+      "summary": "Points - $2,000",
+      "hint": null,
+      "minReward": "Points",
+      "maxReward": "$2,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 3,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Technology",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/internetbrands-public/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "platform": "bugcrowd",
+  "name": "HostGator LATAM Bug Bounty",
+  "url": "https://bugcrowd.com/engagements/hostgator-latam-bb",
+  "max_payout_usd": 2500,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "HostGator LATAM Bug Bounty",
+    "tagline": "HostGator LATAM is the division of the global web hosting provider HostGator that serves Latin American markets, offering localized web hosting solutions, including shared hosting, WordPress hosting, and VPS hosting, tailored to the needs of businesses and individuals in the region.",
+    "briefUrl": "/engagements/hostgator-latam-bb",
+    "backgroundColor": "#f98f48",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/746a/65fe/37fbf960/8434d215f5ea8617bcd48b53664d246a_latam.jpeg",
+    "rewardSummary": {
+      "summary": "Points - $2,500",
+      "hint": null,
+      "minReward": "Points",
+      "maxReward": "$2,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Technology",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/hostgator-latam-bb/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  }
+}

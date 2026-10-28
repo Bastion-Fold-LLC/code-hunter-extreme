@@ -1,0 +1,279 @@
+{
+ "platform": "yeswehack",
+ "name": "mediamarktsaturn-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/mediamarktsaturn-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "MediaMarktSaturn Bug Bounty Program",
+  "slug": "mediamarktsaturn-bug-bounty-program",
+  "country": "DE",
+  "activity_area": "Retail",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 582,
+  "bounty_reward_min": 100,
+  "bounty_reward_max": 4000,
+  "scopes_count": 31,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "1579e269-2b1f-440b-988b-5f5100c717f7",
+   "original_name": "logo.png",
+   "mime_type": "image/png",
+   "size": 23919,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/1579e269-2b1f-440b-988b-5f5100c717f7"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "MediaMarktSaturn Retail Group",
+   "slug": "mediamarktsatu",
+   "description": "MediaMarktSaturn Retail Group",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "2dd0905f-2887-48c4-bc53-10f9b2ceee78",
+    "original_name": "898989.png",
+    "mime_type": "image/png",
+    "size": 6149,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/2dd0905f-2887-48c4-bc53-10f9b2ceee78"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-07-03T12:04:48+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://www.mediamarkt.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.saturn.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.com.tr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediaworld.it",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.pl",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.ch",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.es",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.nl",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.be",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.hu",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.mediamarkt.at",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.media.markt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/de/app/mediamarkt-deutschland/id386304604",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=at.com.media.markt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/at/app/mediamarkt-%C3%B6sterreich/id583300669",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=tr.com.media.markt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/tr/app/mediamarkt-t%C3%BCrkiye/id908956795",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=it.mediamarket.mediaworld",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/it/app/mediaworld-app/id1076895831",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=es.mediamarkt.app",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/es/app/mediamarkt-comprar-online/id1438532508",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=be.com.media.markt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/be/app/mediamarkt-belgi%C3%AB/id958993034",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=nl.com.media.markt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/nl/app/mediamarkt-nederland/id573907448",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=ch.mediamarkt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/ch/app/media-markt-schweiz/id1169043480",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=pl.mediamarkt",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/pl/app/mediamarkt-polska/id6470200706",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.media.saturn",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/de/app/saturn-deutschland/id557562682",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "MetaLend",
+  "url": "https://audits.sherlock.xyz/bug-bounties/106",
+  "max_payout_usd": 100000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "MetaLend",
+      "100,000 USDC",
+      "Payout",
+      "Dec 22, 2025",
+      "Last Updated"
+    ]
+  }
+}

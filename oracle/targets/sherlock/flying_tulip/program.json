@@ -1,0 +1,20 @@
+{
+  "platform": "sherlock",
+  "name": "Flying Tulip",
+  "url": "https://audits.sherlock.xyz/bug-bounties/248",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Flying Tulip",
+      "1,000,000 USDC",
+      "Payout",
+      "Jun 18, 2026",
+      "Last Updated"
+    ]
+  },
+  "score": 1500000.0
+}

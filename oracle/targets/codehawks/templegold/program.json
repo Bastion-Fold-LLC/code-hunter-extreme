@@ -1,0 +1,32 @@
+{
+ "platform": "codehawks",
+ "name": "TempleGold",
+ "url": "https://codehawks.cyfrin.io/c/2024-07-templegold",
+ "max_payout_usd": 25000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "TempleGold",
+   "TempleDAO",
+   "Foundry",
+   "Public",
+   "25,000",
+   "USDC",
+   "Ended",
+   "Ended 809d, 1h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/Cyfrin/2024-07-templegold",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

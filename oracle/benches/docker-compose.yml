@@ -1,0 +1,59 @@
+# Oracle recall benchmarks — the deliberately-vulnerable targets the recall
+# bar (tests/test_p14_bench_recall.py + benchmarks/bench_recall.json) scores
+# against. Ports are pinned to match bench_recall.json exactly:
+#   juice-shop -> 127.0.0.1:3000   dvwa -> 127.0.0.1:8080   pygoat -> 127.0.0.1:8000
+# Brought up / initialised / torn down by benches/bringup.sh (never by hand).
+# Bind to 127.0.0.1 only: these are intentionally exploitable, never exposed.
+name: oracle-benches
+
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:v17.1.1
+    ports:
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      # juice-shop ships no curl/wget; use its own node runtime.
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/rest/admin/application-version',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  dvwa:
+    # Digest-pinned: the floating :latest tag silently fixed the api
+    # module once and invalidated a recall-map named-miss (2026-10-28).
+    image: ghcr.io/digininja/dvwa@sha256:8029450682bd70e2e8cd1ffe8e46dd1885ff2a913296091cebfa8ba0a7d36498
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      # Match DVWA's bundled config.inc.php defaults so setup.php can create
+      # the schema against the db service below.
+      DB_SERVER: dvwa-db
+      DB_DATABASE: dvwa
+      DB_USERNAME: dvwa
+      DB_PASSWORD: p@ssw0rd
+    depends_on:
+      dvwa-db:
+        condition: service_healthy
+
+  dvwa-db:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: dvwa
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: p@ssw0rd
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  pygoat:
+    image: pygoat/pygoat:latest
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/login/',timeout=4).status==200 else 1)\""]
+      interval: 5s
+      timeout: 5s
+      retries: 30

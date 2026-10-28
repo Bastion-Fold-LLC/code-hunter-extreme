@@ -1,0 +1,132 @@
+{
+ "platform": "yeswehack",
+ "name": "otto-de-bug-bounty",
+ "url": "https://yeswehack.com/programs/otto-de-bug-bounty",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "OTTO.DE Bug Bounty",
+  "slug": "otto-de-bug-bounty",
+  "country": "DE",
+  "activity_area": "Retail",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 862,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 2500,
+  "scopes_count": 10,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "c2eb0a8e-ef1f-4638-b25d-f44222a1823a",
+   "original_name": "logo(1).png",
+   "mime_type": "image/png",
+   "size": 9348,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/c2eb0a8e-ef1f-4638-b25d-f44222a1823a"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "OTTO (GmbH & Co. KG)",
+   "slug": "otto-gmbh-co-kg",
+   "description": "Online Shop",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "744a6e63-dc3e-49ef-9e1e-06f1558d21b8",
+    "original_name": "otto-logo-2015.png",
+    "mime_type": "image/png",
+    "size": 22019,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/744a6e63-dc3e-49ef-9e1e-06f1558d21b8"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-06-03T08:37:01+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://www.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.otto.de/jobs",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=de.cellular.ottohybrid&hl=de",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/de/app/otto-shopping-m%C3%B6bel/id404844644",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.lascana.de/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://teleoptiprd.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://mmp.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://orbidder.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://supplier-connect.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://retail-api.otto.de",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

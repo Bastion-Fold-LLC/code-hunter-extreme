@@ -1,0 +1,5 @@
+Contact: https://bugcrowd.com/bugcrowd
+Acknowledgments: https://bugcrowd.com/bugcrowd/hall-of-fame
+Preferred-Languages: en
+Policy: https://bugcrowd.com/bugcrowd
+Hiring: https://www.bugcrowd.com/about/careers/

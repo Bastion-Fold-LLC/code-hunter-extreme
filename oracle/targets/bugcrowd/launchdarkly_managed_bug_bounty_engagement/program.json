@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "LaunchDarkly Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/launchdarkly-mbb-og",
+  "max_payout_usd": 7500,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "LaunchDarkly Managed Bug Bounty Engagement",
+    "tagline": "Move at AI speed. Stay in control. ",
+    "briefUrl": "/engagements/launchdarkly-mbb-og",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/e720/19af/d74562be/68b4e5e9d7381f76a0e8279426261aec_launchdarkly_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$150 - $7,500",
+      "hint": null,
+      "minReward": "$150",
+      "maxReward": "$7,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 2,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Computer Software",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/launchdarkly-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 11250.0
+}

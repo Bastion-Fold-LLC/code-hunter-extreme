@@ -1,0 +1,15 @@
+{
+  "program": "SukukFi",
+  "platform": "code4rena",
+  "slug": "sukukfi",
+  "downloaded_at": "2026-09-29T06:38:08.278359+00:00",
+  "assets": [
+    "program_page.txt",
+    "code4rena.com__robots.txt",
+    "code4rena.com__security.txt"
+  ],
+  "asset_count": 3,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

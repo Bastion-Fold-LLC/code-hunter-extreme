@@ -1,0 +1,20 @@
+{
+  "program": "atg-public-bug-bounty-program",
+  "platform": "yeswehack",
+  "slug": "atg-public-bug-bounty-program",
+  "downloaded_at": "2026-09-29T06:24:08.108973+00:00",
+  "assets": [
+    "program_page.txt",
+    "yeswehack.com__openapi.json",
+    "yeswehack.com__swagger.json",
+    "yeswehack.com__api_docs.html",
+    "yeswehack.com__api_openapi.json",
+    "yeswehack.com__v1_openapi.json",
+    "yeswehack.com__robots.txt",
+    "yeswehack.com__security.txt"
+  ],
+  "asset_count": 8,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

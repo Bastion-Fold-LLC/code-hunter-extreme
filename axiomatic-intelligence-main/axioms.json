@@ -1,0 +1,36 @@
+{
+  "protocol": "Axiomatic Intelligence",
+  "version": "1.0.0",
+  "doi": "10.5281/zenodo.18190481",
+  "entity": "Kinetic_Axiom",
+  "schema_definition": {
+    "claim": {
+      "type": "String",
+      "description": "The falsifiable assertion being made."
+    },
+    "confidence_score": {
+      "type": "Float",
+      "range": [0.0, 1.0],
+      "description": "Epistemic certainty derived from quad-vector collision."
+    },
+    "epistemic_type": {
+      "type": "Enum",
+      "values": ["Physical", "Transactional", "Sentiment"],
+      "description": "Determines the decay rate and verification method."
+    },
+    "mutation_triggers": {
+      "type": "Array",
+      "items": {
+        "trigger_type": "String",
+        "threshold": "String"
+      },
+      "description": "Conditions that force re-verification (e.g., Price_Change > 10%)."
+    },
+    "vectors": {
+      "marketing_thesis": "String",
+      "physics_measurement": "String",
+      "consensus_signal": "String",
+      "proprietary_ore": "String"
+    }
+  }
+}

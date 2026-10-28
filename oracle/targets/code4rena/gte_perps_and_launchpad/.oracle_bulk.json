@@ -1,0 +1,15 @@
+{
+  "program": "GTE Perps and Launchpad",
+  "platform": "code4rena",
+  "slug": "gte_perps_and_launchpad",
+  "downloaded_at": "2026-09-29T06:39:27.103650+00:00",
+  "assets": [
+    "program_page.txt",
+    "code4rena.com__robots.txt",
+    "code4rena.com__security.txt"
+  ],
+  "asset_count": 3,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

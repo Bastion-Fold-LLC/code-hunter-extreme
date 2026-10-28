@@ -1,0 +1,32 @@
+{
+ "platform": "codehawks",
+ "name": "CodeHawks Escrow Contract - Competition Details",
+ "url": "https://codehawks.cyfrin.io/c/2023-07-escrow",
+ "max_payout_usd": 40000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "CodeHawks Escrow Contract - Competition Details",
+   "Cyfrin",
+   "Foundry",
+   "Public",
+   "40,000",
+   "USDC",
+   "Ended",
+   "Ended 1150d, 9h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/Cyfrin/2023-07-escrow",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

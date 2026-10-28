@@ -1,0 +1,104 @@
+{
+ "platform": "yeswehack",
+ "name": "superbank-public-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/superbank-public-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Superbank - Public Bug Bounty Program",
+  "slug": "superbank-public-bug-bounty-program",
+  "country": "ID",
+  "activity_area": "Finance/Assurance",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 123,
+  "bounty_reward_min": 0,
+  "bounty_reward_max": 2000,
+  "scopes_count": 6,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "00e9e8fa-9a2f-4086-b319-9a9bd6e1391e",
+   "original_name": "logo.png",
+   "mime_type": "image/png",
+   "size": 6231,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/00e9e8fa-9a2f-4086-b319-9a9bd6e1391e"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Superbank",
+   "slug": "superbank",
+   "description": "Superbank is digital bank from Indonesia.",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": "bf8076ce-54bc-4305-bb0b-8b39f6cc5c25",
+    "original_name": "image-300x300.jpg",
+    "mime_type": "image/png",
+    "size": 8763,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/bf8076ce-54bc-4305-bb0b-8b39f6cc5c25"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-14T09:51:27+02:00",
+  "report_submission_cost": 3
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://apps.apple.com/id/app/superbank/id6444720285",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=id.co.bankfama.android&hl=en",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.super-id.net",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ecosystem-experience.super-id.net",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "superbank.id",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "http://chatbot.super-id.net",
+   "asset_type": "AI Model",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

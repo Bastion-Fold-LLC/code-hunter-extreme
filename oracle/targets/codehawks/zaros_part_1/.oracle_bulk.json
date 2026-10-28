@@ -1,0 +1,14 @@
+{
+  "program": "Zaros Part 1",
+  "platform": "codehawks",
+  "slug": "zaros_part_1",
+  "downloaded_at": "2026-09-29T06:45:06.848413+00:00",
+  "assets": [
+    "program_page.txt",
+    "codehawks.cyfrin.io__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

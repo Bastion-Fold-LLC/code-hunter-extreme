@@ -1,0 +1,33 @@
+{
+ "platform": "codehawks",
+ "name": "Dria",
+ "url": "https://codehawks.cyfrin.io/c/2024-10-swan-dria",
+ "max_payout_usd": 21000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "Dria",
+   "Swan",
+   "NFT",
+   "Hardhat",
+   "Public",
+   "21,000",
+   "USDC",
+   "Ended",
+   "Ended 695d, 21h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/Cyfrin/2024-10-swan-dria",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

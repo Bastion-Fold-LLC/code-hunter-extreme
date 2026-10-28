@@ -1,0 +1,37 @@
+{
+ "platform": "cantina",
+ "name": "Paxos Bug Bounty",
+ "url": "https://cantina.xyz/bounties/6a6ef71c-383d-4357-85c1-a0d1dbb6659b",
+ "max_payout_usd": 0,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": 0,
+ "raw": {
+  "lines": [
+   "Paxos Bug Bounty",
+   "Paxos",
+   "1,000,000",
+   "in USDG",
+   "Private Bounty",
+   "Live",
+   "Cantina-Triaged",
+   "Started on 27 Mar 2026"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/paxosglobal/paxos-gold-contract",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/paxosglobal/paxos-token-contracts",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

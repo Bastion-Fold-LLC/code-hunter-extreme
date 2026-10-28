@@ -1,0 +1,19 @@
+{
+  "program": "ezviz-bug-bounty-program",
+  "platform": "yeswehack",
+  "slug": "ezviz-bug-bounty-program",
+  "downloaded_at": "2026-09-29T06:22:27.259641+00:00",
+  "assets": [
+    "program_page.txt",
+    "yeswehack.com__openapi.json",
+    "yeswehack.com__swagger.json",
+    "yeswehack.com__api_docs.html",
+    "yeswehack.com__api_openapi.json",
+    "yeswehack.com__v1_openapi.json",
+    "yeswehack.com__robots.txt"
+  ],
+  "asset_count": 7,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

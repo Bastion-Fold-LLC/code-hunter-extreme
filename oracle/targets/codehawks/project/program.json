@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "Project",
+  "url": "https://codehawks.cyfrin.io/c/2024-11-one-world",
+  "max_payout_usd": 15000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Project",
+      "One World",
+      "NFT",
+      "DeFi",
+      "Public",
+      "15,000",
+      "USDC",
+      "Ended",
+      "Ended 684d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

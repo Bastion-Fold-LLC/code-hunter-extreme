@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "OKX Labs",
+  "url": "https://cantina.xyz/bounties/00992789-fcd1-4bda-862e-463b0c73faa9",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "OKX Labs",
+      "OKX",
+      "$1,000,000",
+      "in USD",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 30 Jan 2026"
+    ]
+  }
+}

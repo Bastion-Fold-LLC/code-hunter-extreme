@@ -1,0 +1,15 @@
+{
+  "program": "Kiln V1 Bounty",
+  "platform": "cantina",
+  "slug": "kiln_v1_bounty",
+  "downloaded_at": "2026-09-29T06:36:34.885048+00:00",
+  "assets": [
+    "program_page.txt",
+    "cantina.xyz__robots.txt",
+    "cantina.xyz__security.txt"
+  ],
+  "asset_count": 3,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

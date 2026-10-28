@@ -1,0 +1,22 @@
+{
+  "platform": "code4rena",
+  "name": "Chainlink Rewards",
+  "url": "https://code4rena.com/audits/2025-06-chainlink-rewards",
+  "max_payout_usd": 200000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "COMPLETED",
+      "AUDIT",
+      "Chainlink Rewards",
+      "A community engagement and rewards program designed to incentivize active participation in the Chainlink Network",
+      "EVM",
+      "Solidity",
+      "16 Jun 2025 3:00 PM - 16 Jul 2025 3:00 PM",
+      "$200,000 in USDC"
+    ]
+  },
+  "score": 300000.0
+}

@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Rubicon (rubicon.finance)",
+  "url": "https://audits.sherlock.xyz/bug-bounties/77",
+  "max_payout_usd": 15000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Rubicon (rubicon.finance)",
+      "15,000 USDC",
+      "Payout",
+      "Aug 18, 2025",
+      "Last Updated"
+    ]
+  }
+}

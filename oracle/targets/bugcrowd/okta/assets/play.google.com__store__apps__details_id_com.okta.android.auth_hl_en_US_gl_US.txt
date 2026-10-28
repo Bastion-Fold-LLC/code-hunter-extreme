@@ -1,0 +1,154 @@
+Games
+Apps
+Movies & TV
+Books
+Kids
+google_logo Play
+search
+help_outline
+Okta Verify
+Okta Inc.
+4.0
+star
+43.6K reviews
+10M+
+Downloads
+Install
+Everyone
+Learn more
+About this app
+arrow_forward
+Okta Verify is a lightweight app that allows you to securely access your apps via 2-step verification, ensuring that you, and only you, can access your app accounts.
+
+While you access your apps, you'll choose a 2-step verification method provided by Okta Verify to finish signing in. You can verify your identity using a push notification sent to your device (if enabled by your organization), a temporary 6-digit code, or biometrics (if enabled by your organization).
+
+We do request permission to use your device camera so that you can scan a QR code when you enroll your device with Okta.
+
+Terms of Service: https://www.okta.com/sites/default/files/ORDERFORMSUPPLEMENT_OktaVerifyforAndroid_June2017.pdf
+Okta MFA
+Updated on
+Sep 17, 2026
+Productivity
+Data safety
+arrow_forward
+Safety starts with understanding how developers collect and share your data. Data privacy and security practices may vary based on your use, region, and age. The developer provided this information and may update it over time.
+No data shared with third parties
+Learn more about how developers declare sharing
+This app may collect these data types
+Personal info, App activity and 2 others
+Data is encrypted in transit
+You can request that data be deleted
+See details
+Ratings and reviews
+arrow_forward
+Ratings and reviews are verified
+info_outline
+phone_android
+Phone
+laptop
+Desktop
+tablet_android
+Tablet
+4.0
+43.2K reviews
+5
+4
+3
+2
+1
+Ryden Allen
+more_vert
+July 8, 2026
+My work has used a few different two factor authentications over the years, and this is my least favorite. Half the time, it doesn't work, and when I deleted the app when my temporary job ended and tried to redownload it to get my w2s, it wouldn't let me log into the app unless I was already logged into the app. I've never had so many problems with the other ones we've used.
+21 people found this review helpful
+Did you find this helpful?
+Yes
+No
+Aaron Diep
+more_vert
+April 15, 2026
+The app and push notifications work up until they don't. It doesn't seem to matter if you leave it running in the background and disable power optimization for this. After a few days, the app stops working (no push notification, can't launch and load). When this happens, I've found that I need to restart the entire phone in order to get the app to work.
+37 people found this review helpful
+Did you find this helpful?
+Yes
+No
+Anthony Pena
+more_vert
+June 13, 2026
+One of the most annoying and redundant app a school has ever forced me to download. If I wish to use an alternative device other than my laptop. It give a some random reason why it cannot. I have a life outside of school, and I can't constantly go to an admin just so I can log in and do my work. This app just feeds into the unnecessary use of "secruity" when most of these people can't even keep a group of highschool drop outs from hacking them. I'd write more, but I'm limited to 500 characters.
+31 people found this review helpful
+Did you find this helpful?
+Yes
+No
+See all reviews
+App support
+expand_more
+More by Okta Inc.
+arrow_forward
+Oktane
+Okta Inc.
+Okta Credentials Showcase
+Okta Inc.
+4.3
+star
+Zip Pop
+Okta Inc.
+5.0
+star
+Similar apps
+arrow_forward
+Microsoft Authenticator
+Microsoft Corporation
+4.6
+star
+UKG Pro
+UKG, Inc.
+4.1
+star
+Samsung My Files
+Samsung Electronics Co., Ltd.
+4.1
+star
+Microsoft Intune
+Microsoft Corporation
+3.7
+star
+Samsung Email
+Samsung Electronics Co., Ltd.
+4.4
+star
+Workday
+Workday, Inc.
+4.2
+star
+flag
+Flag as inappropriate
+Google Play
+
+Play Pass
+
+Play Points
+
+Gift cards
+
+Redeem
+
+Refund policy
+
+Kids & family
+
+Parent Guide
+
+Family sharing
+
+Terms of Service
+
+Privacy
+
+About Google Play
+
+Developers
+
+Google Store
+
+United States (English (United States))

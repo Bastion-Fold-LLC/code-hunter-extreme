@@ -1,0 +1,13 @@
+{
+  "program": "GMGN Web & Mobile",
+  "platform": "hackenproof",
+  "slug": "gmgn_web___mobile",
+  "downloaded_at": "2026-09-29T06:34:29.105827+00:00",
+  "assets": [
+    "program_page.txt"
+  ],
+  "asset_count": 1,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

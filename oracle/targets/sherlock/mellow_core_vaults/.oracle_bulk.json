@@ -1,0 +1,14 @@
+{
+  "program": "Mellow Core Vaults",
+  "platform": "sherlock",
+  "slug": "mellow_core_vaults",
+  "downloaded_at": "2026-09-29T06:42:00.357901+00:00",
+  "assets": [
+    "program_page.txt",
+    "audits.sherlock.xyz__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

@@ -1,0 +1,14 @@
+{
+  "program": "40acres Finance Update June 30th",
+  "platform": "sherlock",
+  "slug": "40acres_finance_update_june_30th",
+  "downloaded_at": "2026-09-29T06:42:31.314766+00:00",
+  "assets": [
+    "program_page.txt",
+    "audits.sherlock.xyz__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

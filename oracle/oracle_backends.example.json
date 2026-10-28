@@ -1,0 +1,24 @@
+{
+  "controller": "external-interface",
+  "allow_paid_openrouter": false,
+  "local_enabled": true,
+  "local_model": "qwen3-coder:30b-16k",
+  "light_local_model": "qwen2.5-coder:14b-16k",
+  "routes": {
+    "reflex":    ["openrouter", "nvidia", "local"],
+    "poc":       ["openrouter", "nvidia", "local"],
+    "assess":    ["openrouter", "nvidia", "local"],
+    "correlate": ["openrouter", "nvidia", "local"],
+    "draft":     ["openrouter", "nvidia", "local"]
+  },
+  "openrouter": {
+    "reflex_preferred": ["nvidia/nemotron-3-super-120b-a12b:free", "google/gemma-4-31b-it:free"],
+    "assess_preferred": ["liquid/lfm-2.5-2.6b:free", "cohere/north-mini-code:free"]
+  },
+  "cli": {
+    "claude": "claude -p",
+    "copilot": "copilot -p",
+    "gemini": "gemini -p",
+    "bob": "bob -p"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "platform": "hackerone",
+  "name": "wealthsimple",
+  "url": "https://hackerone.com/wealthsimple",
+  "max_payout_usd": 20000,
+  "kind": "web2",
+  "fast_triage": true,
+  "response_efficiency": 74,
+  "reports_count": 262,
+  "launched_at": "2022-05-17T14:36:53.206Z",
+  "raw": {
+    "handle": "wealthsimple",
+    "name": "Wealthsimple",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "triage_active": true,
+    "triage_plus": null,
+    "top_bounty_lower_amount": 1000,
+    "top_bounty_upper_amount": 20000,
+    "minimum_bounty": 100,
+    "response_efficiency_percentage": 74,
+    "resolved_report_count": 262,
+    "launched_at": "2022-05-17T14:36:53.206Z"
+  },
+  "structured_scopes": [
+    {
+      "asset_identifier": "*.wealthsimple.com",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Please avoid testing tax products during peak tax filing season from **beginning of February to end of April**",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "*.simpletax.ca",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Please avoid testing tax products during peak tax filing season from **beginning of February to end of April**",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "com.wealthsimple",
+      "asset_type": "GOOGLE_PLAY_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "com.wealthsimple.predict",
+      "asset_type": "GOOGLE_PLAY_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Wealthsimple Predict is a separate app. If you are an existing Wealthsimple client, you can use the same credentials to log in. Please abide by all account identification and network request limits.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "com.wealthsimple.wealthsimple",
+      "asset_type": "APPLE_STORE_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "com.wealthsimple.predict",
+      "asset_type": "APPLE_STORE_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Wealthsimple Predict is a separate app. If you are an existing Wealthsimple client, you can use the same credentials to log in. Please abide by all account identification and network request limits.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "help.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Zendesk assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "support.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "work.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "status.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Atlassian assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "trust.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Safebase assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "start.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Typeform assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "groove.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Groove assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "schedule.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All ScheduleHero assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "shop.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Shopify assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "newsroom.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Prezly assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "app.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Appsflyer assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "gifts.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Giftagram assets are out of scope.",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "tldr-archive.wealthsimple.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "All Archivoh assets are out of scope.",
+      "max_severity": "none"
+    }
+  ],
+  "scope": "*.wealthsimple.com\n*.simpletax.ca\ncom.wealthsimple\ncom.wealthsimple.predict\ncom.wealthsimple.wealthsimple\ncom.wealthsimple.predict",
+  "out_of_scope": "help.wealthsimple.com\nsupport.wealthsimple.com\nwork.wealthsimple.com\nstatus.wealthsimple.com\ntrust.wealthsimple.com\nstart.wealthsimple.com\ngroove.wealthsimple.com\nschedule.wealthsimple.com\nshop.wealthsimple.com\nnewsroom.wealthsimple.com\napp.wealthsimple.com\ngifts.wealthsimple.com\ntldr-archive.wealthsimple.com"
+}

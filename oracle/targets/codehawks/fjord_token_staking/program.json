@@ -1,0 +1,33 @@
+{
+ "platform": "codehawks",
+ "name": "Fjord Token Staking",
+ "url": "https://codehawks.cyfrin.io/c/2024-08-fjord",
+ "max_payout_usd": 20000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "Fjord Token Staking",
+   "Fjord",
+   "DeFi",
+   "Foundry",
+   "Public",
+   "20,000",
+   "USDC",
+   "Ended",
+   "Ended 762d, 1h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/Cyfrin/2024-08-fjord",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

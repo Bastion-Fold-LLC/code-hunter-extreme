@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "Silo Finance Mitigation Review",
+ "url": "https://code4rena.com/audits/2025-05-silo-finance-mitigation-review",
+ "max_payout_usd": 8000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "MITIGATION REVIEW",
+   "Silo Finance Mitigation Review",
+   "Isolated lending markets on Ethereum.",
+   "EVM",
+   "Solidity",
+   "01 May 2025 3:00 PM - 05 May 2025 3:00 PM",
+   "$8,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-04-silo-finance-mitigation",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/silo-finance/silo-contracts-v2",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Midas",
+  "url": "https://audits.sherlock.xyz/bug-bounties/122",
+  "max_payout_usd": 500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Midas",
+      "500,000 USDC",
+      "Payout",
+      "Aug 21, 2026",
+      "Last Updated"
+    ]
+  }
+}

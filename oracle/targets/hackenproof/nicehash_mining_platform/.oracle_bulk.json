@@ -1,0 +1,13 @@
+{
+  "program": "NiceHash Mining platform",
+  "platform": "hackenproof",
+  "slug": "nicehash_mining_platform",
+  "downloaded_at": "2026-09-29T06:34:13.361457+00:00",
+  "assets": [
+    "program_page.txt"
+  ],
+  "asset_count": 1,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

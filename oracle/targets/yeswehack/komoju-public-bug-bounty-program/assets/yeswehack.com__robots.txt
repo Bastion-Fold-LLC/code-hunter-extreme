@@ -1,0 +1,12 @@
+# Global configuration for all robots
+User-agent: *
+Allow: /
+Disallow: /vulnerability-center/
+Disallow: /dashboard-manager/
+Disallow: /business-units/
+Disallow: /reports/
+Disallow: /user/
+Disallow: /attack-surface/
+
+# Host site definition
+Host: https://yeswehack.com

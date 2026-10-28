@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "Ondo Perps",
+  "url": "https://cantina.xyz/bounties/5ffa2a58-2121-4986-b318-43f8ba9a559e",
+  "max_payout_usd": 1500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Ondo Perps",
+      "Ondo Perps",
+      "$1,500,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 2 Jun 2026"
+    ]
+  }
+}

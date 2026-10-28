@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Luno Bug Bounty Program",
+  "url": "https://bugcrowd.com/engagements/luno-og",
+  "max_payout_usd": 7500,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "Luno Bug Bounty Program",
+    "tagline": "Luno Bug Bounty Program",
+    "briefUrl": "/engagements/luno-og",
+    "backgroundColor": "#ffffff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/90ca/b8c8/a0b610b1/957423f1634a108b88ec40b5d8b52e11_lunoicon-152x152.png",
+    "rewardSummary": {
+      "summary": "$100 - $7,500",
+      "hint": null,
+      "minReward": "$100",
+      "maxReward": "$7,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 3,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/luno-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 7500.0
+}

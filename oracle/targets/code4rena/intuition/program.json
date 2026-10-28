@@ -1,0 +1,51 @@
+{
+ "platform": "code4rena",
+ "name": "Intuition",
+ "url": "https://code4rena.com/audits/2026-03-intuition",
+ "max_payout_usd": 17500,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Intuition",
+   "The decentralized language protocol, knowledge network, & native blockchain for InfoFi - unlocking the next generation of the internet. Powered by $TRUST.",
+   "EVM",
+   "Solidity",
+   "04 Mar 2:00 PM - 09 Mar 3:00 PM",
+   "$17,500 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/0xIntuition/intuition-contracts-v2",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-03-intuition",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-03-intuition-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-03-intuition.git",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

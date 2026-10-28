@@ -1,0 +1,28 @@
+{
+ "platform": "sherlock",
+ "name": "Moonwell",
+ "url": "https://audits.sherlock.xyz/bug-bounties/350",
+ "max_payout_usd": 250000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "type": "bug-bounty",
+  "lines": [
+   "Moonwell",
+   "250,000 USDC",
+   "Payout",
+   "Jul 16, 2026",
+   "Last Updated"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/moonwell-fi/moonwell-contracts-v2",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

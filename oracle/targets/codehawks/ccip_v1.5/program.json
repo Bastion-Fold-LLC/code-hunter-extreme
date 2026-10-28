@@ -1,0 +1,28 @@
+{
+  "platform": "codehawks",
+  "name": "CCIP v1.5",
+  "url": "https://codehawks.cyfrin.io/c/2024-07-CL-CCIP",
+  "max_payout_usd": 200000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "CCIP v1.5",
+      "Chainlink",
+      "Bridge",
+      "Foundry",
+      "DeFi",
+      "Updates",
+      "Private",
+      "200,000",
+      "USDC",
+      "Ended",
+      "Ended 804d, 13h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  },
+  "score": 300000.0
+}

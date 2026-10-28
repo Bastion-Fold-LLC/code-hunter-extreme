@@ -1,0 +1,118 @@
+{
+ "platform": "yeswehack",
+ "name": "sante-publique-france-bugbounty-public-program",
+ "url": "https://yeswehack.com/programs/sante-publique-france-bugbounty-public-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Sant\u00e9 Publique France Bug Bounty Program",
+  "slug": "sante-publique-france-bugbounty-public-program",
+  "country": "FR",
+  "activity_area": "Government",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": false,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 288,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 1500,
+  "scopes_count": 8,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "2a4afd9c-0338-4990-b13e-16e554b80fc4",
+   "original_name": "Logo-Sante-publique-France.jpg",
+   "mime_type": "image/jpeg",
+   "size": 21389,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/2a4afd9c-0338-4990-b13e-16e554b80fc4"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Sant\u00e9 publique France",
+   "slug": "sante-publique-france",
+   "description": "Agence nationale de Sant\u00e9 publique France",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": null,
+    "original_name": null,
+    "mime_type": null,
+    "size": null,
+    "url": null
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-03-09T15:38:45+01:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "www.onsexprime.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.1000-premiers-jours.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "mangerbouger.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "sso.mangerbouger.fr",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "vaccination-info-service.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "professionnels.vaccination-info-service.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.vivre-avec-la-chaleur.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.tabac-info-service.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

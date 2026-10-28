@@ -1,0 +1,23 @@
+{
+  "platform": "cantina",
+  "name": "Uniswap",
+  "url": "https://cantina.xyz/bounties/f9df94db-c7b1-434b-bb06-d1360abdd1be",
+  "max_payout_usd": 15500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Uniswap",
+      "Uniswap Labs",
+      "$15,500,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 26 Nov 2024"
+    ]
+  },
+  "score": 23250000.0
+}

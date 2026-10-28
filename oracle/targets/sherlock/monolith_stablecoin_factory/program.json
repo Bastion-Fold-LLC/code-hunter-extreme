@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Monolith Stablecoin Factory",
+  "url": "https://audits.sherlock.xyz/bug-bounties/287",
+  "max_payout_usd": 0,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Monolith Stablecoin Factory",
+      "20,000 DOLA",
+      "Payout",
+      "May 19, 2026",
+      "Last Updated"
+    ]
+  }
+}

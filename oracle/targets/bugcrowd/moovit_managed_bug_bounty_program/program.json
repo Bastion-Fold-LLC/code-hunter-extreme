@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Moovit Managed Bug Bounty Program",
+  "url": "https://bugcrowd.com/engagements/moovit-mbb-og",
+  "max_payout_usd": 7000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Moovit Managed Bug Bounty Program",
+    "tagline": "Moovit is a leading Mobility as a Service (MaaS) solutions company and the #1 urban mobility app. Please submit your findings to this Bug Bounty Program.",
+    "briefUrl": "/engagements/moovit-mbb-og",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/49ba/0d50/2a4e89d7/580df1f70018824f774c6f14dff1e55a_moovit_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$100 - $7,000",
+      "hint": null,
+      "minReward": "$100",
+      "maxReward": "$7,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Utilities",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/moovit-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 10500.0
+}

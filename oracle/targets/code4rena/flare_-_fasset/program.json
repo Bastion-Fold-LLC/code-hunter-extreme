@@ -1,0 +1,22 @@
+{
+  "platform": "code4rena",
+  "name": "Flare - FAsset",
+  "url": "https://code4rena.com/audits/2025-08-flare-fasset",
+  "max_payout_usd": 190000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "COMPLETED",
+      "AUDIT",
+      "Flare - FAsset",
+      "The blockchain for data. The platform for non smart contract asset DeFi. Built on enshrined data protocols.",
+      "EVM",
+      "Solidity",
+      "19 Aug 2025 3:00 PM - 23 Sep 2025 3:00 PM",
+      "$190,000 in USDC"
+    ]
+  },
+  "score": 285000.0
+}

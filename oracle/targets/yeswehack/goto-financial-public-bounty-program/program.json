@@ -1,0 +1,160 @@
+{
+ "platform": "yeswehack",
+ "name": "goto-financial-public-bounty-program",
+ "url": "https://yeswehack.com/programs/goto-financial-public-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "GoTo Financial - Public Bounty Program",
+  "slug": "goto-financial-public-bounty-program",
+  "country": "ID",
+  "activity_area": "Tech - Other",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": false,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 813,
+  "bounty_reward_min": 5,
+  "bounty_reward_max": 5000,
+  "scopes_count": 14,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "7a85ff6f-bd79-4164-ac5b-99c179ad7e87",
+   "original_name": "gtf_logo.png",
+   "mime_type": "image/png",
+   "size": 31801,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/7a85ff6f-bd79-4164-ac5b-99c179ad7e87"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "PT GoTo Gojek Tokopedia Tbk",
+   "slug": "pt-goto",
+   "description": "GoTo Group is the largest digital ecosystem in Indonesia, with a mission to \u201cempower progress\u201d by offering technology infrastructure and solutions that help everyone to access and thrive in the digital economy. GoTo\u2019s ecosystem comprises of on-demand transport, e-commerce, food and grocery delivery, logistics and fulfillment, and financial services through the Gojek, Tokopedia and GoTo Financial platforms.",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": "3914a3c5-fc5b-49c1-999d-2e878290ea73",
+    "original_name": "pt_goto_gojek_tokopedia_business_unit_logo_final.png",
+    "mime_type": "image/png",
+    "size": 10535,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/3914a3c5-fc5b-49c1-999d-2e878290ea73"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-08-03T10:08:42+02:00",
+  "report_submission_cost": 5
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://apps.apple.com/id/app/gopay-transfer-pulsa-bills/id6446321594",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.gojek.gopay&hl=id",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gopayapi.com",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "gopaymerchant.midtrans.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "mokapos.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.go-pay.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.midtrans.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "app.midtrans.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.midtrans.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gaming.gopayapi.com",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.findaya.com",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.findaya.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gtflabs.io",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.mab.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

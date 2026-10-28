@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Pinto",
+  "url": "https://audits.sherlock.xyz/bug-bounties/221",
+  "max_payout_usd": 5000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Pinto",
+      "5,000 USDC",
+      "Payout",
+      "Jul 6, 2026",
+      "Last Updated"
+    ]
+  }
+}

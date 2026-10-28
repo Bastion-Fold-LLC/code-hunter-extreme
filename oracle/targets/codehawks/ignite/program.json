@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "Ignite",
+  "url": "https://codehawks.cyfrin.io/c/2025-01-benqi",
+  "max_payout_usd": 33750,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Ignite",
+      "Benqi",
+      "Staking",
+      "Hardhat",
+      "Private",
+      "33,750",
+      "USDC",
+      "Ended",
+      "Ended 609d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

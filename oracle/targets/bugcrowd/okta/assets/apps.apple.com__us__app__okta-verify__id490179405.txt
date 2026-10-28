@@ -1,0 +1,213 @@
+Search
+Today
+Games
+Apps
+Arcade
+Categories
+Categories
+Photo & Video
+Health & Fitness
+Productivity
+Entertainment
+Action
+Adventure
+Puzzle
+Indie
+Platform
+iPhone
+iPad
+Mac
+Vision
+Watch
+TV
+Okta Verify
+
+Business
+
+Free
+
+37K RATINGS
+4.8
+AGE RATING
+4+
+Years
+CHART
+#5
+Business
+DEVELOPER
+Okta, Inc.
+LANGUAGE
+EN
++ 28 More
+SIZE
+97.1
+MB
+iPhone, iPad, Mac
+
+Okta Verify is a lightweight app that is used for 2-step verification so you can confirm your identity when you sign in to your Okta account. This gives you an extra layer of security so that you - and only you - can access your applications.
+
+When you sign in to Okta, you can use Okta Verify to obtain a temporary 6-digit code or to approve a request notification sent to your device (your organization must enable notifications to use this feature).
+
+Okta values your privacy. Okta Verify does not store personal information - we request permission only for your device camera, which is used to scan a QR code to register your device with Okta.
+
+
+App Features
+
+* Enroll in Okta Verify as a new user by registering your mobile device with your Okta account.
+* Add one or more Okta accounts that require Okta Verify for authentication.
+* Manage 2-factor authentication for non-Okta applications and web services that require the use of passcodes.
+* Approve or deny sign-in requests on your device from a push notification (if enabled).
+
+
+For more information, check out our docs at:
+https://help.okta.com/en/prod/okta_help_CSH.htm#ext_okta_verify
+more
+
+Ratings & Reviews
+4.8
+out of 5
+37K Ratings
+Great app with impressive support
+03/01/2023
+VaporDeb
+
+I’ve been using this app for logging in in the mornings with my company for at least three years. It’s always been a great app, but there was a recent update that screwed things up for a while. I either wrote a negative review or message to support with the issues. It’s about two weeks later now, and everything I complained about is fixed. It’s all perfect again, I’m very impressed! Thanks for the great app and the excellent support!
+
+more
+Simple for my use case
+10/13/2021
+variable314
+
+This app works fine. I do have a suggestion on the placement of buttons on the Home Screen of the app when responding to a push notification. The buttons “Yes, it’s me” and “No, it’s not me” are hidden by “You have successfully responded to the push notification” when I have to receive multiple push notifications. This in only is a problem when receiving multiple notifications back to back. Maybe if the buttons moved up when the banner came in at the bottom or the banner came in at the top. Not sure if it’s a design specification to avoid accidentally touching the button when multiple requests come in.Hey I still see the same issue. Is this being tracked as an enhancement?
+
+more
+Developer Response
+
+Thank you for the feedback! I'll pass this on to the Product Team and let them know. If you need anything else, please email us at mobile_support@okta.com. Thanks! Okta Customer Support
+
+more
+Bug: Push notif long press quick options disappear
+11/07/2024
+AlexB- iOS dev
+
+When you long-press a push notification to approve a login, the options for “yes it was me” or “no” only show for a brief half-second, then changes to one option “review” which opens the app to make the same “yes/no” decision (as well as requiring a Touch ID verification).I saw someone else complain about this 2 years ago in the App Store reviews (by Chago1). My company switched MFA providers to Okta from DUO, and Duo had the same push notif for logins with the long press action to quickly respond yes or no without opening the app. It is annoying to see that feature is broken with Okta, and it interrupts my workflow.iPad Air 4th Gen, iOS 17.6.1
+
+more
+Worst App Ever
+03/31/2025
+coronavirus is killing me
+
+This is actually the worst app I’ve ever used in my entire life. Not only is it just an extra step to log into your stuff but it creates completely unnecessary stress. Recently my phone was having problems so I had to reset everything. Once I had an things to fue that required my to log into my school email the app just completely didn’t let me log into anything. I don’t understand why universities decide go use such useless things like this. The second the app stops working i cant log into anything nor do anything for any of my classes all because you have to verify it’s you with this app. If you wanna verify it’s me just send a verification email like every other website don’t make someone go through this whole process just to view a specific site.
+
+more
+What’s New
+
+This release includes usability improvements and internal fixes.
+
+Version 9.71.1
+Sep 14
+App Privacy
+
+The developer, Okta, Inc., indicated that the app’s privacy practices may include handling of data as described below. For more information, see the developer’s privacy policy .
+
+Data Linked to You
+
+The following data may be collected and linked to your identity:
+
+Identifiers
+Other Data
+Data Not Linked to You
+
+The following data may be collected but it is not linked to your identity:
+
+Usage Data
+Diagnostics
+
+Privacy practices may vary, for example, based on the features you use or your age. Learn More
+
+Accessibility
+
+The developer indicated that this app supports the following accessibility features. Learn More
+
+Supported Features
+VoiceOver
+Voice Control
+Dark Interface
+Differentiate Without Color Alone
+Sufficient Contrast
+
+For more information, visit the developer’s accessibility website .
+
+Information
+Seller
+Okta, Inc.
+Size
+97.1 MB
+Category
+Business
+Compatibility
+Requires iOS 17.0 or later. 
+Languages
+English and 28 more 
+Age Rating
+4+ 
+Copyright
+© 2026 Okta, Inc.
+Developer Website
+Privacy Policy
+License Agreement
+More by Okta, Inc.
+View
+Oktane
+The Official App of Oktane
+View
+Okta Credentials Showcase
+Explore digital identity
+You Might Also Like
+View
+OneLogin Protect
+Business
+View
+Google Device Policy
+Business
+View
+RSA Authenticator (SecurID)
+Business
+View
+CitiManager – Corporate Cards
+For corporate card users only
+View
+SecureAuth Authenticate
+Business
+View
+Navan
+Travel and expense. Solved.
+View
+VIP Access for iPhone
+Business
+View
+Salesforce Authenticator
+Business
+View
+Oracle Mobile Authenticator
+Business
+View
+HID Mobile Access
+Business
+United States
+Español (México)
+العربية
+Русский
+简体中文
+Français (France)
+한국어
+Português (Brazil)
+Tiếng Việt
+繁體中文 (台灣)
+
+Copyright © 2026 Apple Inc. All rights reserved.
+
+Internet Service Terms
+App Store & Privacy
+Cookie Warning
+Support

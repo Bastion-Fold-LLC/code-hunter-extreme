@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "Midas Bug Bounty",
+  "url": "https://cantina.xyz/bounties/d77405e5-99ce-4ba5-846c-885820b030e1",
+  "max_payout_usd": 500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Midas Bug Bounty",
+      "Midas.app",
+      "$500,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 23 Mar 2026"
+    ]
+  }
+}

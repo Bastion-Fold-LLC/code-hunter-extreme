@@ -1,0 +1,293 @@
+{
+ "platform": "yeswehack",
+ "name": "fdj-united-online-betting-gaming-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/fdj-united-online-betting-gaming-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "FDJ United (Online Betting and Gaming) - Bug Bounty program",
+  "slug": "fdj-united-online-betting-gaming-bug-bounty-program",
+  "country": "SE",
+  "activity_area": "Media & Entertainment",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 721,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 15000,
+  "scopes_count": 33,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "2c7792a5-972a-4843-a94c-1c57d9304a47",
+   "original_name": "LOGOFDJUNITEDIconeBleuClairRVB.png",
+   "mime_type": "image/png",
+   "size": 11827,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/2c7792a5-972a-4843-a94c-1c57d9304a47"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "FDJ UNITED (Online Betting and Gaming)",
+   "slug": "fdj-united-online-betting-gaming",
+   "description": "FDJ UNITED (Online Betting and Gaming) is an online betting and gaming operator offering products like online casino, poker, bingo, and sports betting through different brands, like Unibet, Maria Casino, Vlad Cazino, and 32Red.",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "d3d9d45b-ae76-4a4c-9d95-d0422fcace37",
+    "original_name": "LOGOFDJUNITEDIconeBleuClairRVB.png",
+    "mime_type": "image/png",
+    "size": 15368,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/d3d9d45b-ae76-4a4c-9d95-d0422fcace37"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-07-21T13:54:11+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "www.unibet.(com\u00ad|it|se|co.uk|be|nl|dk|ro|ee|ie|com.au|mt)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "fi.unibet.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.unibet.(com\u00ad|it|se|co.uk|be|nl|dk|ro|ee|ie|com.au|mt)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.mariacasino.(com|se|ee|dk)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "fi.mariacasino.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.mariacasino.(com|se|ee|dk)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "int.32red.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.bingo.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "(se|fi|uk).bingo.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.bingo.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.ottokasino.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "en.ottokasino.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.ottokasino.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.ottocasino.se",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.ottocasino.se",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.kolikkopelit.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "en.kolikkopelit.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.kolikkopelit.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.storspiller.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.storspiller.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.storspelare.se",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.storspelare.se",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.casinohuone.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "en.casinohuone.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.casinohuone.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.vladcazino.ro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "payment.vladcazino.ro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://pci.kindredgroup.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.32red.com/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "/blog/ (or translated equivalent) endpoints on our sites",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://itunes.apple.com/gb/app/unibet-live-sports-betting/id463335337",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://itunes.apple.com/gb/app/unibet-casino-slots-games/id905382680",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://cdn.unicdn.net/apk/UnibetCasino.apk",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

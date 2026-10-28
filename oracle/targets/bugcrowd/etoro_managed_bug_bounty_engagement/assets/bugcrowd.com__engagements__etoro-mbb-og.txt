@@ -1,0 +1,255 @@
+Hacker Login Customer Login
+EngagementseToro Managed Bug Bounty Engagement
+Bug Bounty
+eToro Managed Bug Bounty Engagement
+
+The world's leading social Investment network
+
+Expedited triage
+Submissions to this Engagement will receive expedited triage by Bugcrowd.
+FinanceSafe harbor
+Scope rating
+3 out of 4
+Testing period
+Ongoing
+Started at Mar 03
+Status
+In progress
+03 Mar 2026 18:00:00 GMT+0
+Submit report
+Follow
+Share
+Details
+Changelog
+Announcements
+1
+CrowdStream
+Hall of Fame
+
+Last Updated :05 Jun 2026 15:48:33 GMT+0View changes
+
+On this page
+Overview
+Description
+Targets
+What’s new
+Recent activity
+Crowd highlights
+Things to know
+Vulnerabilities rewarded
+68
+Validation within
+2 days
+75% of submissions are accepted or rejected within 2 days in last 3 months
+Average payout
+$550
+last 3 months
+
+eToro is a global social investment and multi-asset brokerage company that pioneered the concept of "social trading." Operating at the intersection of Fintech and WealthTech, eToro provides a user-friendly platform where retail investors can trade a diverse range of assets, including stocks, cryptocurrencies, ETFs, commodities, and currencies.
+
+Ratings/Rewards
+
+For the initial prioritization/rating of findings, this engagement will use the Bugcrowd Vulnerability Rating Taxonomy. However, it is important to note that in some cases a vulnerability priority will be modified due to its likelihood or impact. In any instance where an issue is downgraded, a full, detailed explanation will be provided to the researcher - along with the opportunity to appeal, and make a case for a higher priority.
+
+Targets 
+3 out of 4
+Bugcrowd calculates scope ratings based on the depth and breadth of in-scope targets.
+In Scope
+In scope
+Payment reward chart
+P1
+$6000 – $15000
+P2
+$1500 – $6000
+P3
+$500 – $1000
+P4
+$100 – $500
+Target Information:
+
+etoro.com is a platform that provides a user-friendly platform where retail investors can trade a diverse range of assets, including stocks, cryptocurrencies, ETFs, commodities, and currencies.
+
+Please find the documentation here - https://help.etoro.com
+
+Out-of-Scope Exceptions & Discretionary Policy
+
+While we maintain a defined scope, we recognize that security risks can exist in unexpected places. We will consider accepting submissions for assets not technically listed as in scope if they meet the following criteria:
+
+Ownership & Impact: The asset must be owned or managed by eToro (including assets managed by our employees). To be considered, the vulnerability must demonstrate a clear, credible impact on eToro’s infrastructure, its employees, or its customers.
+Actionability: As a rule of thumb, if the issue carries a direct impact and the remediation must be performed by eToro employees, the submission will likely be accepted.
+Reward Structure: Base rewards for out-of-scope submissions are typically 50% lower than their in-scope counterparts.
+Impact is the deterministic factor: If a submission demonstrates significant exploitability and high impact, we will frequently apply a discretionary bonus to compensate for the lower base reward.
+Show more
+*.etoro.com
+https://*.etoro.com
+io.getdelta.ios
+https://io.getdelta.ios
+iOS
+io.getdelta.android
+https://io.getdelta.android
+Android
+etoropartners.com
+https://etoropartners.com
+.NET
+Microsoft IIS
+delta.app
+https://delta.app
+ReactJS
+com.etoro.wallet
+https://com.etoro.wallet
+iOS
+Android
+com.etoro.openbook
+https://com.etoro.openbook
+iOS
+Android
+etorox.com
+https://etorox.com
+.NET
+Microsoft IIS
+Scope
+
+Testing is only authorized on the targets listed as in scope. Any domain/property of eToro not listed in the targets section is out of scope. This includes any/all subdomains not listed above. If you happen to identify a security vulnerability on a target that is not in scope, but it demonstrably belongs to eToro, you can report it to this engagement. However, be aware that it is ineligible for rewards or points-based compensation.
+
+Out-of-Scope Exceptions & Discretionary Policy
+
+While we maintain a defined scope, we recognize that security risks can exist in unexpected places. We will consider accepting submissions for assets not technically listed as in scope if they meet the following criteria:
+
+Ownership & Impact: The asset must be owned or managed by eToro (including assets managed by our employees). To be considered, the vulnerability must demonstrate a clear, credible impact on eToro’s infrastructure, its employees, or its customers.
+Actionability: As a rule of thumb, if the issue carries a direct impact and the remediation must be performed by eToro employees, the submission will likely be accepted.
+Reward Structure: Base rewards for out-of-scope submissions are typically 50% lower than their in-scope counterparts.
+Impact is the deterministic factor: If a submission demonstrates significant exploitability and high impact, we will frequently apply a discretionary bonus to compensate for the lower base reward.
+We ask that:
+You provide us reasonable time to investigate and mitigate all reports. We’ll try to keep you informed about our progress throughout the process but we are not obligated to.
+Any finding provided by you shall be confidential and cannot be disclosed to third parties (even resolved ones) without our express consent. violations of this section could disqualify you from the program.
+You do not interact with an individual account (which includes modifying or accessing data from the account) without the owner’s written consent.
+You make a good faith effort to avoid privacy violations and disruptions to others, including (but not limited to) unauthorized access to or destruction of data and interruption or degradation of our services.
+You refrain from exploiting a security issue you discover for any reason (this includes demonstrating additional risk, such as attempted compromise of sensitive company data or probing for additional issues.)
+You do not intentionally violate any other applicable laws or regulations, including (but not limited to) laws and regulations prohibiting unauthorized access to data.
+For the purposes of this policy, you are not authorized to access user data or company data, including (but not limited to) personally identifiable information and data relating to an identified or identifiable natural person.
+Bug Bounty Program Terms:
+
+We recognize security researchers help us keep people safe by reporting vulnerabilities in our services.
+
+The following details must be recorded by the hacker prior to any testing and may be requested by eToro: IP Address, User-agent, Usernames used in the platform (when used).
+Adhere to our policy.
+Report a security bug: that is, identify a vulnerability in our services or infrastructure which creates a security or privacy risk (note that eToro ultimately determines the risk of an issue and that many software bugs are not security issues.)
+If you inadvertently cause a privacy violation or disruption (such as accessing account data, service configurations, or other confidential information) while investigating an issue, you must disclose this in your report.
+Do not interact with other accounts without written consent.
+Your activities must not violate any law, or disrupt or compromise any of eToro data.
+We highly appreciate including steps to remediation in your report.
+We reserve the right to publish reports (and accompanying updates).
+By making a submission, you represent and warrant that the report is original to you.
+We reserve the right to modify the eToro Bug Bounty Program terms and conditions at any time.
+Usage of automated tooling in order to send a massive amount of requests including Stress Testing is strictly forbidden and could result in being removed from the program.
+File upload vulnerabilities are in scope, however, please refrain from creating large request volumes (over 75 files).
+Credentials
+
+To gain access to the application, please sign up for an account using your @bugcrowdninja.com email address. For more info regarding @bugcrowdninja email addresses, see here. You may register for accounts here.
+
+Access/Traffic Identification
+
+Please add the following header to your HTTP traffic to prevent interruptions and verify non-malicious behavior:
+X-Bug-Bounty:<bugcrowdusername>
+
+Excluded Submission Types
+P5 vulnerabilities
+Availability/volumetric testing e.g.:
+DoS/DDoS/Network DoS
+Rate limiting bypass attempts
+Email bombing flooding
+N-day/Third party 0-day Policy
+When N-Day bugs are released to the public, we will consider these as in scope after 30 days has gone by
+e.g: N-day released on 01/01/2025, we would consider it in-scope on 01/30/2025
+Out of Scope
+Interacting or manipulate other stakeholders and their associated accounts including:
+Social engineering attacks
+Phishing attacks
+Physical attacks
+Third party providers and services
+Potential post-exploitation scenarios: If you believe you've identified a vulnerability that may lead to post-exploitation activity including modification or destruction of data please stop testing and submit your finding. We will work with you to evaluate the vulnerability and award you accordingly for the final impact and severity.
+Clickjacking/CORS related (We are using Cordova framework on mobile platforms which sadly requires broken CORS).
+Any vulnerability regarding Facebook SDK on mobile.
+WordPress vulnerabilities with low/medium severity.
+Vulnerabilities on pages with no sensitive actions or information.
+Unauthenticated/logout/login CSRF.
+Lack of rate-limit.
+Username/email enumeration.
+Password complexity requirements, account/email enumeration, or any report that discusses how you can learn whether a given username or email address has an eToro account.
+Attacks requiring MITM or physical access to a user's device.
+Previously known vulnerable libraries without a working Proof of Concept.
+CSV injection without demonstrating a vulnerability.
+Missing best practices in SSL/TLS/Ciphers configuration.
+Any activity that could lead to the disruption of our service (DoS).
+Self-XSS, or XSS that does not affect authenticated users.
+Reports involving leaked credentials from third-party sites.
+Issues that require the user to install a malicious third-party app on mobile.
+Vulnerabilities that will be triaged as Low [with a minimum bounty] (until further notice):
+Subdomain takeover
+Missing SPF/DKIM/DMARC records on any of our domains.
+Stolen/Breached Credentials
+
+Reports involving leaked eToro employee credentials may be eligible for rewards provided they are novel, valid, and sourced ethically. To qualify:
+
+The leak must be previously unknown to eToro.
+The credentials must be confirmed as active and valid for login by our team.
+The data must originate from a non-paid source (we will not fund illegal data-selling platforms).
+
+Reports that do not meet these criteria, or involve non-employee data, remain eligible for points-only compensation.
+
+Safe Harbor
+
+When conducting vulnerability research according to this policy, we consider this research to be:
+
+Authorized in accordance with the Computer Fraud and Abuse Act (CFAA) (and/or similar state laws), and we will not initiate or support legal action against you for accidental, good faith violations of this policy;
+Exempt from the Digital Millennium Copyright Act (DMCA), and we will not bring a claim against you for circumvention of technology controls;
+Exempt from restrictions in our Terms & Conditions that would interfere with conducting security research, and we waive those restrictions on a limited basis for work done under this policy; and
+Lawful, helpful to the overall security of the Internet, and conducted in good faith.
+You are expected, as always, to comply with all applicable laws.
+
+If at any time you have concerns or are uncertain whether your security research is consistent with this policy, please inquire through the Bugcrowd Support Portal before going any further.
+
+What’s new
+View all announcements
+
+llamasoles announced The engagement eToro Managed Bug Bounty Engagement has transitioned to public
+
+6 months ago
+(25 Mar 2026 17:35:52 GMT+0)
+
+Effective immediately, participation in this engagement has transitioned to public. This means that hackers no longer need an invitation to participate in this engagement.
+If you have any questions, please contact Bugcrowd support.
+
+More
+Recent activity
+View all CrowdStream activity
+
+Submission accepted on target: *.etoro.com
+
+By Private userEngagement eToro Managed Bug Bounty EngagementPriority P4
+Accepted on 8 Sep 2026
+
+Submission accepted on target: *.etoro.com
+
+By Private userEngagement eToro Managed Bug Bounty EngagementPriority P3
+Accepted on 8 Sep 2026
+
+Submission accepted
+
+By Private userEngagement eToro Managed Bug Bounty EngagementPriority P1
+Accepted on 2 Sep 2026
+Crowd highlights
+Latest hall of famers
+Hall of Fame
+Recently joined this engagement
+1522 total
+Things to know
+Testing problems
+For any testing issues (such as broken credentials, inaccessible application, or Bugcrowd Ninja email problems), please visit Bugcrowd Support and create a support ticket. We will address your issue as soon as possible.
+Engagement rules
+This engagement follows Bugcrowd’s standard disclosure terms.
+Coordinated Disclosure
+Vulnerabilities found in this engagement requires explicit permission by selecting the disclosure request option on your submission. For more information please review the Public Disclosure Policy.
+Terms & ConditionsPrivacy PolicySecurityDo Not Sell My Information
+DocsFAQResourcesBlogContactGet Help
+Copyright © 2014 – 2026 Bugcrowd, Inc. All rights reserved.

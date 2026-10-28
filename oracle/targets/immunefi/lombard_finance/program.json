@@ -1,0 +1,377 @@
+{
+ "platform": "immunefi",
+ "name": "Lombard Finance",
+ "url": "https://immunefi.com/bug-bounty/lombard-finance/information/",
+ "max_payout_usd": 40,
+ "kind": "web3",
+ "fast_triage": false,
+ "raw": {
+  "card_text": "Lombard Finance | \t | $40.0k | \t | Private | \t | Private | \t11/9/2026\t$250k"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://etherscan.io/address/0x8236a87084f8b84306f72007f36f2618a5634494",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x055E84e7FE8955E2781010B866f10Ef6E1E77e59",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://lombard.finance",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://lombard.finance/app/",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0xdad58dfa5c1a7a34419afdbe1f0d610efeea95e4",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0xc750eCAC7250E0D18ecE2C7a5F130E3A765dc260",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0xC3ecFE771564e3f28CFB7a9b203F4d10279338eD",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x9eCe5fB1aB62d9075c4ec814b321e24D8EA021ac",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x964677F337d6528d659b1892D0045B8B27183fc0",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x451c54981C7DA5d95901b770C540547cF5FE0A2D",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x1De9fcfeDF3E51266c188ee422fbA1c7860DA0eF",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sui-move-contracts/tree/main/move/lbtc",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sui-move-contracts/tree/main/move/consortium",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sui-move-contracts/tree/main/move/bridge_vault",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sui-move-contracts/tree/main/move/bascule",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/starknet-cairo-contracts/tree/main/packages/token",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/starknet-cairo-contracts/tree/main/packages/consortium",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/starknet-cairo-contracts/tree/main/packages/bascule",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/starknet-cairo-contracts/tree/main/packages/asset_router",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/stakeAndBake/veda/ERC4626VaultTokenWrapper.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/stakeAndBake/StakeAndBake.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/LBTC/StakedLBTCOracle.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/LBTC/StakedLBTC.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/LBTC/NativeLBTC.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/LBTC/BridgeTokenAdapter.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/LBTC/AssetRouter.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/gmp/Mailbox.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/consortium/LombardTimeLock.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/consortium/Consortium.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bridge/providers/LombardTokenPoolV2.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bridge/providers/BridgeTokenPool.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bridge/BridgeV2.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bascule/GMPBasculeV2.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bascule/GMPBasculeV1.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bascule/BasculeV2.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/bascule/Bascule.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/Liquid-Bitcoin/BARD/blob/main/contracts/BARD/BARD.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/stakeAndBake/depositor/veda/ERC4626VaultWrapper.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/asset_router",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/bascule",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/bascule_gmp",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/bridge",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/consortium",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/lombard_token_pool",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/mailbox",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/sol-svm-contracts/tree/main/programs/ratio_oracle",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.lombard.finance/",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/strategy/shards/Shard.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/strategy/BlocklistOracle.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/blob/main/contracts/strategy/validators/MerkleAllowlistValidator.sol",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/lombard-finance/evm-smart-contracts/tree/main/contracts/strategy/converters",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

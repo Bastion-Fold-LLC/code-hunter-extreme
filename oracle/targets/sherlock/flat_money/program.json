@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Flat Money",
+  "url": "https://audits.sherlock.xyz/bug-bounties/1",
+  "max_payout_usd": 50000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Flat Money",
+      "50,000 USDC",
+      "Payout",
+      "Apr 16, 2025",
+      "Last Updated"
+    ]
+  }
+}

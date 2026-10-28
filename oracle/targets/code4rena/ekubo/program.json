@@ -1,0 +1,22 @@
+{
+  "platform": "code4rena",
+  "name": "Ekubo",
+  "url": "https://code4rena.com/audits/2025-11-ekubo",
+  "max_payout_usd": 183500,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "COMPLETED",
+      "AUDIT",
+      "Ekubo",
+      "The most efficient and powerful AMM infrastructure on the EVM.",
+      "EVM",
+      "Solidity",
+      "19 Nov 2025 2:00 PM - 10 Dec 2025 2:00 PM",
+      "$183,500 in USDC"
+    ]
+  },
+  "score": 275250.0
+}

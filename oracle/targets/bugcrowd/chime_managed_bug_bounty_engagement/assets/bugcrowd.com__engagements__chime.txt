@@ -1,0 +1,445 @@
+Hacker Login Customer Login
+EngagementsChime Managed Bug Bounty Engagement
+Bug Bounty
+Chime Managed Bug Bounty Engagement
+
+We unite everyday people to unlock their financial progress!
+
+FinanceSafe harbor
+Scope rating
+4 out of 4
+Testing period
+Ongoing
+Started at May 06, 2025
+Status
+In progress
+06 May 2025 18:00:00 GMT+0
+Submit report
+Follow
+Share
+Details
+Changelog
+Announcements
+7
+CrowdStream
+Hall of Fame
+
+Last Updated :27 Aug 2026 16:44:53 GMT+0View changes
+
+On this page
+Overview
+Description
+Targets
+What’s new
+Recent activity
+Crowd highlights
+Things to know
+Vulnerabilities rewarded
+28
+Validation within
+18 days
+75% of submissions are accepted or rejected within 18 days in last 3 months
+Average payout
+$1,180
+last 3 months
+Introduction
+
+Welcome to Chime’s Bug Bounty Program!
+
+As a fintech leader, security is at the heart of everything we do. We’re committed to providing our members with a safe, reliable banking experience, and your expertise as a security researcher plays a vital role in making that possible.
+
+At Chime, our mission is to bring financial peace of mind to everyone. We’ve helped millions of Americans by removing unnecessary fees, enabling automatic savings, and offering financial wellness features such as fee-free overdrafts, early paycheck access through MyPay, credit building tools, and Chime at Workplace. These benefits only matter if they’re secure, and that’s where you come in.
+
+By participating in our bug bounty program, you’re helping us stay ahead of emerging threats, protect our members, and uphold the trust they place in us.
+
+Thank you for collaborating with us to make Chime even more secure.
+
+High-Value Focus Areas
+
+We strongly encourage researchers to direct testing toward high-impact business logic and mobile endpoints:
+
+GraphQL Implementations: Query complexity abuses, broken object-level authorization (BOLA/IDOR), and field-level permission bypasses.
+
+Mobile Applications (iOS & Android): Security flaws in native endpoints, session storage, and IPC mechanisms on non-rooted/non-jailbroken devices.
+
+Money Movement & Ledger Integrity: Bypassing daily/monthly transfer limits, race conditions/retry logic leading to financial advantage (e.g., double spending), and UI vs. backend balance desynchronization.
+
+Identity & Account Lifecycle: Skipping KYC/activation steps to achieve a funded account state, referral/rew
+
+Severity Determination
+
+We use a combination of Impact and Exploitability to determine final severity​:
+
+If a vulnerability could directly affect finances or sensitive data for many users, it will likely be Critical.
+If it affects individual users or non-sensitive data, it may be High or Medium.
+If it requires unlikely user interaction or has mitigations in place (e.g., a theoretical bug that can't be exploited easily), it may be Low or even Informational. We will communicate our severity reasoning when triaging your report. If you believe we misclassified something, we are open to dialogue – our goal is to be fair and consistent.
+What's in Scope
+
+All Chime-owned assets and services are in scope unless explicitly listed as Out of Scope. Testing is permitted across production and QA/development environments per the testing guidelines. If an unlisted asset demonstrably belongs to Chime, you may report it; however, it will be handled as vulnerability disclosure only and is ineligible for bounties or points.
+
+Disclosure Policy
+
+Respect confidentiality: Please do not discuss or publicize vulnerabilities found in this program. This includes both vulnerabilities that are still being triaged and those that have been resolved. If in doubt, ask our team for clarification before sharing any information.
+
+Participation Criteria
+By participating, you represent that you (i) are at least 18 years old, (ii) are not located in, organized under the laws of, or ordinarily resident in a jurisdiction subject to comprehensive U.S. sanctions, (iii) are not identified on the U.S. Treasury Department’s Specially Designated Nationals and Blocked Persons List (“SDN List”) or any other U.S. restricted-party list, and (iv) are not, and are not owned or controlled (>50 %), by any person or entity designated on the U.S. Department of Commerce Entity List, Unverified List, or Military End-User List, or otherwise subject to U.S. export-control restrictions.
+You may not submit vulnerability reports while physically present in any jurisdiction subject to comprehensive U.S. sanctions.
+You must not be a current employee or immediate family member of Chime or any third party managing Chime’s digital assets or infrastructure.
+Engagement Guidelines
+
+General Rules
+
+Submit One Vulnerability Per Report: If multiple bugs must be chained to show impact, explain the full chain clearly in a single submission.
+One Fix = One Bounty: Multiple endpoints or parameters sharing the exact same root cause will be awarded a single bounty as duplicates.
+Reproducibility: Reports must contain clear, step-by-step instructions or PoC code. Unreproducible reports will be marked ineligible.
+Account Interaction: Only interact with accounts you own or have explicit permission to test. Stop immediately and report if you encounter another member's sensitive PII.
+No Targeting: Do not target Chime employees, contractors, or real members during testing.
+Examples of Valid Vulnerabilities
+
+To help you focus on impactful findings, here are examples of vulnerabilities in different severity categories. These examples illustrate the kinds of issues we consider critical, high, medium, or low severity. This is not an exhaustive list, but a guideline. We assess severity case-by-case based on impact and exploitability.
+
+Severity Determination Guidelines
+
+Critical (P1): Direct compromise of sensitive data, funds, or infrastructure; multi-user/systemic impact (e.g., unauthorized fund transfers, double-spend race conditions, production RCE, SSN leaks, critical SQLi, AWS SSRF).
+
+High (P2): Single-user account takeover (ATO), non-production RCE, single-user PII exposure, access control flaws affecting an isolated user account.
+
+Medium (P3): Limited non-sensitive information exposure (e.g., email address enumeration, viewing limited non-financial account details).
+
+Low (P4): Low-impact issues with minimal exploitability (e.g., non-critical subdomain takeovers without escalation paths).
+
+Program Exclusions
+
+When reporting vulnerabilities, please consider (1) the attack scenario/exploitability, and (2) the security impact of the bug. The following issues are considered out of scope:
+
+Out-of-Scope Vulnerabilities & Assets
+Out-of-Scope Vulnerabilities
+Debug information disclosures without sensitive data, stack traces, or software version/banner disclosure.
+Missing security best practices without direct exploitability (e.g., SSL/TLS configurations, missing CSP headers, missing HttpOnly/Secure flags on non-sensitive cookies).
+Missing email authentication records (SPF, DKIM, DMARC) or basic user enumeration with insignificant data exposure.
+Clickjacking on unauthenticated pages or forms lacking sensitive state-changing actions.
+Unauthenticated CSRF on login/logout forms or non-sensitive actions.
+Open redirects without a secondary chained exploit path.
+Denial of Service (DoS/DDoS) attacks, rate-limiting on non-auth endpoints, or load testing.
+Attacks requiring physical access to a victim device, MITM positioning, or unlikely user interactions.
+Social engineering (phishing, vishing, smishing) against employees or members.
+Mobile app lack of obfuscation, missing root/jailbreak detection, or missing cert pinning (Certificate Transparency is used).
+Publicly exposed API keys meant for public use (e.g., DataDog client tokens, Google Maps keys).
+
+Out-of-scope vulnerability reports that pose a valid security impact may be addressed as a form of vulnerability disclosure but will generally not be considered eligible for a bounty. If you aren't sure whether something is in scope, you can ask us by submitting a question via Bugcrowd or contacting us directly.
+
+Targets 
+4 out of 4
+Bugcrowd calculates scope ratings based on the depth and breadth of in-scope targets.
+Primary Targets
+In scope
+Payment reward chart
+P1
+$10000 – $20000
+P2
+$4500 – $5000
+P3
+$250 – $500
+P4
+$50 – $100
+How to Test
+Production Testing (U.S. Researchers Only)
+Enrollment: Register via https://www.chime.com using your @bugcrowdninja.com email alias. Complete standard KYC (requires valid US SSN, DOB, Address, and non-VoIP US phone number).
+Multiple Test Accounts: To test member-to-member transfers, set up your primary account first. Then contact bugbounty[AT]chime[DOT]com with your Bugcrowd username to allow SSN reuse for alias emails (e.g., alias+test1@bugcrowdninja.com).
+Mobile Apps: Download production builds from the App Store / Play Store or obtain current beta IPA/APK builds via the program Scope tab.
+Staging Testing (Non-U.S. Researchers & Non-KYC Testing)
+Enrollment: Register a QA account at https://member-qa.chime.com/enroll/.
+Login: Access the web portal at https://app-qa.chime.com/.
+Tips: Use a US phone number and test SSN patterns (e.g., SSN ending in 1234 or 1235) to bypass transient QA validation errors. Download QA mobile builds from the program Scope page. If you don't have a US phone number, you can use a VOIP US number or a Fictitious telephone number as phone verification is disabled by default on the QA environment.
+
+Account enrollment tips: If you encounter errors during enrollment, you can try again using a different randomly generated SSN pattern (e.g., one ending in "1234", or "1235"). This can help bypass transient validation issues that occasionally occur in QA.
+
+Testing the Mobile App: When testing the mobile app, make sure to use the test (staging) builds that can be downloaded from the bug bounty scope. Select the "QA" environment and log in using your staging test accounts.
+
+Notes
+
+SSN values: Because the staging environment is not stable by nature, you may need to try different random SSN patterns (e.g., SSN ending with 1234 or 1235) to create a test account.
+US phone number required: You will need to use a US phone number to create an account. Non-US phone numbers are not supported.
+Additional Information For Testing
+
+We encourage researchers to focus on vulnerabilities that could impact Chime member accounts and personal information or financial integrity. Business logic and API testing are especially valuable to us, these typically uncover issues that automated scanners can’t detect and can result in higher bounty payouts.
+
+When you’re testing, please note:
+
+Use caution with real money: If you test any functionality that involves moving money (e.g., transfers, deposits), use small amounts and preferably use your own two accounts to send money back and forth. We recommend limiting any test transfers to $50 or less, and using features like Pay Friends or bank transfers between accounts you control. We will reimburse reasonable testing-related losses if something unexpected happens, but you should not be attempting large-scale transactions as part of testing.
+
+Be mindful of testing impact: When testing in production, remember you are dealing with real data and systems. Do not do anything that could negatively affect other Chime members or the platform’s availability, or cause reputational damage. Follow the Program Rules at all times. If in doubt about an action (for example, testing a potential vulnerability that might disrupt service), stop and ask us. We will work with you to find a safe way to test, if possible.
+
+Credit checks are not required: The Chime account sign-up will ask for personal details (see below), but note that we do not perform a credit inquiry for opening an account. You will receive a Chime debit card in the mail, but no credit line is involved.
+
+USA-only for production testing: As mentioned, only researchers in the United States (with an SSN) can create Chime accounts and test on production. We apologize if this limits some international researchers – you are still welcome to test on our development environment or review our public-facing assets for vulnerabilities that don’t require account access.
+
+Required KYC information: Chime is a financial institution, so we must collect certain information to open an account. You will need to provide: Full Name, Social Security Number (SSN), Date of Birth, Physical Address (your mailing address – note that a debit card will be sent here, even for test accounts), Mobile Phone Number (must be a valid US mobile number; VoIP or internet-based numbers are not accepted due to verification constraints), Email Address (use your Bugcrowd email alias as mentioned).
+Account Support
+
+If your test account is flagged or locked by fraud systems, do not create unapproved bypass accounts. Contact bugbounty[AT]chime[DOT]com with your Bugcrowd username to have your account unlocked.
+
+Show more
+All Chime Assets
+*.chimepayments.com
+*.chime.com
+https://*.chime.com
+*.1debit.com
+*.chimecard.com
+*.chmfin.com
+*.chimebank.com
+www.chime.com
+https://www.chime.com
+app.chime.com
+https://app.chime.com
+Chime - Android App (Prod)
+https://play.google.com/store/apps/details?id=com.onedebit.chime
+Android
+Chime - iOS App (Prod)
+https://apps.apple.com/us/app/chime-mobile-banking/id836215269
+iOS
+Chime - Android App (Beta)
+https://drive.google.com/file/d/17IX06JcI2Nn7hbg9kDps5iK6oVi9U71O/view?usp=sharing
+Android
+Enrollment - (QA)
+http://member-qa.chime.com/enroll
+Website Testing
+Sign In - (QA)
+https://app-qa.chime.com/login
+Website Testing
+Secondary Targets
+In scope
+Payment reward chart
+P1
+$4500 – $7000
+P2
+$2500 – $4000
+P3
+$200 – $400
+P4
+$50 – $100
+Secondary Targets (Saltlabs Apps)
+
+All researchers can test our production version of Saltlabs Apps. Only a U.S. phone number is needed to set up an account.
+
+Where to sign up: You can create an account here: https://app.saltlabs.com/session/new
+
+Additional Information For Testing
+
+We encourage researchers to focus on vulnerabilities that could impact Chime member accounts and personal information or financial integrity. Business logic and API testing are especially valuable to us, these typically uncover issues that automated scanners can’t detect and can result in higher bounty payouts.
+
+*.saltlabs.com
+Cloudflare CDN
+jQuery
+Website Testing
+app.saltlabs.com
+https://app.saltlabs.com/
+Cloudflare CDN
+Lodash
+Ruby
+Salt Labs - Android App
+https://play.google.com/store/apps/details?id=com.saltlabs.app
+Android
+Salt Labs - iOS App
+https://apps.apple.com/us/app/salt-work-and-get-rewarded/id1668462142
+iOS
+Salt Labs - Staging Environment
+https://app.staging.saltlabs.com/
+Cloudflare CDN
+Lodash
+Ruby
+Out of Scope
+Out of scope
+
+Any asset not owned by Chime is considered out of scope. Please ensure that the asset you're testing is owned by Chime.
+
+To help you get started, here’s a list of third-party assets that are currently out of scope:
+
+_acme-challenge.chime.com
+_acme-challenge.chimebank.com
+_acme-challenge.interchange.chime.com
+_acme-challenge.wp-ci.chime.com
+_acme-challenge.wp-dev1.chime.com
+_acme-challenge.wp-dev2.chime.com
+_acme-challenge.wp-dev3.chime.com
+_acme-challenge.wp-dev4.chime.com
+_acme-challenge.wp-dev5.chime.com
+_acme-challenge.wp-integ.chime.com
+_acme-challenge.wp-qa.chime.com
+_acme-challenge.www.chime.com
+_acme-challenge.www.chimebank.com
+16002407.account.chime.com
+16002407.notify.chime.com
+attachments.chime.com
+bounce.accounts.chime.com
+bounce.chime.com
+bounce.chimebank.com
+bounce.updates.chime.com
+bounces.chimecard.com
+careers.chime.com
+developer.chime.com
+em.account.chime.com
+em.notify.chime.com
+email.checkr-mail.chime.com
+email.ethnio.chime.com
+email.gh-mail.chime.com
+email.gh-mail.ext.chime.com
+email.mail.saltlabs.com
+email.mail.staging.saltlabs.com
+email.mg.chime.com
+email.mg.chimecard.com
+email.news.chime.com
+email.talent.chime.com
+email.teamable.chime.com
+enterpriseenrollment.chime.com
+enterpriseenrollment.ext.chime.com
+enterpriseregistration.chime.com
+ftp.1debit.com
+go.chm.life
+gt._domainkey.ext.chime.com
+gt2._domainkey.ext.chime.com
+gtmail.chime.com
+gtmail.ext.chime.com
+handbooks.chime.com
+help-test.chime.com
+help.chime.com
+help.saltlabs.com
+hs1-45050040._domainkey.hubspot.chime.com
+hs2-45050040._domainkey.hubspot.chime.com
+interchange.chime.com
+jqldc44xpu3j.chimecard.com
+links.account.chime.com
+links.notify.chime.com
+nd.chime.com
+p.chime.com
+p.chimecard.com
+research.chime.com
+s1._domainkey.account.chime.com
+s1._domainkey.chime.com
+s1._domainkey.chimecard.com
+s1._domainkey.notify.chime.com
+s2._domainkey.account.chime.com
+s2._domainkey.chime.com
+s2._domainkey.chimecard.com
+s2._domainkey.notify.chime.com
+safetyandsecurity.chime.com
+static-attachments.chime.com
+status.chime.com
+status.chimebank.com
+status.saltlabs.com
+transaction-qa.chime.com
+transaction.chime.com
+www.saltlabs.com
+
+
+Please note that this list may be incomplete. If you need any assistance or have questions, feel free to reach out to us at bugbounty\[AT\]chime\[DOT\]com.
+
+Show more
+Non Chime Owned Assets (see list above)
+chime.financial
+https://chime.financial
+chimescholars.org
+https://chimescholars.org
+Safe Harbor
+
+When conducting vulnerability research according to this policy, and NOT otherwise, we consider this research to be:
+
+Authorized in accordance with the Computer Fraud and Abuse Act (CFAA) (and/or similar state laws), and we will not initiate or support legal action against you for accidental, good faith violations of this policy;
+Exempt from the Digital Millennium Copyright Act (DMCA), and we will not bring a claim against you for circumvention of technology controls;
+Exempt from restrictions in our Terms & Conditions that would interfere with conducting security research, and we waive those restrictions on a limited basis for work done under this policy; and
+Lawful, helpful to the overall security of the Internet, and conducted in good faith.
+You are expected, as always, to comply with all applicable laws. Researchers remain responsible for compliance with laws of the jurisdiction where the testing occurs.
+Chime will not pursue civil or criminal action against researchers for good-faith activities that comply with these rules, including accidental limited data access, provided the data is promptly reported and not retained.
+Nothing in this program waives remedies for willful misconduct or breaches of confidentiality obligations.
+
+If at any time you have concerns or are uncertain whether your security research is consistent with this policy, please create a ticket with Bugcrowd Support or contact bugbounty[AT]chime[DOT]com for clarification before proceeding.
+
+What’s new
+View all announcements
+
+Jill announced [Chime] New and Improved Changes to our Brief!
+
+26 days ago
+(03 Sep 2026 21:34:25 GMT+0)
+
+Hello Researchers!
+
+We are excited to inform you that the Chime Bug Bounty program brief has been updated with new and improved information. Please ensure to read and review the brief in its entirety before testing.
+
+If you have any questions, please create a ticket with Bugcrowd Support for assistance.
+
+Thank you and happy hunting!
+
+More
+
+Jill announced [Chime] Changes to our Brief
+
+4 months ago
+(19 May 2026 19:36:26 GMT+0)
+
+Greetings Researchers!
+
+There have been a slight addition to our brief in terms of Focus Areas and what type of reports we are highly interested in:
+
+Focus Areas
+
+We highly encourage submissions that contain the following:
+
+GraphQL
+Mobile (iOs and Android)
+Member data
+Any vulnerabilities containing money money movement between accounts and/or between members
+
+If you have any questions, please create a ticket with Bugcrowd Support for assistance.
+
+Thank you and happy hunting!
+
+More
+
+mazin_chime announced Double Reward bonuses for Valid P1 Submissions
+
+8 months ago
+(04 Feb 2026 19:34:13 GMT+0)
+
+We are pleased to announce that we are now offering bonuses starting as of February 4th, 2026 and will end on March 1st!
+
+Below are the bonus details:
+
+Priority/Bonus Qualifications	Previous Reward Range	New Reward Range
+P1s on Primary & Secondary Targets	Primary $10,000 - $20,000 Secondary $4,500 - $7,000	Primary $20,000 - $40,000 Secondary $9,000 - $14,000
+
+Bonuses are subject to change. If you have any questions, please create a ticket with Bugcrowd Support for assistance.
+
+More
+Recent activity
+View all CrowdStream activity
+
+Submission accepted on target: *.chime.com
+
+By kalki_Engagement Chime Managed Bug Bounty EngagementReward $500Priority P3
+Accepted on 16 Sep 2026
+
+Submission accepted on target: www.chime.com
+
+By DanielMeloEngagement Chime Managed Bug Bounty EngagementReward $250Priority P4
+Accepted on 25 Aug 2026
+
+Submission accepted on target: Chime - Android App (Beta)
+
+By Private userEngagement Chime Managed Bug Bounty EngagementReward $150Priority P4
+Accepted on 11 Aug 2026
+Crowd highlights
+Latest hall of famers
+Hall of Fame
+Recently joined this engagement
+484 total
+Things to know
+Testing problems
+For any testing issues (such as broken credentials, inaccessible application, or Bugcrowd Ninja email problems), please visit Bugcrowd Support and create a support ticket. We will address your issue as soon as possible.
+Engagement rules
+This engagement follows Bugcrowd’s standard disclosure terms.
+Coordinated Disclosure
+Vulnerabilities found in this engagement requires explicit permission by selecting the disclosure request option on your submission. For more information please review the Public Disclosure Policy.
+Terms & ConditionsPrivacy PolicySecurityDo Not Sell My Information
+DocsFAQResourcesBlogContactGet Help
+Copyright © 2014 – 2026 Bugcrowd, Inc. All rights reserved.

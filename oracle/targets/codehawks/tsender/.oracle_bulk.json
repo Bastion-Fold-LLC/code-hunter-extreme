@@ -1,0 +1,14 @@
+{
+  "program": "TSender",
+  "platform": "codehawks",
+  "slug": "tsender",
+  "downloaded_at": "2026-09-29T06:45:29.113698+00:00",
+  "assets": [
+    "program_page.txt",
+    "codehawks.cyfrin.io__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

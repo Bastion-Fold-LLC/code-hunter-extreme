@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "MATLAB Online - Ongoing Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/matlab-online",
+  "max_payout_usd": 7000,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "MATLAB Online - Ongoing Bug Bounty Engagement",
+    "tagline": "MATLAB Online extends the capabilities of MATLAB and Simulink to the cloud",
+    "briefUrl": "/engagements/matlab-online",
+    "backgroundColor": "#ffffff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/9f5f/287d/7fe37911/dd30d37fbd1f9c2cb76698ea65a170cf_MathWorks-Logo.png",
+    "rewardSummary": {
+      "summary": "$200 - $7,000",
+      "hint": null,
+      "minReward": "$200",
+      "maxReward": "$7,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Computer Software",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/matlab-online/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 7000.0
+}

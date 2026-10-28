@@ -1,0 +1,14 @@
+{
+  "program": "Vargal Additional Variation Gallery For Woo",
+  "platform": "patchstack",
+  "slug": "vargal_additional_variation_gallery_for_woo",
+  "downloaded_at": "2026-09-29T06:47:34.512860+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

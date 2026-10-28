@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "dYdX Bug Bounty",
+  "url": "https://cantina.xyz/bounties/83b38645-7554-43c3-88d4-cac2910650b7",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "dYdX Bug Bounty",
+      "dYdX Trading Inc.",
+      "$1,000,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 8 May 2026"
+    ]
+  }
+}

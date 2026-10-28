@@ -1,0 +1,16 @@
+# *
+User-agent: *
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /code/
+Disallow: /login
+Disallow: /logout
+Disallow: /signup
+Disallow: /sow
+Disallow: /cdn-cgi/
+
+# Host
+Host: https://cantina.xyz
+
+# Sitemaps
+Sitemap: https://cantina.xyz/sitemap.xml

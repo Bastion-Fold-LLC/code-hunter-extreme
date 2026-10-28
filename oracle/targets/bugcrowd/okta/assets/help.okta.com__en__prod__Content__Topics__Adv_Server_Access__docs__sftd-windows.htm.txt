@@ -1,0 +1,43 @@
+Skip to main contentSkip to docs navigation
+Docs
+
+Feedback
+
+Server agents
+Install the server agent
+Install the server agent on Windows
+Install the Advanced Server Access server agent on Windows
+
+End of sale announcement
+
+Effective May 1, 2026, Okta will no longer sell or renew Advanced Server Access. Existing customers must migrate to Okta Privileged Access within one year of their next scheduled renewal date to maintain service.
+
+Read the FAQ and learn more about Okta Privileged Access.
+
+To install the Advanced Server Access server agent:
+
+Go to one of the following Advanced Server Access Windows client repositories:
+
+Stable
+Preview
+Click a version to download.
+Install the MSI by double-clicking the download or by running the command:
+
+msiexec.exe /qb /i ScaleFT-Server-Tools-#.msi
+
+The Advanced Server Access server agent is not supported on Microsoft Active Directory domain controllers.
+
+Automate agent installation
+
+Advanced Server Access server tools can be automatically installed on Windows servers running in AWS and other cloud environments using a PowerShell user data script, or by a PowerShell command run locally or remotely.
+
+You can find an open-source PowerShell module for managing Advanced Server Access server agent installations for Windows at https://github.com/okta-server-asa/scaleft-powershell/.
+
+Next steps
+
+Enroll a server
+
+© 2026 Okta, Inc. All Rights Reserved. Various trademarks held by their respective owners.
+
+We use cookies to provide the best website experience and to help understand marketing efforts. We may also share data with ad partners to reach potential customers across the web. To learn more, visit our Privacy Policy. Click here for Your Privacy Choices. You may also opt out of this sharing by signaling your preference via GPC, applicable only to the browser signaling the opt-out.
+Cookie Settings

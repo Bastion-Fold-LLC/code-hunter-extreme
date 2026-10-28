@@ -1,0 +1,30 @@
+{
+ "platform": "code4rena",
+ "name": "Megapot",
+ "url": "https://code4rena.com/audits/2025-11-megapot",
+ "max_payout_usd": 200,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Megapot",
+   "The Internet's jackpot with $200M+ in drawings.",
+   "EVM",
+   "Solidity",
+   "03 Nov 2025 2:00 PM - 13 Nov 2025 2:00 PM",
+   "$30,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-11-megapot",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

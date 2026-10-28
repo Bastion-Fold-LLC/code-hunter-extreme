@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "Staking",
+  "url": "https://codehawks.cyfrin.io/c/2024-09-starknet-staking",
+  "max_payout_usd": 65000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "Staking",
+      "Starknet",
+      "DeFi",
+      "Private",
+      "65,000",
+      "USDC",
+      "Ended",
+      "Ended 724d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

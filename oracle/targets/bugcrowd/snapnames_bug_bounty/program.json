@@ -1,0 +1,39 @@
+{
+  "platform": "bugcrowd",
+  "name": "SnapNames Bug Bounty",
+  "url": "https://bugcrowd.com/engagements/snapnames",
+  "max_payout_usd": 2000,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "SnapNames Bug Bounty",
+    "tagline": "SnapNames is the web's domain name marketplace of choice throughout the world. We bring businesses global access to already-registered domains with the convenience of online and mobile shopping.",
+    "briefUrl": "/engagements/snapnames",
+    "backgroundColor": "#ffffff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/743e/dfa6/1c995120/d4707f93ad61b32631de989e40ff9237_snapnames.jpeg",
+    "rewardSummary": {
+      "summary": "Points - $2,000",
+      "hint": null,
+      "minReward": "Points",
+      "maxReward": "$2,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Technology",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "ngpt"
+    },
+    "subscriptionUrl": "/snapnames/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  }
+}

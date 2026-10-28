@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# oracle-programs — bug bounty program discovery
+exec python3 "$(dirname "$(readlink -f "$0")")/oracle_programs.py" "$@"

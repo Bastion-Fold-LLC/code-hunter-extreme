@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "ArkProject: NFT Bridge",
+  "url": "https://codehawks.cyfrin.io/c/2024-07-ark-project",
+  "max_payout_usd": 60000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "ArkProject: NFT Bridge",
+      "ArkProject",
+      "NFT",
+      "Bridge",
+      "Public",
+      "60,000",
+      "USDC",
+      "Ended",
+      "Ended 761d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

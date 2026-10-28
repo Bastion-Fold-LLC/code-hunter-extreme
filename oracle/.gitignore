@@ -1,0 +1,57 @@
+# Secrets
+.env
+# Large cloned target repos & scan data (not source)
+targets/*/aave-v4/
+targets/*/starknet-staking/
+recon/
+reports/
+# Python cruft
+__pycache__/
+*.pyc
+.pytest_cache/
+# Local model cache
+recon/.openrouter_models.json
+# Editor
+oracle.code-workspace
+# Transient test hunt targets
+targets/direct/127.0.0.1_8765/
+targets/direct/*/assets/_manifest.json
+targets/direct/*/findings/finding_0*.json
+*_slither.json
+storage/
+
+# Key drop file — never commit
+ORACLE_KEYS.env
+
+# Regen caches, run receipts, testbed output (never commit)
+targets/**/assets/program_page.txt
+targets/**/download_report.json
+targets/**/findings/
+targets/direct/*/findings/finding_*.json
+programs_cache.json
+programs/lab/
+targets/HackerOne/
+targets/_log_of_logs.jsonl
+targets/**/screenshot.png
+**/scope_screenshot.png
+targets/**/site.log
+targets/**/http_*
+targets/direct/**/site.log
+targets/intigriti/**/site.log
+targets/lab/
+.coverage
+redteam_run.log
+rt_port.txt
+*.log
+targets/hackerone/
+targets/Intigriti/
+targets/intigriti/
+
+# Local databases and scan targets
+*.db
+*.db.bak*
+targets/PDPrograms/
+.mcp.json
+
+# Aider
+.aider*

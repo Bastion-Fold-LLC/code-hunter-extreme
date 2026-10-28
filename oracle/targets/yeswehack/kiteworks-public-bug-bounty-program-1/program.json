@@ -1,0 +1,146 @@
+{
+ "platform": "yeswehack",
+ "name": "kiteworks-public-bug-bounty-program-1",
+ "url": "https://yeswehack.com/programs/kiteworks-public-bug-bounty-program-1",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Kiteworks Public Bug Bounty Program",
+  "slug": "kiteworks-public-bug-bounty-program-1",
+  "country": "US",
+  "activity_area": "CyberSec",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 177,
+  "bounty_reward_min": 0,
+  "bounty_reward_max": 50000,
+  "scopes_count": 12,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "9fe00523-8a6c-436a-bf8e-ee9661d0afa0",
+   "original_name": "dceb2dec-5a67-4fa5-aa59-9784739dab5c.png",
+   "mime_type": "image/png",
+   "size": 26052,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/9fe00523-8a6c-436a-bf8e-ee9661d0afa0"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Kiteworks",
+   "slug": "kiteworks",
+   "description": "Kiteworks\u2019 mission is to empower organizations to effectively manage risk in every send, share, receive and save of sensitive content. To this end, we created a platform that delivers content governance, compliance, and protection to customers. The platform unifies, tracks, controls, and secures sensitive content moving within, into, and out of their organization, significantly improving risk management and ensuring regulatory compliance on all sensitive content communications.",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": "e027150b-42d0-49d9-8556-e2e3789faf9e",
+    "original_name": "kiteworks-primary-white-coloured-bg-icon-01 Kopie 3.png",
+    "mime_type": "image/png",
+    "size": 13523,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/e027150b-42d0-49d9-8556-e2e3789faf9e"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-10T14:24:50+02:00",
+  "report_submission_cost": 5
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "Crown Jewel Heist",
+   "asset_type": "Challenge",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks Core",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Email Protection Gateway (EPG)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Managed File Transfer (MFT)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Secure Data Forms (SDF, aka Advanced Forms)",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "API Playground",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks Android App",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks iOS App",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks for Desktop",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks Desktop Client 2.0",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks for Outlook Desktop",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Kiteworks for Office Desktop",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

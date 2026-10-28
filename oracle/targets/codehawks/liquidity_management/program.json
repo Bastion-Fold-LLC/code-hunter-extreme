@@ -1,0 +1,33 @@
+{
+ "platform": "codehawks",
+ "name": "Liquidity Management",
+ "url": "https://codehawks.cyfrin.io/c/2025-02-gamma",
+ "max_payout_usd": 50000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "Liquidity Management",
+   "Gamma",
+   "DeFi",
+   "Foundry",
+   "Public",
+   "50,000",
+   "USDC",
+   "Ended",
+   "Ended 580d, 1h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/CodeHawks-Contests/2025-02-gamma",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

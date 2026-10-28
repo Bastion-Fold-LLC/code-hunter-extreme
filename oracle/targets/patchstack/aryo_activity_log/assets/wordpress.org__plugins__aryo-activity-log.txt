@@ -1,0 +1,192 @@
+Skip to content
+
+Plugin Directory
+
+Submit a plugin
+My favorites
+Log in
+Search plugins
+Activity Log – Monitor User and Agent Changes
+By Elementor
+Download
+Live Preview
+Details
+ 
+Reviews
+ 
+Installation
+ 
+Development
+Support
+Description
+
+An easy to use, fully supported WordPress activity log plugin.
+
+Want to know exactly who does what on your WordPress site? Activity Log works like an airplane’s black box: it quietly records every action in the WordPress admin — and now every request made through the REST API, WP-CLI, WP-Cron, and more — so you always know:
+
+If someone is trying to hack your site
+When a post was published, and who published it
+If a plugin/theme was activated/deactivated
+Suspicious admin activity
+
+The plugin doesn’t require any setup; it works right out of the box, runs on its own database table so it doesn’t slow down your site, and stays out of your way until you need it.
+
+What’s New
+Request Source Tracking – See exactly where each change came from: the WP Admin, the REST API, WP-CLI, WP-Cron, XML-RPC, or the WP Abilities API, including which Application Password was used. Filter the log by source to quickly spot automated or API-driven changes alongside manual admin activity.
+Email Logging – Capture all emails sent from your WordPress site for streamlined debugging and compliance. Especially useful for WooCommerce stores tracking order emails alongside other site events.
+Export to CSV – Export your Activity Log data to CSV, or build support for your own format with our dedicated Export API.
+Data Privacy and GDPR Compliance – Export or erase log data directly through the WordPress Privacy Tools.
+
+If you have more than a handful of users, keeping track of who did what by hand is virtually impossible. Activity Log solves that by tying every action back to the user who triggered it, in an easy-to-filter view right on your WordPress dashboard.
+
+With the Activity Log you can record:
+WordPress – Core updates
+Posts – Created, updated, deleted
+Pages – Created, updated, deleted
+Custom Post Type – Created, updated, deleted
+Tags – Created, updated, deleted
+Categories – Created, updated, deleted
+Taxonomies – Created, updated, deleted
+Menus – Created, updated, deleted
+Media – Created, updated, deleted
+Comments – Created, approved, unapproved, trashed, untrashed, spammed, unspammed, deleted
+Users – Login, logout, login failed, update profile, registered, deleted
+Plugins – Installed, updated, activated, deactivated, changed
+Themes – Installed, updated, deleted, activated, changed (Editor and Customizer)
+Widgets – Added to sidebar, deleted from sidebar, order widgets
+Setting – General, writing, reading, discussion, media, permalinks
+Options – Extended custom settings for 3rd party plugins
+Export – Exported activity log file
+Request Source – WP Admin, REST API, WP-CLI, WP-Cron, XML-RPC, WP Abilities, and Application Password name when used
+WooCommerce – Track products, orders, customers, and more
+bbPress – Forums, topics, replies, taxonomies, and other actions
+Emails sent from WordPress site – Sending successful, sending failed
+There’s more, of course, but you get the point…
+
+For each event recorded by the activity log, the following details are also logged:
+
+Date and time of occurrence
+User and user role responsible for the change
+Source IP address from which the change originated
+Request source — WP Admin, REST API, WP-CLI, WP-Cron, XML-RPC, or WP Abilities
+Affected object where the change occurred
+Data Storage and Performance
+
+All events are stored in a dedicated custom database table, keeping the impact on your site’s performance to a minimum — even under heavy traffic.
+
+Uninstall Clean-up
+
+Uninstalling the plugin removes all of its data from your database automatically, leaving nothing behind.
+
+What users have to say
+“Its tools, particularly for data privacy and GDPR compliance, make it indispensable for websites operating within European Union boundaries or dealing with EU citizens’ data” – HubSpot.com
+“If you’re after a competent WP security audit log plugin with all the basic features you need, Activity Log is it!” – WPAstra.com
+“Activity Log features a remarkably straightforward dashboard interface, providing administrators with an at-a-glance understanding of site interactions” – Malcare.com
+“Thanks to this step, we’ve discovered that our site was undergoing a brute force attack” – Artdriver.com
+“Activity Log lets you track a huge range of activities. Overall, very easy to use and setup” – ElegantThemes.com
+Contributions:
+
+Would you like to contribute to this plugin? You’re more than welcome to submit your pull requests on the GitHub repo. And, if you have any notes about the code, please open a ticket on the issue tracker.
+
+Screenshots
+FAQ
+Requirements
+What is the plugin license?
+Will this slow down my site?
+Can I export logs?
+Can I see where a change came from?
+How long are logs kept?
+Do I have to collect visitor IP addresses?
+Does this work on WordPress Multisite?
+Does this work with WooCommerce?
+Can I exclude specific events from being logged?
+How can I report security bugs?
+Contributors & Developers
+
+“Activity Log – Monitor User and Agent Changes” is open source software. The following people have contributed to this plugin.
+
+Contributors
+Elementor
+Yakir Sitbon
+ArielK
+
+Meta
+Version
+2.15.0
+ Last updated
+3 weeks ago
+ Active installations
+200,000+
+ WordPress version
+6.2 or higher
+ Tested up to
+7.1.2
+ PHP version
+7.4 or higher
+ Languages
+See all 32
+ Tags
+Activity Logaudit logemail logsecurityuser log
+ Advanced View
+Ratings
+4.3 out of 5 stars.
+53 5-star reviews
+5 stars
+53
+5 4-star reviews
+4 stars
+5
+8 3-star reviews
+3 stars
+8
+3 2-star reviews
+2 stars
+3
+5 1-star reviews
+1 star
+5
+
+Your review
+
+See all
+reviews
+
+Support
+
+Issues resolved in last two months:
+
+3 out of 4
+
+View support forum
+
+About
+News
+Hosting
+Privacy
+Showcase
+Themes
+Plugins
+Patterns
+Learn
+Documentation
+Developers
+WordPress.tv ↗
+Get Involved
+Events
+Donate ↗
+Swag ↗
+WordPress.com ↗
+Matt ↗
+bbPress ↗
+BuddyPress ↗
+Visit our X (formerly Twitter) account
+Visit our Bluesky account
+Visit our Mastodon account
+Visit our Threads account
+Visit our Facebook page
+Visit our Instagram account
+Visit our LinkedIn account
+Visit our TikTok account
+Visit our YouTube channel
+Visit our Tumblr account
+The WordPress® trademark is the intellectual property of the WordPress Foundation.

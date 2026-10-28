@@ -1,0 +1,15 @@
+{
+  "program": "Hybra Finance",
+  "platform": "code4rena",
+  "slug": "hybra_finance",
+  "downloaded_at": "2026-09-29T06:39:10.116333+00:00",
+  "assets": [
+    "program_page.txt",
+    "code4rena.com__robots.txt",
+    "code4rena.com__security.txt"
+  ],
+  "asset_count": 3,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

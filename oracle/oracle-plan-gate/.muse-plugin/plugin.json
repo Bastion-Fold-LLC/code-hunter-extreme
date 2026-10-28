@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "oracle-plan-gate",
+  "displayName": "Oracle Plan Gate",
+  "version": "0.1.0",
+  "description": "Plan guardrails for the Oracle mindset finish: blocks edits to the frozen owner spec and saved finish plan, and blocks narrowed test runs.",
+  "compat": {
+    "source": "native",
+    "manifestDir": ".muse-plugin"
+  },
+  "capabilities": {
+    "skills": [],
+    "commands": [],
+    "hooks": [
+      {
+        "id": "spec-guard",
+        "event": "PreToolUse",
+        "command": [
+          "sh",
+          "hooks/spec-guard.sh"
+        ],
+        "timeoutMs": 5000,
+        "statusMessage": "Checking frozen spec and plan guard"
+      },
+      {
+        "id": "test-guard",
+        "event": "PreToolUse",
+        "command": [
+          "sh",
+          "hooks/test-guard.sh"
+        ],
+        "timeoutMs": 5000,
+        "statusMessage": "Checking full test gate guard"
+      }
+    ],
+    "mcpServers": [],
+    "reminders": []
+  }
+}

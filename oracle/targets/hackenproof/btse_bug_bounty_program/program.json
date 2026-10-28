@@ -1,0 +1,69 @@
+{
+ "platform": "hackenproof",
+ "name": "BTSE Bug Bounty Program",
+ "url": "https://hackenproof.com/programs/btse-bug-bounty-program",
+ "max_payout_usd": 3000,
+ "kind": "web3",
+ "fast_triage": true,
+ "raw": {
+  "card_text": "TRIAGED BY HACKENPROOF | BTSE Bug Bounty Program | STARTED DATE: | 05 Nov 2021 | LAST UPDATED: | 18 Sep 2026 | SCOPE REVIEW: | 1026042 | PAID | $8,000 | UP TO | $3,000"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://www.btse.com",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.btse.com",
+   "asset_type": "Web",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://api.btse.com",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://api.btse.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.btse.finance",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.btse.finance",
+   "asset_type": "Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/ng/app/btse/id1494556510",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/ng/app/btse/id1494556510",
+   "asset_type": "iOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

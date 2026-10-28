@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "Cyfrin Attester",
+  "url": "https://codehawks.cyfrin.io/c/2025-03-cyfrin-attester",
+  "max_payout_usd": 6000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "Cyfrin Attester",
+      "Cyfrin",
+      "Solidity",
+      "NFT",
+      "Invite-only",
+      "6,000",
+      "USDC",
+      "Ended",
+      "Ended 563d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

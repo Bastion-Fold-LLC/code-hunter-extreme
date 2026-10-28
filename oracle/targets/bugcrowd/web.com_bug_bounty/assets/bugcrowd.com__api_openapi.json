@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/x-icon" href="/h/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bugcrowd Hacker Portal</title>
+    <script nonce="17edcb919938a6d295dd55318318f16a">
+        globalThis.import_meta_env = JSON.parse('{"APP_LOGIN_URL":"https:\u002F\u002Fidentity.bugcrowd.com\u002Flogin","APP_HACKER_OKTA_DOMAIN":"https:\u002F\u002Flogin.hackers.bugcrowd.com","DEPLOYED_IMAGE_TAG":"0c03357312d49f3380f732b8034d2b625f5e1517de45b3449c9f1f2b0f26810e","CC_BASE_URL":"https:\u002F\u002Fbugcrowd.com","VITE_FRESHDESK_WIDGET_ID":"73000001938","DATADOG_RUM_APP_ID":"ddec4419-ada9-43af-9f4f-6bbd616f8601","DATADOG_RUM_CLIENT_TOKEN":"pub77c6968e0ed09ea99d864f969ae61b2f"}');
+    </script>
+  <meta property="csp-nonce" nonce="17edcb919938a6d295dd55318318f16a">
+  <script type="module" crossorigin src="/h/assets/index-CEzdHo0O.js" nonce="17edcb919938a6d295dd55318318f16a"></script>
+  <link rel="modulepreload" crossorigin href="/h/assets/jsx-runtime-BQUBb7-T.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/esm-BndUEupE.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/replayStats-C6TwcZID.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/preload-helper-DNITZXrl.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/environment-B9v14463.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/react-dom-DBo67CPW.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/classnames-CVPHicJN.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcModal-iZSRXqNe.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcIcons-Co1YwE2G.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcSwitchInput-o_4YPjM8.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/chunk-62JRHF6Z-DHccZF4d.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/useMutation-Cp6uDHYP.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/dist-D5GxUuH4.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/en-US-BDa6213V.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/sanitizer-B-iV2cG2.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/queryKeys-DJ1hi3L2.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/CurrentUserProvider-6j_2QBc6.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/SHARED_IMAGES-D4FS4yEn.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/paths-BmjWnQSy.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/useOverviewData-wQdhPHiW.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcHint-Cf1jie8L.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcFieldset-U0j5Y_QT.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcTextInput-D2Vav2-i.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/BcLoader-X_Gwjc5O.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/build-gHyCq-gV.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/useDebounce-Bes-XQ9y.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/ThemeProvider-Do9d5a2A.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/dist-BaHQczPt.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/clsx-CjueKrWZ.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/SplashScreen-ftG83F8-.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/dist-DjvDApSC.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/LoadingIndicator-BuJtUft_.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/handlers-DffQgmOm.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/HackerAvatarWithUpload-5OZYVx2u.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/Tooltip-CNfMKjeU.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/COUNTRIES-DBZJzDYz.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="modulepreload" crossorigin href="/h/assets/getOrdinalSuffix-DitqAu2T.js" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="stylesheet" crossorigin href="/h/assets/HackerAvatarWithUpload-CZAixtQb.css" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="stylesheet" crossorigin href="/h/assets/Tooltip-BPGWwUuN.css" nonce="17edcb919938a6d295dd55318318f16a">
+  <link rel="stylesheet" crossorigin href="/h/assets/index-UxyJcsk4.css" nonce="17edcb919938a6d295dd55318318f16a">
+</head>
+
+<body class="bc-body bc-grid bc-theme">
+<div id="root" class="hu-container-grid"></div>
+</body>
+
+</html>

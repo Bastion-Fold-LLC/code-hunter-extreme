@@ -1,0 +1,28 @@
+{
+  "platform": "hackerone",
+  "name": "django",
+  "url": "https://hackerone.com/django",
+  "max_payout_usd": 3000,
+  "kind": "web2",
+  "fast_triage": false,
+  "response_efficiency": 94,
+  "reports_count": 34,
+  "launched_at": "2013-12-03T19:32:50.679Z",
+  "raw": {
+    "handle": "django",
+    "name": "Django",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "triage_active": null,
+    "triage_plus": null,
+    "top_bounty_lower_amount": 1000,
+    "top_bounty_upper_amount": 3000,
+    "minimum_bounty": 250,
+    "response_efficiency_percentage": 94,
+    "resolved_report_count": 34,
+    "launched_at": "2013-12-03T19:32:50.679Z"
+  },
+  "structured_scopes": [],
+  "scope_status": "not-fetched",
+  "intake_status": "discovered"
+}

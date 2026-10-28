@@ -1,0 +1,216 @@
+{
+ "platform": "yeswehack",
+ "name": "pine-labs-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/pine-labs-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Pine Labs Bug Bounty Program",
+  "slug": "pine-labs-bug-bounty-program",
+  "country": "IN",
+  "activity_area": "Tech - Other",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 707,
+  "bounty_reward_min": 0,
+  "bounty_reward_max": 1000,
+  "scopes_count": 22,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "599499f2-1770-4d00-8b67-9111cc6c55f2",
+   "original_name": "pinelabs_logo.png",
+   "mime_type": "image/png",
+   "size": 2368,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/599499f2-1770-4d00-8b67-9111cc6c55f2"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Pine Labs Pvt Ltd",
+   "slug": "pine-labs-pvt-ltd",
+   "description": "Payment Services for Retail Merchant",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": "6e236e18-fa57-42d0-be2e-588038dd22cc",
+    "original_name": "pinelabs_logo.png",
+    "mime_type": "image/png",
+    "size": 2368,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/6e236e18-fa57-42d0-be2e-588038dd22cc"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-06-08T07:53:43+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://billingserver.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "dashboard.pluralonline.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://lounge.pinelabs.com/loungeui/login",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://pinepgconsole.in:9099",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "analytics.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://myplutus.pinelabs.my",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "trm.pinepaymentsolutions.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://trm.pinelabs.ae",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.letspaylater.ph",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://credit.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.pinelabs.emicatalogue.pinelabs&hl=uz",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://emistores.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.pinelabs.my",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.pinelabs.ae",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.pinelabs.us",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://board.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://nbs.pinelabs.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://api.pluralonline.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://api.pluralpay.in",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://pinepg.in",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://pluralcheckout.pinepg.in",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

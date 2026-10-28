@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Paradex",
+  "url": "https://audits.sherlock.xyz/bug-bounties/344",
+  "max_payout_usd": 500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Paradex",
+      "500,000 USDC",
+      "Payout",
+      "Jun 8, 2026",
+      "Last Updated"
+    ]
+  }
+}

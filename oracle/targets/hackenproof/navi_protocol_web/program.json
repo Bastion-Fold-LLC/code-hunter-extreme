@@ -1,0 +1,20 @@
+{
+ "platform": "hackenproof",
+ "name": "NAVI Protocol Web",
+ "url": "https://hackenproof.com/programs/navi-protocol-web",
+ "max_payout_usd": 10000,
+ "kind": "web3",
+ "fast_triage": true,
+ "raw": {
+  "card_text": "TRIAGED BY HACKENPROOF | NAVI Protocol Web | STARTED DATE: | 16 Oct 2025 | LAST UPDATED: | 18 Sep 2026 | SCOPE REVIEW: | 271586 | PAID | $0 | UP TO | $10,000"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://naviprotocol.io",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

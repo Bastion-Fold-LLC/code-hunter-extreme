@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "Panoptic Hypovault",
+ "url": "https://code4rena.com/audits/2025-06-panoptic-hypovault",
+ "max_payout_usd": 18000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Panoptic Hypovault",
+   "Panoptic is a DeFi options protocol designed to enhance LPing and trading. It transforms Uniswap LP positions into onchain options, enabling traders to access liquidity in a new, flexible way.",
+   "EVM",
+   "Solidity",
+   "27 Jun 2025 3:00 PM - 07 Jul 2025 3:00 PM",
+   "$18,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-06-panoptic",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-06-panoptic-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,40 @@
+{
+ "platform": "sherlock",
+ "name": "Babylon",
+ "url": "https://audits.sherlock.xyz/bug-bounties/400",
+ "max_payout_usd": 500000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "type": "bug-bounty",
+  "lines": [
+   "Babylon",
+   "Payout",
+   "500,000 USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/babylonlabs-io/babylon",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/babylonlabs-io/babylon-staking-indexer",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/babylonlabs-io/babylon-toolkit",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

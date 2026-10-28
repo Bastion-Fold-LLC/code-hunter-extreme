@@ -1,0 +1,218 @@
+<?php
+/**
+ * Handle plugin onboarding and upgrade task related functionality.
+ *
+ * @package Progress_Planner
+ */
+
+namespace Progress_Planner;
+
+/**
+ * Plugin_Upgrade_Tasks class.
+ */
+class Plugin_Upgrade_Tasks {
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		// Plugin (possibly 3rd party) activated.
+		\add_action( 'activated_plugin', [ $this, 'plugin_activated' ], 10 );
+
+		// Progress Planner plugin updated.
+		\add_action( 'progress_planner_plugin_updated', [ $this, 'plugin_updated' ], 10 );
+
+		// Check if the plugin was upgraded or new plugin was activated.
+		\add_action( 'init', [ $this, 'handle_activation_or_upgrade' ], 100 ); // We need to run this after the Local_Tasks_Manager::init() is called.
+
+		// Add the action to add the upgrade tasks popover.
+		\add_action( 'progress_planner_admin_page_after_widgets', [ $this, 'add_upgrade_tasks_popover' ] );
+	}
+
+	/**
+	 * Plugin upgraded or (3rd party) plugin was activated.
+	 *
+	 * @param string $plugin The plugin file.
+	 *
+	 * @return void
+	 */
+	public function plugin_activated( $plugin ) {
+		if ( 'progress-planner/progress-planner.php' !== $plugin ) {
+			return;
+		}
+
+		\update_option( 'progress_planner_plugin_was_activated', true );
+	}
+
+	/**
+	 * Plugin upgraded.
+	 *
+	 * @return void
+	 */
+	public function plugin_updated() {
+		\update_option( 'progress_planner_plugin_was_updated', true );
+	}
+
+	/**
+	 * If the plugin was upgraded or new plugin was activated, check if we need to add onboarding tasks.
+	 *
+	 * @return void
+	 */
+	public function handle_activation_or_upgrade() {
+
+		// Plugin was installed.
+		if ( \get_option( 'progress_planner_plugin_was_activated', false ) ) {
+			$this->add_initial_onboarding_tasks();
+
+			\delete_option( 'progress_planner_plugin_was_activated' );
+			return;
+		}
+
+		// Plugin was updated.
+		if ( \get_option( 'progress_planner_plugin_was_updated', false ) ) {
+			$this->maybe_add_onboarding_tasks();
+
+			\delete_option( 'progress_planner_plugin_was_updated' );
+			return;
+		}
+	}
+
+	/**
+	 * Add initial onboarding tasks.
+	 *
+	 * @return void
+	 */
+	protected function add_initial_onboarding_tasks() {
+		// Check if this is a fresh install (not a re-activation).
+		// If the option doesn't exist, it's a fresh install.
+		$fresh_install = false === \get_option( 'progress_planner_previous_version_task_providers', false );
+
+		// If this is the first time the plugin is installed, save the task providers.
+		if ( $fresh_install ) {
+			$onboard_task_provider_ids = \apply_filters( 'prpl_onboarding_task_providers', [] );
+
+			// Update 'progress_planner_previous_version_task_providers' option.
+			\update_option( 'progress_planner_previous_version_task_providers', \array_unique( $onboard_task_provider_ids ), SORT_REGULAR );
+		}
+	}
+
+	/**
+	 * Add onboarding tasks.
+	 *
+	 * @return void
+	 */
+	public function maybe_add_onboarding_tasks() {
+		$onboard_task_provider_ids = \apply_filters( 'prpl_onboarding_task_providers', [] );
+
+		// Check if task providers option exists. If not, it's either a fresh install or upgrading from v1.0.4 or older.
+		$old_task_providers        = \get_option( 'progress_planner_previous_version_task_providers', [] );
+		$task_providers_option_set = false !== \get_option( 'progress_planner_previous_version_task_providers', false );
+
+		// Fresh install detection:
+		// - Option doesn't exist AND privacy policy not yet accepted (standalone fresh install)
+		// - Option doesn't exist AND running as branded/hosted version (pp-hosts fresh install, privacy auto-accepted)
+		// In these cases, save current providers as baseline without showing upgrade popover.
+		if ( ! $task_providers_option_set ) {
+			$is_branded_version        = \defined( 'PROGRESS_PLANNER_BRANDING_ID' );
+			$is_privacy_policy_pending = ! \progress_planner()->is_privacy_policy_accepted();
+
+			if ( $is_branded_version || $is_privacy_policy_pending ) {
+				// Fresh install - save current providers as baseline and skip upgrade popover.
+				\update_option( 'progress_planner_previous_version_task_providers', \array_unique( $onboard_task_provider_ids ), SORT_REGULAR );
+				return;
+			}
+
+			// Upgrading from v1.0.4 or older (standalone, privacy accepted but no task providers option).
+			// Set baseline to what existed before the upgrade.
+			$old_task_providers = [
+				'core-blogdescription',
+				'wp-debug-display',
+				'sample-page',
+				'hello-world',
+				'core-siteicon',
+			];
+		}
+
+		$newly_added_task_provider_ids = \get_option( 'progress_planner_upgrade_popover_task_provider_ids', [] );
+
+		foreach ( $onboard_task_provider_ids as $task_provider_id ) {
+			if ( ! empty( $task_provider_id ) && ! \in_array( $task_provider_id, $old_task_providers, true ) && ! \in_array( $task_provider_id, $newly_added_task_provider_ids, true ) ) {
+				$newly_added_task_provider_ids[] = $task_provider_id;
+			}
+		}
+
+		// Update 'progress_planner_previous_version_task_providers' option.
+		\update_option( 'progress_planner_previous_version_task_providers', \array_unique( \array_merge( $old_task_providers, $onboard_task_provider_ids ), SORT_REGULAR ) );
+
+		// Update 'progress_planner_upgrade_popover_task_providers' option.
+		\update_option( 'progress_planner_upgrade_popover_task_provider_ids', $newly_added_task_provider_ids );
+	}
+
+	/**
+	 * Get the newly added task providers.
+	 *
+	 * @return array
+	 */
+	public function get_newly_added_task_providers() {
+		static $newly_added_task_providers;
+
+		if ( ! $this->should_show_upgrade_popover() ) {
+			return [];
+		}
+
+		if ( null === $newly_added_task_providers ) {
+			$task_provider_ids = $this->get_upgrade_popover_task_provider_ids();
+
+			$task_providers = [];
+
+			foreach ( $task_provider_ids as $task_provider_id ) {
+				$task_provider = \progress_planner()->get_suggested_tasks()->get_tasks_manager()->get_task_provider( $task_provider_id ); // @phpstan-ignore-line method.nonObject
+				if ( $task_provider ) { // @phpstan-ignore-line
+					$task_providers[] = $task_provider;
+				}
+			}
+
+			$newly_added_task_providers = $task_providers;
+		}
+
+		return $newly_added_task_providers;
+	}
+
+	/**
+	 * Check if we should show the upgrade popover.
+	 *
+	 * @return bool
+	 */
+	public function should_show_upgrade_popover() {
+		return \progress_planner()->is_on_progress_planner_dashboard_page() && ! empty( $this->get_upgrade_popover_task_provider_ids() );
+	}
+
+	/**
+	 * Get the upgrade popover task provider IDs.
+	 *
+	 * @return array
+	 */
+	public function get_upgrade_popover_task_provider_ids() {
+		return \get_option( 'progress_planner_upgrade_popover_task_provider_ids', [] );
+	}
+
+	/**
+	 * Delete the upgrade popover task providers, for example after they've been shown.
+	 *
+	 * @return void
+	 */
+	public function delete_upgrade_popover_task_providers() {
+		\delete_option( 'progress_planner_upgrade_popover_task_provider_ids' );
+	}
+
+	/**
+	 * Add the upgrade tasks popover.
+	 *
+	 * @return void
+	 */
+	public function add_upgrade_tasks_popover() {
+		if ( $this->should_show_upgrade_popover() ) {
+			\progress_planner()->get_ui__popover()->the_popover( 'upgrade-tasks' )->render();
+		}
+	}
+}

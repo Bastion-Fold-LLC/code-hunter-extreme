@@ -1,0 +1,30 @@
+{
+ "platform": "code4rena",
+ "name": "GTE Perps and Launchpad",
+ "url": "https://code4rena.com/audits/2025-08-gte-perps-and-launchpad",
+ "max_payout_usd": 103250,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "GTE Perps and Launchpad",
+   "GTE is the world's fastest decentralized exchange. We\u2019ve vertically integrated every aspect of trading - from token creation, to spot and perpetuals - to give you the best on-chain experience possible.",
+   "EVM",
+   "Solidity",
+   "28 Aug 2025 3:00 PM - 25 Sep 2025 3:00 PM",
+   "$103,250 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-08-gte-perps",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

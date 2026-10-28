@@ -1,0 +1,55 @@
+{
+ "platform": "immunefi",
+ "name": "Immunefi",
+ "url": "https://immunefi.com/bug-bounty/immunefi/information/",
+ "max_payout_usd": 2,
+ "kind": "web3",
+ "fast_triage": false,
+ "raw": {
+  "card_text": "Immunefi |  | Triaged by  |  | \t | $2.2k | \t9 hours\t$76.2k\t9/9/2026\t$50k"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://immunefi.com",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://bugs.immunefi.com",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x03fd3d61423e6d46dcc3917862fbc57653dc3eb0",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://immunefi.com",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://etherscan.io/address/0x323498d3fb02594ac3e0a11b2dea337893ecabbe",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://ironscore.immunefi.com/",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

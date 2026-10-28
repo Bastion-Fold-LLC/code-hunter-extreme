@@ -1,0 +1,14 @@
+{
+  "program": "Progress Planner",
+  "platform": "patchstack",
+  "slug": "progress_planner",
+  "downloaded_at": "2026-09-29T06:46:57.368328+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

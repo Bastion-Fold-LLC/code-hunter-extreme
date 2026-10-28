@@ -1,0 +1,19 @@
+{
+  "program": "sogexia",
+  "platform": "yeswehack",
+  "slug": "sogexia",
+  "downloaded_at": "2026-09-29T06:28:44.040705+00:00",
+  "assets": [
+    "program_page.txt",
+    "yeswehack.com__openapi.json",
+    "yeswehack.com__swagger.json",
+    "yeswehack.com__api_docs.html",
+    "yeswehack.com__api_openapi.json",
+    "yeswehack.com__v1_openapi.json",
+    "yeswehack.com__robots.txt"
+  ],
+  "asset_count": 7,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

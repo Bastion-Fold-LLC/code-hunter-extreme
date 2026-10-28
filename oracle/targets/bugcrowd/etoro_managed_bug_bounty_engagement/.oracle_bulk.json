@@ -1,0 +1,17 @@
+{
+  "program": "eToro Managed Bug Bounty Engagement",
+  "platform": "bugcrowd",
+  "slug": "etoro_managed_bug_bounty_engagement",
+  "downloaded_at": "2026-09-29T05:57:34.551754+00:00",
+  "assets": [
+    "program_page.txt",
+    "bugcrowd.com__swagger.json",
+    "bugcrowd.com__api_openapi.json",
+    "bugcrowd.com__robots.txt",
+    "bugcrowd.com__security.txt"
+  ],
+  "asset_count": 5,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

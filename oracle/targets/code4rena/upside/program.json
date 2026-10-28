@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "Upside",
+ "url": "https://code4rena.com/audits/2025-05-upside",
+ "max_payout_usd": 13000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Upside",
+   "A social prediction market. Imagine PumpFun had a baby with Reddit. That's Upside.",
+   "EVM",
+   "Solidity",
+   "19 May 2025 3:00 PM - 26 May 2025 3:00 PM",
+   "$13,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-05-upside",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-05-upside-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

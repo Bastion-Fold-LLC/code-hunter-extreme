@@ -1,0 +1,28 @@
+{
+ "platform": "sherlock",
+ "name": "Puffer",
+ "url": "https://audits.sherlock.xyz/bug-bounties/355",
+ "max_payout_usd": 100000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "type": "bug-bounty",
+  "lines": [
+   "Puffer",
+   "100,000 USDC",
+   "Payout",
+   "Aug 17, 2026",
+   "Last Updated"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/PufferFinance/puffer-contracts",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,347 @@
+{
+  "schema_version": 1,
+  "doctrine": "ORACLE_DOCTRINE.md §5 (P2-lock): zero misses in covered classes (sqli, xss, auth-bypass, idor, exposure).",
+  "semantics": "bar items are in-envelope (black-box HTTP, unauth or operator session) and suite-enforced at recall 1.0. named-miss items are IN-CLASS plants outside the envelope (browser/2-account/CSRF walls) — reported red, never silent. bare = no plant on that bench. uncovered = outside the 5 classes. Fixing a wall moves its items to bar; nothing moves off bar without a doctrine change.",
+  "pins": {
+    "juice-shop": "1618a611b173b4bf114028e6e02549950606e29d",
+    "dvwa": "068d974487a297c155c48722f9fcf7180a83adc4",
+    "pygoat": "19d17cc8874861142b330636d068bbde54e86b85"
+  },
+  "benches": {
+    "juice-shop": {
+      "base": "http://127.0.0.1:3000",
+      "auth": "none",
+      "items": [
+        {
+          "id": "juice-sqli-login",
+          "class": "sqli",
+          "status": "bar",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "template": "injection-sqli-probe",
+          "seed": {"js_endpoints": ["http://127.0.0.1:3000/rest/user/login"]},
+          "evidence": "email `' OR 1=1--` returns 200 + session JWT; wrong-password control 401s ('Invalid email or password'). Game challenge: loginAdminChallenge.",
+          "source": "routes/userProfile.js login handler (Sequelize string-concat auth)"
+        },
+        {
+          "id": "juice-authbp-login",
+          "class": "auth-bypass",
+          "status": "bar",
+          "method": "POST",
+          "path": "/rest/user/login",
+          "template": "injection-sqli-probe",
+          "seed": {"js_endpoints": ["http://127.0.0.1:3000/rest/user/login"]},
+          "evidence": "Same wire as juice-sqli-login, impact-classified: returned JWT decodes to admin@juice-sh.op / role=admin — full admin session with no credentials (CWE-287).",
+          "source": "same handler; impact is authentication bypass via injection"
+        },
+        {
+          "id": "juice-exposure-metrics",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/metrics",
+          "template": "self-observing-equation",
+          "seed": {"fuzzed": ["http://127.0.0.1:3000/metrics [200]"]},
+          "evidence": "200 + Prometheus body (token/version/config markers). Game challenge: exposedMetricsChallenge; handler public by code (server.ts).",
+          "source": "server.ts metrics endpoint (public)"
+        },
+        {
+          "id": "juice-exposure-legal",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/ftp/legal.md",
+          "template": "listed-file-exposure",
+          "seed": {"listed": ["http://127.0.0.1:3000/ftp/legal.md"]},
+          "evidence": "200 + text/markdown confidential document, one click from the browsable /ftp/ listing (11 children incl. .bak files). Listed-file template proves document bytes, not SPA shell.",
+          "source": "ftp/legal.md served by static middleware"
+        }
+      ],
+      "named": [
+        {
+          "id": "juice-xss-dom",
+          "class": "xss",
+          "status": "named-miss",
+          "wall": "browser-rendering",
+          "evidence": "All 9 XSS challenges are DOM/persisted/API-auth flows. PROBED: GET /rest/products/search?q=<mark> returns JSON with ZERO reflection (curl-observable reflector absent). Reflected-XSS challenge renders client-side from that JSON.",
+          "source": "data/static/challenges.yml (XSS x9); frontend search route"
+        },
+        {
+          "id": "juice-idor-accounts",
+          "class": "idor",
+          "status": "named-miss",
+          "wall": "multi-account + JWT",
+          "evidence": "PROBED: /api/Users/2, /api/BasketItems/2, /api/Feedbacks/2 all 401 unauth ('No Authorization header'). Cross-user reads (viewBasket) need two registered accounts + token handling.",
+          "source": "routes requiring Authorization header (express-jwt)"
+        },
+        {
+          "id": "juice-injection-rest",
+          "class": "sqli",
+          "status": "named-miss",
+          "wall": "targeted-inference",
+          "evidence": "Login Jim/Bender need victim-email discovery + targeted injection; User Credentials / Database Schema need UNION exfiltration inference; NoSQL trio needs NoSQL payload grammar (envelope is SQL-quote + JSON-login only). Mechanics argument, no single probe.",
+          "source": "data/static/challenges.yml (Injection x14)"
+        },
+        {
+          "id": "juice-blueprint-undiscoverable",
+          "class": "exposure",
+          "status": "named-miss",
+          "wall": "undiscoverable-path",
+          "evidence": "PROBED: /public/images/uploads/ returns the SPA shell (text/html, no listing), so blueprint.png is unreachable without bench-specific path knowledge. No-discovery-rule change can fix this without seeding.",
+          "source": "frontend upload route (no static listing)"
+        },
+        {
+          "id": "juice-backup-403",
+          "class": "exposure",
+          "status": "named-miss",
+          "wall": "waf-bypass-technique",
+          "evidence": "PROBED: /ftp/*.bak return 403 at this rev (Poison Null Byte %00 technique required — out of envelope). Listed but unfetchable.",
+          "source": "ftp/*.bak static rules"
+        },
+        {
+          "id": "juice-whoami-empty",
+          "class": "exposure",
+          "status": "bare",
+          "evidence": "PROBED: /rest/user/whoami returns 200 with empty body ({'user':{}}) — no exposure, correctly unconfirmed. Control, not a plant.",
+          "source": "live probe 2026-10-12"
+        },
+        {
+          "id": "juice-package-json-shell",
+          "class": "exposure",
+          "status": "bare",
+          "evidence": "PROBED: /package.json returns 200 text/html SPA fallback — correctly REJECTED (seam 45, P14 trio). Control, not a plant.",
+          "source": "live probe 2026-10-12 + trio log"
+        }
+      ]
+    },
+    "dvwa": {
+      "base": "http://127.0.0.1:8080",
+      "auth": "session: admin login (PHPSESSID) + security=low cookie",
+      "items": [
+        {
+          "id": "dvwa-sqli-low",
+          "class": "sqli",
+          "status": "bar",
+          "method": "GET",
+          "path": "/vulnerabilities/sqli/",
+          "template": "injection-sqli-probe",
+          "seed": {"crawl": ["http://127.0.0.1:8080/vulnerabilities/sqli/"]},
+          "evidence": "?id=%27&Submit=Submit returns 200 + 'You have an error in your SQL syntax'. Two gates: the query requires the form's Submit field (low.php isset gate) AND an unbalanced quote (tautologies are valid SQL returning rows). Found via harvest-form reframe (bare-quote error trigger through the page's own form). TRAP: the footer contains 'SQLi DB: mysql', so generic-marker confirms without the true error text are false positives (mapping asserts the error text). The errorprobe expects the strict marker subset (SQLI_ERROR_MARKERS, no bare 'mysql') so teardown's 9-fill control rejects footer-only output and true errors survive. E2E needs authed recon (P14: cookie to katana + crawl bridge) + emission budget for crawled pages.",
+          "source": "vulnerabilities/sqli/source/low.php"
+        },
+        {
+          "id": "dvwa-xss-low",
+          "class": "xss",
+          "status": "bar",
+          "method": "GET",
+          "path": "/vulnerabilities/xss_r/",
+          "template": "injection-xss-probe",
+          "seed": {"crawl": ["http://127.0.0.1:8080/vulnerabilities/xss_r/"]},
+          "evidence": "?name=<tag>&Submit=Submit reflects the tag unescaped. E2E needs authed recon (same fix).",
+          "source": "vulnerabilities/xss_r/source/low.php"
+        },
+        {
+          "id": "dvwa-exposure-phpinfo",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/phpinfo.php",
+          "template": "self-observing-equation",
+          "seed": {"fuzzed": ["http://127.0.0.1:8080/phpinfo.php [200]"]},
+          "evidence": "200 + 86KB PHP configuration (login-walled: 302 unauth). Found in DVWA re-hunt and P14 trio.",
+          "source": "phpinfo.php (login-gated by dvwaPage.inc.php)"
+        },
+        {
+          "id": "dvwa-exposure-git-head",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/.git/HEAD",
+          "template": "t1190-artifact-exposure",
+          "seed": {"fuzzed": ["http://127.0.0.1:8080/.git/HEAD [200]"]},
+          "evidence": "200 + 'ref: master' (23B). Found in DVWA re-hunt and P14 trio.",
+          "source": "deployed .git directory"
+        },
+        {
+          "id": "dvwa-exposure-git-config",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/.git/config",
+          "template": "t1190-artifact-exposure",
+          "seed": {"fuzzed": ["http://127.0.0.1:8080/.git/config [200]"]},
+          "evidence": "200 + 262B real git config. Found in DVWA re-hunt and P14 trio.",
+          "source": "deployed .git directory"
+        },
+        {
+          "id": "dvwa-api-idor",
+          "class": "idor",
+          "status": "bar",
+          "method": "GET",
+          "path": "/vulnerabilities/api/public/index.php/v1/user/",
+          "template": "idor-direct-object-reference",
+          "seed": {"js_endpoints": ["http://127.0.0.1:8080/vulnerabilities/api/public/index.php/v1/user/1", "http://127.0.0.1:8080/vulnerabilities/api/public/index.php/v1/user/2"]},
+          "evidence": "PROBED 2026-10-28 (dvwa image sha256:80294506..., formerly the broken-deploy named-miss dvwa-api-broken): unauthenticated GET v1/user/2 returns 200 JSON including the user's password hash; v2 serves the same object without the hash and also needs no session. Card runs bare (no cookie) and must CONFIRM on the password-field marker.",
+          "source": "vulnerabilities/api/ (object read with no session or per-user authorization)"
+        }
+      ],
+      "named": [
+        {
+          "id": "dvwa-authbypass-2acct",
+          "class": "auth-bypass",
+          "status": "named-miss",
+          "wall": "multi-account",
+          "evidence": "authbypass/get_user_data.php returns all users to any LOGGED-IN user at low (admin-only at high/impossible). Proving the bypass needs a NON-admin session vs admin session differential — two accounts. No single-session auth bypass exists in any low module.",
+          "source": "vulnerabilities/authbypass/get_user_data.php: role check only at high+"
+        },
+        {
+          "id": "dvwa-idor-cookieforge",
+          "class": "idor",
+          "status": "named-miss",
+          "wall": "cookie-minting",
+          "evidence": "PROBED: bac low ?action=view&user_id=2 without user_id cookie returns 'Access denied. No user_id cookie found'. Cross-user read needs forging Cookie user_id=N to match ?user_id=N — the envelope never mints cookies.",
+          "source": "vulnerabilities/bac/source/low.php (cookie==param check)"
+        },
+        {
+          "id": "dvwa-weak-id",
+          "class": "uncovered",
+          "status": "uncovered",
+          "evidence": "weak_id low POST sets sequential dvwaSession cookie (session prediction, CWE-384/330) — session management, not one of the 5 covered classes. Named, not missed.",
+          "source": "vulnerabilities/weak_id/source/low.php"
+        },
+        {
+          "id": "dvwa-sqli-blind",
+          "class": "sqli",
+          "status": "named-miss",
+          "wall": "inference-engine",
+          "evidence": "sqli_blind needs boolean/time-based inference loops. The envelope has no timing differential and no multi-request inference — single-shot error/reflection probes only.",
+          "source": "vulnerabilities/sqli_blind/"
+        },
+        {
+          "id": "dvwa-xss-stored",
+          "class": "xss",
+          "status": "named-miss",
+          "wall": "form-store-two-step",
+          "evidence": "PROBED live: POST txtName+mtxMessage+btnSign (no CSRF at low) stores <script>, re-GET renders it unescaped — REAL but two-step (form-POST then re-GET). Envelope persist probes POST JSON expecting 201-echo (oracle_seam_templates _t_xss_reflect), never form-store + re-GET.",
+          "source": "vulnerabilities/xss_s/source/low.php"
+        },
+        {
+          "id": "dvwa-xss-dom",
+          "class": "xss",
+          "status": "named-miss",
+          "wall": "browser-rendering",
+          "evidence": "xss_d sinks live in client-side JS (document.write/location) — curl-observable reflector absent by construction.",
+          "source": "vulnerabilities/xss_d/"
+        },
+        {
+          "id": "dvwa-javascript-crypto",
+          "class": "uncovered",
+          "status": "uncovered",
+          "evidence": "javascript low is client-side token logic (md5(rot13(phrase)) in page JS) — client-side auth logic needing JS execution, outside the 5 classes. Named, not missed.",
+          "source": "vulnerabilities/javascript/source/low.php"
+        },
+        {
+          "id": "dvwa-exec-upload-fi-etc",
+          "class": "uncovered",
+          "status": "uncovered",
+          "evidence": "Command injection, file upload, file inclusion, CSRF, open redirect, CSP, cryptography modules are outside the 5 covered classes (same UNCOVERED treatment as P2 open-redirect). Named, not missed.",
+          "source": "vulnerabilities/{exec,upload,fi,csrf,open_redirect,csp,cryptography}/"
+        }
+      ]
+    },
+    "pygoat": {
+      "base": "http://127.0.0.1:8000",
+      "auth": "session: registered user (register + login, Django sessionid)",
+      "items": [
+        {
+          "id": "pygoat-xss-lab",
+          "class": "xss",
+          "status": "bar",
+          "method": "GET",
+          "path": "/xssL",
+          "template": "injection-xss-probe",
+          "seed": {"crawl": ["http://127.0.0.1:8000/xssL"]},
+          "evidence": "PROBED: ?q=<script>alert(1)</script> reflects UNESCAPED ('...is not Part of FAANG'). Session required (302 to /login/ unauth). E2E needs authed recon (P14 fix).",
+          "source": "introduction/views.py xss_lab (line 93): renders {'query': q} unescaped"
+        },
+        {
+          "id": "pygoat-authbp-secret",
+          "class": "auth-bypass",
+          "status": "bar",
+          "method": "GET",
+          "path": "/secret",
+          "template": "beautiful-liar-trust-bypass",
+          "seed": {"fuzzed": ["http://127.0.0.1:8000/secret [200]"]},
+          "evidence": "UNAUTHENTICATED header trust: X-Host: admin.localhost:8000 returns S3CR37K3Y ('Success. You have the secret'). Found via harvest-gate reframe: the page states its own rule ('Only ... can access, Your X-Host is None') and the replay confirms with a parent-vs-replay differential (P14 fix).",
+          "source": "introduction/views.py secret (line 535): XHost == check, no auth gate"
+        },
+        {
+          "id": "pygoat-exposure-debug",
+          "class": "exposure",
+          "status": "bar",
+          "method": "GET",
+          "path": "/debug",
+          "template": "self-observing-equation",
+          "seed": {"fuzzed": ["http://127.0.0.1:8000/debug [200]"]},
+          "evidence": "200 + 15.5KB live log dump (creds-in-URL patterns, tracebacks with view paths, admin paths). Found in pygoat hunt-1 and P14 trio.",
+          "source": "introduction/views.py debug (line 636)"
+        }
+      ],
+      "named": [
+        {
+          "id": "pygoat-sqli-csrf",
+          "class": "sqli",
+          "status": "named-miss",
+          "wall": "django-csrf + form-post",
+          "evidence": "PROBED: POST /sql_lab without CSRF token returns 403. Both SQLi labs (sql_lab, injection_sql_lab) are POST-only with Django CSRF; raw() queries concatenate name/pass (views.py:158,864). Envelope does GET + JSON-POST only — no form fetch, no token replay. IN-CLASS MISS.",
+          "source": "introduction/views.py sql_lab (147), injection_sql_lab (855)"
+        },
+        {
+          "id": "pygoat-idor-none",
+          "class": "idor",
+          "status": "bare",
+          "evidence": "URL inventory (introduction/urls.py, 123 routes) shows NO per-user object endpoint: ssti/blog/<id> renders a template path (SSTI, out-of-class), mitre/9/lab/api/<recipent>/<amount> is an action, broken_access_lab3_secret enforces login with no object reference. No IDOR plant exists.",
+          "source": "introduction/urls.py full route list"
+        },
+        {
+          "id": "pygoat-xss-labs-23",
+          "class": "xss",
+          "status": "named-miss",
+          "wall": "filter-bypass-craft",
+          "evidence": "xss_lab2 strips <script> (bypass needs event-handler/encoding craft), xss_lab3 strips alphanumerics (JSFuck-style only). Both POST-only + CSRF. Envelope reflection probes are verbatim-tag GETs.",
+          "source": "introduction/views.py xss_lab2 (106), xss_lab3 (122)"
+        },
+        {
+          "id": "pygoat-ba-labs",
+          "class": "auth-bypass",
+          "status": "named-miss",
+          "wall": "cookie-and-credential-flow",
+          "evidence": "ba_lab / broken_access_lab_1 need Cookie admin=1 with POST creds (cookie minting); lab_2 needs magic UA 'pygoat_admin' (bench-specific value); lab_3/lab3_secret need two-role differential. All outside single-shot header probing.",
+          "source": "introduction/views.py ba_lab (342), a1 labs (747-841)"
+        },
+        {
+          "id": "pygoat-otp-flow",
+          "class": "auth-bypass",
+          "status": "named-miss",
+          "wall": "multi-step-flow",
+          "evidence": "OTP lab: GET email -> 3-digit OTP -> POST otp + email cookie. Brute-forcing 100-999 over HTTP with cookie jar is a flow attack, not a single-shot probe.",
+          "source": "introduction/views.py Otp (492)"
+        },
+        {
+          "id": "pygoat-version-weak",
+          "class": "exposure",
+          "status": "bare",
+          "evidence": "PROBED: /get_version discloses 'pyyaml v5.1' unauth — a single version string. Below the exposure bar (version-only signals FP on every footer); inventoried, not barred.",
+          "source": "introduction/views.py get_version (570)"
+        },
+        {
+          "id": "pygoat-ssti-xxe-cmd-deser",
+          "class": "uncovered",
+          "status": "uncovered",
+          "evidence": "SSTI, XXE, command injection, insecure deserialization, SSRF, crypto-failure labs are outside the 5 covered classes. Named, not missed.",
+          "source": "introduction/urls.py (ssti, xxe, cmd, insec_des, ssrf, cryptographic_failure)"
+        }
+      ]
+    }
+  }
+}

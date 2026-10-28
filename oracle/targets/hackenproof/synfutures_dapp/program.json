@@ -1,0 +1,20 @@
+{
+ "platform": "hackenproof",
+ "name": "SynFutures dApp",
+ "url": "https://hackenproof.com/programs/synfutures-dapp",
+ "max_payout_usd": 10000,
+ "kind": "web3",
+ "fast_triage": true,
+ "raw": {
+  "card_text": "TRIAGED BY HACKENPROOF | SynFutures dApp | STARTED DATE: | 17 Jun 2025 | LAST UPDATED: | 18 Sep 2026 | SCOPE REVIEW: | 272102 | PAID | $2,600 | UP TO | $10,000"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://oyster.synfutures.com/",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

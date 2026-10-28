@@ -1,0 +1,26 @@
+{
+  "platform": "codehawks",
+  "name": "Beanstalk: The Finale",
+  "url": "https://codehawks.cyfrin.io/c/2024-05-beanstalk-the-finale",
+  "max_payout_usd": 250000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Beanstalk: The Finale",
+      "Beanstalk",
+      "DeFi",
+      "Hardhat",
+      "Foundry",
+      "Public",
+      "250,000",
+      "USDC",
+      "Ended",
+      "Ended 813d, 14h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  },
+  "score": 375000.0
+}

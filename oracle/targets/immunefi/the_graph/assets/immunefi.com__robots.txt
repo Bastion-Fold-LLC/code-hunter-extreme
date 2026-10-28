@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://immunefi.com
+
+# Sitemaps
+# This file is maintained by hand; nothing generates it (the next-sitemap CLI is not run in the build).
+# There is no /sitemap.xml: list each sitemap here directly.
+# - sitemap-dynamic.xml: app/sitemap-dynamic.xml/route.ts
+# - blog/sitemap.xml: served by Ghost
+Sitemap: https://immunefi.com/blog/sitemap.xml
+Sitemap: https://immunefi.com/sitemap-dynamic.xml

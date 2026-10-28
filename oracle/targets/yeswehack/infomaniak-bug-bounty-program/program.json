@@ -1,0 +1,538 @@
+{
+ "platform": "yeswehack",
+ "name": "infomaniak-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/infomaniak-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Infomaniak Bug Bounty program",
+  "slug": "infomaniak-bug-bounty-program",
+  "country": "CH",
+  "activity_area": "Tech - Other",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 3701,
+  "bounty_reward_min": 100,
+  "bounty_reward_max": 7000,
+  "scopes_count": 51,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "a8ed0d8c-1e61-434d-997f-e25e3c45f1e8",
+   "original_name": "logo-k-_1_.jpg",
+   "mime_type": "image/jpeg",
+   "size": 38164,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/a8ed0d8c-1e61-434d-997f-e25e3c45f1e8"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Infomaniak",
+   "slug": "infomaniak",
+   "description": "Infomaniak is Switzerland's largest web-hosting company, also offering live-streaming and video on demand services.",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "7cf25280-a177-4aca-ad3e-9e11ddb2633f",
+    "original_name": "Capture d\u2019e\u0301cran 2023-06-16 a\u0300 16.50.25.png",
+    "mime_type": "image/png",
+    "size": 9091,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/7cf25280-a177-4aca-ad3e-9e11ddb2633f"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-17T15:24:09+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "api.infomaniak.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "login.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "manager.infomaniak.com/v3/*",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "shop.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ksuite.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.kdrive.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "swiss-backup*.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.kchat.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "calendar.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "chk.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "contacts.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "etickets.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "kmeet.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "kpaste.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "mail.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "player-radio.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "storage*.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "sync.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "swisstransfer.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "vod.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.vod2.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "welcome.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "www.swisstransfer.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "euria.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.drive",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/app/infomaniak-kdrive/id1482778676",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/Infomaniak/desktop-kDrive",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.mail",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/infomaniak-mail/id1622596573",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.auth",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/infomaniak-authenticator/id1478424817",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "kdrive.infomaniak.com/app/*/preview/*",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "kdrive.infomaniak.com/app/office*/*",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ksuite.infomaniak.com/*/kdrive/*/preview/*",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "infomaniak.events",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "hosting-ik.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ix2smbdyjt.infomaniak.site",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "5k8vrbdyje.infomaniak.site",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "fv3lfbdyjh.infomaniak.site",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "l75pvbdyjo.infomaniak.site",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.chat",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/infomaniak-kchat/id6443845553",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.euria",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/infomaniak-euria/id6754152858",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.swisstransfer",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/infomaniak-swisstransfer/id6737686335",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.infomaniak.sync",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.infomaniak.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.pub1.infomaniak.cloud",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.pub2.infomaniak.cloud",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Assets not listed in the in scope section are to be considered as out of the scope of this program and won't be eligible",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "We do not manage Open Stack dashboard which is therefore out of scope",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ov-XX.infomaniak.ch and od-XX.infomaniak.ch sub domains",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "This domain https://drive.infomaniak.com/app/office/:folder:/:file: is out of scope. This is only office application, an",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "FTP credentials from our customers, like *.ftp.infomaniak.com",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "VPS instances from our customers, like *.vps.infomaniak.com",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "MySQL credentials from our customers, like *.myd.infomaniak.com",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Jelastic subdomains : *.jcloud.ik-server.com, *.jpc.infomaniak.com, *.jpe.infomaniak.com",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "User email verification",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Websocket IPS-public credentials (MQTT, info-mq, IPS_RABBIT, ips-public). Public identifiers that do not allow access to",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "S3 credentials from our customers, like s3.pub*.infomaniak.cloud",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Database service instances from customers, like *.dbaas.infomaniak.cloud",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "acronis.infomaniak.com",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Partner program: pages about finding partner and sending offer, and reports about data already public on the partner dir",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "storage*.infomaniak.com/newsletter/thumbnails/*",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Information returned by /get-tickets-infos (including organizer, event_name, event_date, command_date, and masked email)",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Moving or copying calendar events / contacts between containers by read-write collaborators (intended behavior)",
+   "asset_type": "NOTE",
+   "eligible_for_bounty": false,
+   "eligible_for_submission": false,
+   "source": "bulk-intake"
+  }
+ ]
+}

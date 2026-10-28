@@ -1,0 +1,437 @@
+Skip to main contentSkip to docs navigation
+Docs
+
+Feedback
+
+Clients
+Use the client
+Use the Advanced Server Access client
+
+End of sale announcement
+
+Effective May 1, 2026, Okta will no longer sell or renew Advanced Server Access. Existing customers must migrate to Okta Privileged Access within one year of their next scheduled renewal date to maintain service.
+
+Read the FAQ and learn more about Okta Privileged Access.
+
+Every Advanced Server Access client command uses the syntax:
+
+sft [global options] command [command options] [arguments...]
+
+Global options
+
+You can use the following options with any client command:
+
+-h, --help displays help
+-v, --version displays the version
+
+Client commands
+
+Command	Description	Options
+sft config	Gets and sets client configuration options. See Configure the client.	
+--config-file: Uses the specified configuration file.
+--append: Adds the specified value to an array.
+ssh.connection_failed_process_timeout_in_seconds {value}: Sets a timeout for how long the system waits for confirmation of a failed SSH connection before terminating the process.
+
+sft dash	Opens your team's dashboard in your browser.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+
+sft device-info	Shows your client's device info as JSON.	
+sft enroll	Adds your new client to your client inventory on the Advanced Server Access platform.	
+--default: Sets a new default team. (default: true)
+--url: Sets the URL used to access an Advanced Server Access instance.
+--team: Uses the specified team.
+--config-file: Uses the specified configuration file.
+--force: Enrolls the client even if a duplicate exists (default: false)
+
+sft fleet enroll	Enrolls multiple clients silently within a fleet. See Silently enroll the Advanced Server Access client.	
+--default: Set a new team as the default. (default: true)
+--token: Enroll the client with the specified token.
+--token-file: Enroll the client using a secret token stored in the specified file.
+
+sft help	Shows a list of commands or help for one command.	
+sft list-accounts	Lists the accounts that this client is configured to use.	
+--config-file: Uses the specified configuration file.
+-l, --selector: Filters results by the specified selector (label query). See Selectors.
+--output, -o: Formats result in the specified format. Available options include default, json, and describe.
+--columns: Displays the specified column names in the output. Column names should be lowercase and collected in a comma-delimited list.
+
+sft list-teams
+
+sft list-teams command is an alias for the sft list-accounts command. Okta recommends using the sft list-teams command.
+
+	Lists the teams that this client is configured to use.	
+--config-file: Uses the specified configuration file.
+-l, --selector: Filters results by the specified selector (label query). See Selectors.
+--output, -o: Formats result in the specified format. Available options include default, json, and describe.
+--columns: Displays the specified column names in the output. Column names should be lowercase and collected in a comma-delimited list.
+
+sft list-projects	Lists available projects for the team.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+-l, --selector: Filters results by the specified selector (label query). See Selectors.
+--output, -o: Formats result in the specified format. Available options include default, json, and describe.
+--columns: Displays the specified column names in the output. Column names should be lowercase and collected in a comma-delimited list.
+
+sft list-servers	Lists the servers available in the current team.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+-l, --selector: Filters results by the specified selector (label query). See Selectors.
+-p, --project: Filters results by the specified project name.
+--output, -o: Formats result in the specified format. Available options include default, json, and describe.
+--columns: Displays the specified column names in the output. Column names should be lowercase and collected in a comma-delimited list.
+
+sft list-servers-rjson	Lists the servers available in the current team in an RJSON format. You can save this output to a file and used in Royal TSX to create a dynamic folder. See Use Royal TSX with Advanced Server Access .	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+-l, --selector: Filters results by the specified selector (label query). See Selectors.
+-p, --project: Filters results by the specified project name.
+-f, --filename: Specify a path to store the file output.
+
+sft login	If logged out of your client's current team, creates a session, authenticating with your team's Identity Provider.
+
+An active, authorized client session allows the Advanced Server Access client to request credentials in the background as needed.
+
+	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+
+sft logout	Logs out from the current session.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+
+sft proxycommand	Used with OpenSSH ProxyCommand to enable transparent use of sft command with ssh, scp, rsync, ftp, and so on.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+--via, --bastion: Connects to the target through the specified SSH bastion.
+--config: Deprecated. Use sft ssh-config instead.
+
+sft rdp	Connects through RDP to a target passed as an argument.	
+--via, --bastion: Connects to the target through the specified SSH bastion.
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+--share: Specify the absolute path to a directory to be shared with the target.
+
+--share argument only works with the MacFreeRDP client on macOS.
+
+
+sft register-url-handler	
+
+(Windows only) Opens the ScaleFT application when a user clicks the Connect button on the My Servers page.
+
+Running the command creates these folders:
+
+Computer\HKEY_CLASSES_ROOT\ScaleFTProtocolHandler\shell\open\command
+
+Computer\HKEY_CLASSES_ROOT\scaleft
+
+The connect button won't launch the ScaleFT application if this entry is missing on your Windows Registry.
+
+See How the ASA/OPA Webpage Launches SFT for details.
+
+	
+
+
+sft resolve	Resolves a single-server matching the specified hostname or instance-details.	
+--q, --quiet: Causes only fatal warnings to output to stderr.
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+
+sft session-logs verify	Verifies the integrity of a specified session log against the Advanced Server Access gateway signing key registered with Advanced Server Access. Log files without valid signatures may be inaccurate or corrupted by an attacker.	
+--stdin: Returns session data from stdin, instead of from a session log file.
+
+sft session-logs export	Exports session logs to a particular format. By default, logs are exported to JSON format. Session logs are also verified during the export process. Log files without valid signatures may be inaccurate or corrupted by an attacker.	
+--stdin: Returns session data from stdin, instead of from a session log file.
+--insecure: Stops the client from verifying the integrity of the session log file
+--format: Exports log in a specific format. Available options include: json or asciinema
+--output: Stores the exported logs in the specified file instead of stdout
+
+sft ssh	Connects through Secure Shell to a target passed as an argument.
+
+Generally, Advanced Server Access works with ssh using OpenSSH ProxyCommand integration. The sft ssh command is provided for ssh support in environments or contexts where OpenSSH isn't available. The command can also be used when you want to explicitly pass Advanced Server Access-specific options such as --via.
+
+	
+--via, --bastion: Uses the specified SSH bastion host to connect to the target.
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+-L, --local-port-forward: Forwards the specified local port to a remote address.
+-R, --remote-port-forward: Forwards the specified remote listener to a local address.
+--command: Executes the specified command through SSH.
+
+sft ssh-config	Prints an OpenSSH configuration block suitable for use in your ~/.ssh/config file, which enables your local ssh binary to use Advanced Server Access authentication. This SSH configuration is used only when your client has a currently active and authorized session.	
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--account: Uses the specified account.
+--config-file: Uses the specified configuration file.
+--via, --bastion: Connects to the target through the specified SSH bastion.
+
+sft support collect	Collects local diagnostic information for Okta Support.	
+sft support submit	Submits diagnostic information for Okta Support.	
+sft unenroll	Removes the currently active client from your client inventory in the Advanced Server Access platform.	
+-y, --yes: Uses the specified team.
+--team: Uses the specified team.
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--config-file: Uses the specified configuration file.
+--all: Unenroll all local clients.
+
+sft use	Sets an enrolled team as the current default for use in your current session.	
+--instance: Uses the specified instance of the Advanced Server Access platform.
+--config-file: Uses the specified configuration file.
+
+Selectors
+
+-l, --selector the selector (label query) to filter on.
+
+Commands that take a selector as an optional argument can filter their results based on an arbitrary selector query.
+
+The selector syntax is based on Kubernetes label queries. See Labels and Selectors.
+
+Example:
+
+sft list-servers -l os_type=windows,project_name=Demo
+
+The example uses a selector to filter the list of servers you have access to. It returns a list of Windows servers that are enrolled in the demo project.
+
+Configure the client
+
+You can view or set configuration options with the sft config command.
+
+No configuration file exists when the Advanced Server Access client is installed. The configuration file is created when you set your first configuration option.
+
+Default settings are used until you explicitly set a configuration value. The defaults provided for the Advanced Server Access client are intended to provide the most security and ease of use for the most common situations. Aside from personal preferences, such as the setting for rdp.screensize, you may not need to set any client configurations at all.
+
+Advanced Server Access client configurations are grouped into sections. Currently these sections include rdp, ssh, ssh_agent, service_auth, and update.
+
+View your configuration
+
+sft config display your current configurations
+sft config [section.key] view the current value of a specific configuration indicated by section.key
+
+Set a configuration value
+
+You can set a configuration value with the command syntax: sft config [section.key] [value].
+
+RDP configuration options
+
+Key
+
+	
+
+Description
+
+	
+
+Examples
+
+
+rdp.screensize	Set this to a string value, such as 1024x768 that describes your preferred RDP window size.	
+Copy
+sft config rdp.screensize 800x600
+sft config rdp.screensize 1024x768
+
+rdp.fullscreen	Set this to true to have RDP sessions open in fullscreen mode. When set to true, the value of rdp.screensize is ignored.	
+Copy
+sft config rdp.fullscreen true
+sft config rdp.fullscreen false
+
+rdp.client	(macOS only) Set this to your preferred RDP client, either royaltsx for Royal TSX, or macfreerdp for MacFreeRDP. If this option isn't set, Advanced Server Access attempts to use Royal TSX, and then MacFreeRDP if Royal TSX is unavailable.	
+Copy
+sft config rdp.client royaltsx
+sft config rdp.client macfreerdp
+
+SSH configuration options
+
+Key
+
+	
+
+Description
+
+	
+
+Examples
+
+
+ssh.save_privatekey_passwords	If set to true, the Advanced Server Access client stores any passphrases entered by the user in the workstation's local cryptographic store.	
+Copy
+sft config ssh.save_privatekey_passwords true
+sft config ssh.save_privatekey_passwords false
+
+ssh.port_forward_method	Set this to netcat to have Advanced Server Access remotely execute netcat (nc) as a means of port forwarding, rather than using the default native SSH port forwarding.	
+Copy
+sft config ssh.port_forward_method netcat
+sft config ssh.port_forward_method native
+
+
+
+ssh.insecure_forward_agent
+
+This feature is not compatible with the Windows client.
+
+	
+
+Set this to host to set the ForwardAgent when executing SSH commands. Advanced Server Access-issued credentials aren't added to the ssh-agent, so this option is for use with hosts that are configured to accept an externally managed credential, such as an SSH public key that's Advanced Server Access doesn't manage.
+
+Not setting this option, or setting it to the value none, causes it Advanced Server Access to not forward the SSH agent.
+
+	
+Copy
+sft config ssh.insecure_forward_agent host
+sft config ssh.insecure_forward_agent none
+
+
+
+prefer_bundled_ssh
+
+	
+
+If set to true, the bundled MSYS2 OpenSSH client is preferred over native OpenSSH.
+
+	
+Copy
+sft config ssh.prefer_bundled_ssh true
+sft config ssh.prefer_bundled_ssh false
+
+SSH agent configuration options
+
+Key
+
+	
+
+Description
+
+	
+
+Examples
+
+
+ssh_agent.enable	If set to true, the Advanced Server Access client uses an SSH agent when authenticating.	
+Copy
+sft config ssh_agent.enable true
+sft config ssh_agent.enable false
+
+ssh_agent.keys	Set this to a JSON array of one or more paths to SSH private keys to load into the SSH agent. You can append values to this list by using the --append flag.
+
+Tip: When writing a JSON literal in Windows PowerShell, escape inner quotes; for example:
+
+sft config ssh_agent.keys '[\"C:\\Users\\alice\\.ssh\\id_rsa\"]'
+
+	
+
+Network configuration options
+
+Key
+
+	
+
+Description
+
+	
+
+Examples
+
+
+network.forward_proxy	If you configure this option, the Advanced Server Access client uses the specified HTTP or HTTPS URL as an HTTP tunnel.	sft config network.forward_proxy https://your-proxy.example.com:3141
+
+
+network.tls_use_bundled_cas
+
+	
+
+If set to true, Advanced Server Access client uses a bundled CA certificate list for TLS validation. If set to false, the client uses the operating system's CA list.
+
+This option is set to true by default and it's highly advised that you don't change it to false, as certain operating systems can have CA list issues, and the performance can be measurably worse than using bundled CA certificate lists.
+
+	
+Copy
+sft config network.tls_use_bundled_cas true
+sft config network.tls_use_bundled_cas false
+
+Miscellaneous configuration options
+
+Key
+
+	
+
+Description
+
+	
+
+Examples
+
+
+service_auth.enable	
+
+If set to true, the Advanced Server Access client supports authentication for service users. See Service users.
+
+This option is only required to be set on Linux clients to use service users. Setting it on Windows may break ssh access.
+
+	
+Copy
+sft config service_auth.enable true
+sft config service_auth.enable false
+
+update.release_channel	The Advanced Server Access client defaults to the stable update channel, but you can opt into receiving more frequent releases by setting this option to use the test update channel.	
+Copy
+sft config update.release_channel test
+sft config update.release_channel stable
+
+client.timeout_seconds	
+
+Defines the maximum time that the client waits for a response from a server before resending the request.
+
+If this option is unset or set to 0, the client uses the default value of 300 seconds.
+If this option is set to a negative value, the timeout is disabled.
+	sft config client.timeout_seconds 60 sft config client.timeout_seconds -1
+
+Environment variables
+
+Variable
+
+	
+
+Description
+
+	
+
+Examples
+
+
+SFT_DEBUG	When set, any command run prints internal logs and timing messages to stderr	SFT_DEBUG=1 sft list-servers
+SFT_ALLOW_INSECURE_USERNAMES	Allows connections with usernames that include non-standard characters.	SFT_ALLOW_INSECURE_USERNAMES=1 sft ssh ...
+
+
+SFT_ALLOW_INSECURE_SHA1_SSH
+
+	Disables the warning prompt when connecting to servers in a project using SHA1 certificates. To eliminate this prompt, consider changing the project to use the ssh-ed25519 algorithm.	
+
+SFT_ALLOW_INSECURE_SHA1_SSH=1 sft ssh ...
+
+Related topics
+Install the Advanced Server Access client
+Manage the Advanced Server Access server agent
+
+© 2026 Okta, Inc. All Rights Reserved. Various trademarks held by their respective owners.
+
+We use cookies to provide the best website experience and to help understand marketing efforts. We may also share data with ad partners to reach potential customers across the web. To learn more, visit our Privacy Policy. Click here for Your Privacy Choices. You may also opt out of this sharing by signaling your preference via GPC, applicable only to the browser signaling the opt-out.
+Cookie Settings

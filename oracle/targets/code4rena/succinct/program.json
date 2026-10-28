@@ -1,0 +1,44 @@
+{
+ "platform": "code4rena",
+ "name": "Succinct",
+ "url": "https://code4rena.com/audits/2025-09-succinct",
+ "max_payout_usd": 112500,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Succinct",
+   "SP1 is a RISC-V based zero-knowledge virtual machine which allows developers to easily prove an execution of any Rust program.",
+   "ZK",
+   "Rust",
+   "15 Sep 2025 3:00 PM - 15 Oct 2025 3:00 PM",
+   "$112,500 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-09-succinct",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-09-succinct-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-09-succinct.git",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

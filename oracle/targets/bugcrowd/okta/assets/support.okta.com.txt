@@ -1,0 +1,117 @@
+Skip to Navigation
+Skip to Main Content
+System Status
+Announcements
+Search
+Select Language
+Select Language
+Knowledge Base
+Knowledge Articles
+Support Videos ↗
+Documentation
+Product Documentation ↗
+Developer Documentation ↗
+Product Release Notes ↗
+Community
+
+OKTA COMMUNITY
+
+Community Home
+Forum
+Blogs
+Discussion Groups
+
+OKTA DEVELOPER COMMUNITY
+
+Developer Forum
+Developer Blog
+Events & Webinars
+Okta Ideas ↗
+Resources
+Product Hub
+Customer Success Hub
+Product Release Update
+Learning
+
+OKTA LEARNING
+
+Learning Plans ↗
+Courses ↗
+Labs ↗
+Skill Badges ↗
+Certifications ↗
+Okta Learning ↗
+Get Support
+Open a Case
+Log in
+How can we help you?
+Search
+Search
+Get Started
+Learn the basics to begin using Okta
+Locate your sign-in URL
+Launch Kit for Okta Admins
+Getting Started with the Okta System Log
+Beginner's Guide to SAML
+Troubleshoot
+Access resources to resolve common issues
+How to reset your Okta Verify token
+403 Access Forbidden on Okta Login from iOS Mobile Devices
+Okta Verify or SMS Troubleshooting Guide
+Account Management
+Find answers and resources related to managing your Okta account
+Add users into Okta
+Assigning Case Admin
+Assign apps to users
+Connect
+Engage with the community and share best practices
+Join the Community
+Up-level your skills
+Submit a feature request
+
+What's trending in the Okta Communities
+
+Discover popular conversations among your peers of IT admins and developers, plus explore expert solutions and join in on the conversation
+
+Okta Community
+Okta Developers
+Visit the Okta Community
+Announcements
+
+Okta Community Monthly Buzz - September
+
+Sep 20, 2026
+
+Okta on Okta Practitioner How-To Guides
+
+Sep 17, 2026
+
+New Videos: Getting Started with Customer Support
+
+Feb 26, 2026
+
+EVENT
+Oktane: See how Okta secures AI
+AI agents are in your enterprise. But are they secure? Get the tools to future-proof your business at Oktane, Sept. 22-24.
+Secure your spot
+LEARNING
+Okta Learning
+Get the most out of Okta, with on-demand courses, hands-on labs, and live sessions
+Start your learning journey
+Still having trouble?
+Open a case
+Looking for Auth0 Support?
+Get support for the Auth0 platform
+Feedback
+© 2026 Okta, Inc.
+Trust
+Privacy
+Terms
+Guidelines
+Security docs
+Sitemap
+Okta.com
+Try Okta for free
+Welcome to the Okta Support Center
+We use cookies to provide the best website experience and to help understand marketing efforts. We may also share data with ad partners to reach potential customers across the web. To learn more, visit our Privacy Policy. Click here for Your Privacy Choices. You may also opt out of this sharing by signaling your preference via GPC, applicable only to the browser signaling the opt-out.
+Cookie Settings

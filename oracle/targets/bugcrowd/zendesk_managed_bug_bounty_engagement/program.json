@@ -1,0 +1,138 @@
+{
+  "platform": "bugcrowd",
+  "name": "Zendesk Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/zendesk",
+  "max_payout_usd": 50000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Zendesk Managed Bug Bounty Engagement",
+    "tagline": "Zendesk aims to keep its Services safe for everyone and the security of our products & data is of utmost priority.",
+    "briefUrl": "/engagements/zendesk",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/5a06/021b/2ce66f91/897f135ffdc669491639a855d38d599a_zendesk_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$100 - $50,000",
+      "hint": null,
+      "minReward": "$100",
+      "maxReward": "$50,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 2,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Computer Software",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/zendesk/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Priority Triage"
+  },
+  "score": 75000.0,
+  "structured_scopes": [
+    {
+      "asset_identifier": "https://*.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://*.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://*.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://*.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://github.com/zendesk",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://github.com/Tymeshift",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://github.com/klausapp",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://github.com/ultimateai",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://github.com/zendesk https://github.com/Tymeshift https://github.com/klausapp https://github.com/ultimateai",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "https://*.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "support.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    },
+    {
+      "asset_identifier": "www.zendesk.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "",
+      "source": "bugcrowd-page-text"
+    }
+  ]
+}

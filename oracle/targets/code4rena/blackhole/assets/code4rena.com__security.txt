@@ -1,0 +1,4 @@
+Contact: mailto:security@code4rena.com
+Expires: 2025-01-01T08:00:00.000Z
+Preferred-Languages: en
+Canonical: https://code4rena.com/.well-known/security.txt

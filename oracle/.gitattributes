@@ -1,0 +1,2 @@
+# Canonical source documents are preserved verbatim, including source spacing.
+corpus/** -whitespace

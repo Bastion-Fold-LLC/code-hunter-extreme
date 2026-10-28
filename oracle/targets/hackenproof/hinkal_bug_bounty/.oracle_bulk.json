@@ -1,0 +1,13 @@
+{
+  "program": "Hinkal Bug Bounty",
+  "platform": "hackenproof",
+  "slug": "hinkal_bug_bounty",
+  "downloaded_at": "2026-09-29T06:35:00.071944+00:00",
+  "assets": [
+    "program_page.txt"
+  ],
+  "asset_count": 1,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

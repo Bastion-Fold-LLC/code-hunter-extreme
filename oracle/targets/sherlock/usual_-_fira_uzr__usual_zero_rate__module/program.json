@@ -1,0 +1,20 @@
+{
+  "platform": "sherlock",
+  "name": "Usual - Fira UZR (Usual Zero Rate) module",
+  "url": "https://audits.sherlock.xyz/bug-bounties/227",
+  "max_payout_usd": 7500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Usual - Fira UZR (Usual Zero Rate) module",
+      "7,500,000 USDC",
+      "Payout",
+      "Jan 16, 2026",
+      "Last Updated"
+    ]
+  },
+  "score": 11250000.0
+}

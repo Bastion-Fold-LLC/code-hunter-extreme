@@ -1,0 +1,31 @@
+{
+ "platform": "cantina",
+ "name": "Pendle Bounty",
+ "url": "https://cantina.xyz/bounties/fb1f1c54-0cb9-4201-8791-fb1e78e6e600",
+ "max_payout_usd": 2000000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": 0,
+ "raw": {
+  "lines": [
+   "Pendle Bounty",
+   "Pendle Finance",
+   "$2,000,000",
+   "in USDC",
+   "Bug Bounty",
+   "Live",
+   "Cantina-Triaged",
+   "Deposit required",
+   "Started on 14 Jun 2024"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/pendle-finance/pendle-core-v2-public",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

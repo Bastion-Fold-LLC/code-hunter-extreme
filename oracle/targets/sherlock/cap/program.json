@@ -1,0 +1,20 @@
+{
+  "platform": "sherlock",
+  "name": "Cap",
+  "url": "https://audits.sherlock.xyz/bug-bounties/114",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Cap",
+      "1,000,000 USDC",
+      "Payout",
+      "Aug 18, 2026",
+      "Last Updated"
+    ]
+  },
+  "score": 1500000.0
+}

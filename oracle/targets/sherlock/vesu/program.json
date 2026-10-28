@@ -1,0 +1,28 @@
+{
+ "platform": "sherlock",
+ "name": "Vesu",
+ "url": "https://audits.sherlock.xyz/bug-bounties/384",
+ "max_payout_usd": 50000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "type": "bug-bounty",
+  "lines": [
+   "Vesu",
+   "50,000 USDC",
+   "Payout",
+   "Jul 27, 2026",
+   "Last Updated"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/vesuxyz/vesu-v2",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

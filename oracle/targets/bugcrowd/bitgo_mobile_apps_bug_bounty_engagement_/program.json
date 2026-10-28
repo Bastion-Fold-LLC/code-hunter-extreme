@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "BitGo Mobile Apps Bug Bounty Engagement ",
+  "url": "https://bugcrowd.com/engagements/bitgo-mobileapps-mbb-og",
+  "max_payout_usd": 4500,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "BitGo Mobile Apps Bug Bounty Engagement ",
+    "tagline": "BitGo offers secure, scalable solutions for the digital asset economy, including regulated custody, borrowing, lending, and core infrastructure for investors and builders.",
+    "briefUrl": "/engagements/bitgo-mobileapps-mbb-og",
+    "backgroundColor": "#2a2d40",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/3247/aa28/654fcb53/1652b0cca1522011e5bd40ae0023656c_Shield_Logo_Blue-Dark.png",
+    "rewardSummary": {
+      "summary": "$175 - $4,500",
+      "hint": null,
+      "minReward": "$175",
+      "maxReward": "$4,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/bitgo-mobileapps-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 4500.0
+}

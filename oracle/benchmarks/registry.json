@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline, intentionally vulnerable benchmark targets for evaluating Oracle. These are never remote hunt targets and are never scanned unless explicitly provisioned locally.",
+  "onboarding_policy": {
+    "clone_only_on_explicit_request": true,
+    "pin_commit_before_execution": true,
+    "bind_to_loopback_only": true,
+    "never_use_production_credentials": true,
+    "do_not_ingest_solution_material_into_holdout_evaluation": true,
+    "default_enabled": false
+  },
+  "benchmarks": [
+    {
+      "id": "pygoat",
+      "repository": "https://github.com/adeyosemanputra/pygoat.git",
+      "revision": "19d17cc8874861142b330636d068bbde54e86b85",
+      "enabled": true,
+      "target_kind": "web2",
+      "languages": ["Python", "Django"],
+      "ground_truth": [
+        "challenge/challenge.json",
+        "Solutions/solution.md"
+      ],
+      "covers": [
+        "Python code-seam extraction",
+        "OWASP web vulnerability detection",
+        "local runtime verification",
+        "iPhone-format report generation"
+      ]
+    },
+    {
+      "id": "juice-shop",
+      "repository": "https://github.com/juice-shop/juice-shop.git",
+      "revision": "1618a611b173b4bf114028e6e02549950606e29d",
+      "enabled": true,
+      "target_kind": "web2",
+      "languages": ["TypeScript", "JavaScript"],
+      "ground_truth": [
+        "challenge definitions",
+        "scoreboard",
+        "official companion guide"
+      ],
+      "covers": [
+        "recon-to-seam pipeline",
+        "business-logic hypotheses",
+        "MITRE mapping",
+        "iPhone framing"
+      ]
+    },
+    {
+      "id": "nodegoat",
+      "repository": "https://github.com/OWASP/NodeGoat.git",
+      "revision": null,
+      "enabled": false,
+      "target_kind": "web2",
+      "languages": ["JavaScript", "Node.js"],
+      "ground_truth": [
+        "tutorial",
+        "source-code challenge comments"
+      ],
+      "covers": [
+        "authorization and middleware seams",
+        "runtime verification",
+        "scope and precondition handling"
+      ]
+    },
+    {
+      "id": "dvwa",
+      "repository": "https://github.com/digininja/DVWA.git",
+      "revision": "068d974487a297c155c48722f9fcf7180a83adc4",
+      "enabled": true,
+      "target_kind": "web2",
+      "languages": ["PHP", "MariaDB"],
+      "ground_truth": [
+        "challenge pages",
+        "difficulty-level source paths"
+      ],
+      "covers": [
+        "runtime recon",
+        "verification gates",
+        "false-positive resistance across difficulty levels"
+      ]
+    },
+    {
+      "id": "webgoat",
+      "repository": "https://github.com/WebGoat/WebGoat.git",
+      "revision": null,
+      "enabled": false,
+      "target_kind": "web2",
+      "languages": ["Java", "Spring"],
+      "ground_truth": [
+        "lesson definitions",
+        "lesson solutions"
+      ],
+      "covers": [
+        "lesson-scoped verification",
+        "recon and scope enforcement",
+        "future Java source-analysis coverage"
+      ]
+    },
+    {
+      "id": "damn-vulnerable-defi",
+      "repository": "https://github.com/theredguild/damn-vulnerable-defi.git",
+      "revision": null,
+      "enabled": false,
+      "target_kind": "web3",
+      "languages": ["Solidity", "Foundry"],
+      "ground_truth": [
+        "src/<challenge>/README.md",
+        "test/<challenge>/<Challenge>.t.sol"
+      ],
+      "covers": [
+        "Solidity Invisible Seam extraction",
+        "invariant violations",
+        "proof-carrying exploit tests",
+        "proof-only chaining"
+      ]
+    }
+  ]
+}

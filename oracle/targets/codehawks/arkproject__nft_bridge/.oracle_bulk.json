@@ -1,0 +1,14 @@
+{
+  "program": "ArkProject: NFT Bridge",
+  "platform": "codehawks",
+  "slug": "arkproject__nft_bridge",
+  "downloaded_at": "2026-09-29T06:44:52.713539+00:00",
+  "assets": [
+    "program_page.txt",
+    "codehawks.cyfrin.io__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

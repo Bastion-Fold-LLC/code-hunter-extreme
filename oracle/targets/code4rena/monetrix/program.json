@@ -1,0 +1,30 @@
+{
+ "platform": "code4rena",
+ "name": "Monetrix",
+ "url": "https://code4rena.com/audits/2026-04-monetrix",
+ "max_payout_usd": 22000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Monetrix",
+   "Yield layer for Hyperliquid, engineered to maximize capital efficiency by funneling all of Hyperliquid's yield sources into one stablecoin. It's the liquid entry point to capture full economic upside of the ecosystem through a unified, composable asset.",
+   "Hyperliquid",
+   "Solidity",
+   "24 Apr 3:00 PM - 04 May 3:00 PM",
+   "$22,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-04-monetrix",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

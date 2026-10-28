@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# oracle-hunter — launcher for Oracle Hunter
+export PATH="$HOME/go/bin:$PATH"
+exec python3 "$(dirname "$(readlink -f "$0")")/oracle_hunter.py" "$@"

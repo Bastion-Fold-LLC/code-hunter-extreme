@@ -1,0 +1,77 @@
+# Health Score Methodology
+
+SimplyCodes / Product.ai | February 2026
+
+Companion document to [Anatomy of a Verdict: How SimplyCodes Adjudicates Truth in a Broken Economy](./README.md).
+
+## What the Health Score Is
+
+Every code in our system carries a Health Score: a confidence measure that this code will work right now.
+
+The score is not static. It decays over time because codes rot. And it is not stored as a fixed value — it is derived from an event stream. Every test, every human verification, every real checkout signal is an event. We call each one a sensing event — a particle of truth. Not a fact, but evidence. The current health score is a computation over the full history of these events, not a number in a database column.
+
+This event-sourced architecture means we can recompute any code's health at any point in time, trace exactly why a score changed, and audit the full chain of evidence behind any verdict.
+
+## Inputs
+
+The Health Score is not a single measurement. It is a convergence of seven independent signals:
+
+**Freshness.** When was this code last verified? A test from yesterday carries more weight than one from last month.
+
+**Outcome.** Did the last test succeed or fail? A recent failure drops health immediately.
+
+**Verifier Trust.** Weighted consensus from human verifiers, accounting for each contributor's historical accuracy and trust tier.
+
+**Automated Test Confidence.** Result reliability from our bot infrastructure, factoring in the test conditions and merchant complexity.
+
+**Merchant Pattern.** Historical reliability of the store. Some merchants expire codes predictably; others are chaotic. Over years of accumulated data, we have built behavioral profiles for hundreds of thousands of merchants.
+
+**Decay Clock.** Time-based confidence erosion appropriate to the code type.
+
+**Fleet Signal.** Real-world transaction confirmations from extension users.
+
+## The Decay Model
+
+Code freshness is modeled using time-based decay with variable rates depending on code type:
+
+**Evergreen codes** (perpetual welcome offers, student discounts) decay slowly. A verified evergreen code stays healthy for months without revalidation.
+
+**Regular codes** (seasonal promotions, holiday sales) decay at a moderate rate. Without fresh verification, a regular code's confidence erodes within weeks.
+
+**Flash codes** (weekend sales, six-hour promotions) decay rapidly. Confidence drops within days or hours.
+
+The decay model ensures that stale data self-identifies. If we have not recently verified a code, the system automatically reduces confidence rather than presenting old data as current.
+
+## Confidence Tiers
+
+Health scores map to confidence tiers that determine how codes are presented to users:
+
+| Tier | Signal State | Display Treatment |
+| --- | --- | --- |
+| High confidence | Recently validated by multiple independent signals | Displayed prominently |
+| Moderate confidence | Aging or mixed signals | Presented with appropriate caveats |
+| Low confidence | No recent positive signal | De-prioritized or suppressed |
+| Invalidated | Confirmed dead by consensus | Hidden from users |
+
+## Forensic Traceability
+
+Every observation in this system is traceable through six forensic dimensions:
+
+1. **Actor.** Who observed it.
+2. **Asset.** What code was tested.
+3. **Target.** Which merchant.
+4. **Agent.** What software captured it.
+5. **Build.** Which build version.
+6. **Bridge.** A session identifier linking the observation to the final verdict.
+
+This chain of custody means any verdict can be forensically audited from conclusion back to raw evidence.
+
+## The Confident No
+
+When the system returns "No verified codes available," that is not a failure. That is a verdict backed by evidence from all three verification layers: Automated Code Testing, Human Consensus Network, and Fleet Signal.
+
+We tested this merchant recently with automated systems. We checked human verifier submissions. We analyzed real-time extension signal. Conclusion: There is nothing to find. Stop searching. Buy with confidence.
+
+## The Proof Packet
+
+Every verdict can generate a Proof Packet — a structured evidence bundle that documents exactly how the conclusion was reached. See [`proof-packet-schema.json`](./proof-packet-schema.json) for the formal schema definition.

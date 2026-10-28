@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "Core Contracts",
+  "url": "https://codehawks.cyfrin.io/c/2025-02-raac",
+  "max_payout_usd": 77280,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Core Contracts",
+      "Regnum Aurum Acquisition Corp",
+      "Hardhat",
+      "Real World Assets",
+      "NFT",
+      "Public",
+      "77,280",
+      "USDC",
+      "Ended",
+      "Ended 581d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

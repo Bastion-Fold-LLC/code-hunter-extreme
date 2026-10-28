@@ -1,0 +1,197 @@
+{
+  "platform": "hackerone",
+  "name": "clear",
+  "url": "https://hackerone.com/clear",
+  "max_payout_usd": 6000,
+  "kind": "web2",
+  "fast_triage": true,
+  "response_efficiency": 86,
+  "reports_count": 101,
+  "launched_at": "2026-03-02T16:43:22.017Z",
+  "raw": {
+    "handle": "clear",
+    "name": "CLEAR",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "triage_active": true,
+    "triage_plus": null,
+    "top_bounty_lower_amount": 1000,
+    "top_bounty_upper_amount": 6000,
+    "minimum_bounty": 100,
+    "response_efficiency_percentage": 86,
+    "resolved_report_count": 101,
+    "launched_at": "2026-03-02T16:43:22.017Z"
+  },
+  "structured_scopes": [
+    {
+      "asset_identifier": "clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "You can sign up for a free CLEAR account for 2 months by using the promo code \u201cHACKER2020\u201d.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "enroll.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "www.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Primary Marketing Site",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "web-edge.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "my.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Clear Member Portal",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "mobile.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "This is the backend that supports our flagship iOS and Android apps. Please read the \"Mobile App\" section under our program's policy to see the best way to test as well as the eligibility requirements for testing. Please install the app via [this link](https://clear.app.link/hackerone-mobile).",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "ir.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Public Investor Relations Site",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "scan.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Must only referencing physical location parameter \"CLR\". Attempts to scan or attack other production locations ( Barclays Center, JFK, LAX, Madison Square Garden, SoFi Stadium, etc) is not authorized and may not be eligible for bounty.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "authentication.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "verified.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "concierge.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "identity.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "http://verified.clearme.com/dashboard",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "clearme.atlassian.net",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Clear Service Support Platform.\nRegistration & Login using arbitrary domains is out of scope. \nPlease only report misconfigurations that result in vulnerabilities. Any vulnerabilities in the Atlassian Platform itself should be reported to their [vulnerability disclosure program](https://www.atlassian.com/trust/security/report-a-vulnerability). ",
+      "max_severity": "high"
+    },
+    {
+      "asset_identifier": "com.clearme.Clear",
+      "asset_type": "OTHER_IPA",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "You must install the app using [this link](https://clear.app.link/hackerone-mobile).\n\nYou can sign up for a free CLEAR account for 2 months by using the promo code \u201cHACKER2020\u201d. There are also free memberships offered when signing up for a [Sports](https://clearme.com/sports) membership.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "com.clearme.clearapp",
+      "asset_type": "OTHER_APK",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "You must install the app using [this link](https://clear.app.link/hackerone-mobile).\n\nYou can sign up for a free CLEAR account for 2 months by using the promo code \u201cHACKER2020\u201d.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "verified.clearme.com/v1/verification_sessions",
+      "asset_type": "API",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Public facing API for starting a session in C1.",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "fieldsupport.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": null,
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "docs.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": null,
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "hub.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": null,
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "legal.clearme.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": null,
+      "max_severity": "none"
+    }
+  ],
+  "scope": "clearme.com\nenroll.clearme.com\nwww.clearme.com\nweb-edge.clearme.com\nmy.clearme.com\nmobile.clearme.com\nir.clearme.com\nscan.clearme.com\nauthentication.clearme.com\nverified.clearme.com\nconcierge.clearme.com\nidentity.clearme.com\nhttp://verified.clearme.com/dashboard\nclearme.atlassian.net\ncom.clearme.Clear\ncom.clearme.clearapp\nverified.clearme.com/v1/verification_sessions",
+  "out_of_scope": "fieldsupport.clearme.com\ndocs.clearme.com\nhub.clearme.com\nlegal.clearme.com"
+}

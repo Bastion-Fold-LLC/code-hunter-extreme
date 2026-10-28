@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Inverse Finance",
+  "url": "https://audits.sherlock.xyz/bug-bounties/233",
+  "max_payout_usd": 0,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Inverse Finance",
+      "100,000 DOLA",
+      "Payout",
+      "Jul 13, 2026",
+      "Last Updated"
+    ]
+  }
+}

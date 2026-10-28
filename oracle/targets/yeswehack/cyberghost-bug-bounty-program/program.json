@@ -1,0 +1,146 @@
+{
+ "platform": "yeswehack",
+ "name": "cyberghost-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/cyberghost-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "CyberGhost - Bug Bounty Program",
+  "slug": "cyberghost-bug-bounty-program",
+  "country": "IM",
+  "activity_area": "Tech - Other",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 300,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 1250,
+  "scopes_count": 12,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "304b0d15-1415-45b2-b20b-c40222310593",
+   "original_name": "images.png",
+   "mime_type": "image/png",
+   "size": 4333,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/304b0d15-1415-45b2-b20b-c40222310593"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Kape Technologies",
+   "slug": "kape-technologies",
+   "description": "Kape is a leading digital security provider focused on privacy, offering a range of solutions and expert advice to protect consumers' digital lives.",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": null,
+    "original_name": null,
+    "mime_type": null,
+    "size": null,
+    "url": null
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-08-31T04:31:27+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "*.cyberghostvpn.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.cyberghost.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "cyberghost.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "cyberghost.app",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://api.cyberghostvpn.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "CyberGhost VPN servers",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/us/app/id583009522",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=de.mobileconcepts.cyberghost",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.cyberghostvpn.com/en_US/apps/linux-vpn",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.cyberghostvpn.com/en_US/apps/windows-vpn",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://www.cyberghostvpn.com/en_US/apps/macos-vpn",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Applications/Extensions under https://www.cyberghostvpn.com/download",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

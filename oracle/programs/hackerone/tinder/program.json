@@ -1,0 +1,133 @@
+{
+  "platform": "hackerone",
+  "name": "tinder",
+  "url": "https://hackerone.com/tinder",
+  "max_payout_usd": 20000,
+  "kind": "web2",
+  "fast_triage": true,
+  "response_efficiency": 68,
+  "reports_count": 128,
+  "launched_at": "2021-09-27T16:01:10.180Z",
+  "raw": {
+    "handle": "tinder",
+    "name": "Tinder",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "triage_active": true,
+    "triage_plus": null,
+    "top_bounty_lower_amount": 2500,
+    "top_bounty_upper_amount": 20000,
+    "minimum_bounty": 250,
+    "response_efficiency_percentage": 68,
+    "resolved_report_count": 128,
+    "launched_at": "2021-09-27T16:01:10.180Z"
+  },
+  "structured_scopes": [
+    {
+      "asset_identifier": "*.tinder.com",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "*.gotinder.com",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "*.tinderops.net",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "*.tstaging.com",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "medium"
+    },
+    {
+      "asset_identifier": "*.tstaging.tools",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "medium"
+    },
+    {
+      "asset_identifier": "*.tinderwebstaging.com",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "medium"
+    },
+    {
+      "asset_identifier": "com.tinder",
+      "asset_type": "GOOGLE_PLAY_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "547702041",
+      "asset_type": "APPLE_STORE_APP_ID",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "",
+      "max_severity": "critical"
+    },
+    {
+      "asset_identifier": "go.tinder.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "`go.tinder.com` is an asset belonging to Branch.io. - You can submit reports directly to Branch here: https://branch.io/security/",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "www.help.tinder.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "`www.help.tinder.com` is an asset belonging to Zendesk - You can submit reports directly to Zendesk here: https://hackerone.com/zendesk",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "gotinder.imgix.net",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "console.gotinder.com",
+      "asset_type": "URL",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "This asset is not owned by us.\n```\ndig console.gotinder.com\n... CNAME app6.creatoriq.com.\n```",
+      "max_severity": "none"
+    },
+    {
+      "asset_identifier": "AppsFlyer Subdomains",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": false,
+      "eligible_for_submission": false,
+      "instruction": "The following assets are managed by AppsFlyer and are considered out of scope: \n* party.tinder.com\n* open.tinder.com\n* matchmaker.tinder.com\n* invite.tinder.com\n* click.tinder.com",
+      "max_severity": "none"
+    }
+  ],
+  "scope": "*.tinder.com\n*.gotinder.com\n*.tinderops.net\n*.tstaging.com\n*.tstaging.tools\n*.tinderwebstaging.com\ncom.tinder\n547702041",
+  "out_of_scope": "go.tinder.com\nwww.help.tinder.com\ngotinder.imgix.net\nconsole.gotinder.com\nAppsFlyer Subdomains"
+}

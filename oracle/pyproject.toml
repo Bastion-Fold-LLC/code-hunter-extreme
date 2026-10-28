@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oracle-hunter"
+version = "0.1.0"
+description = "Oracle bug-bounty hunting pipeline (intake, recon, gated verification)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+dependencies = [
+    "requests",
+    "rich",
+    "PyYAML",
+    "websocket-client",
+]
+
+[project.optional-dependencies]
+dev = [
+    "bandit",
+    "black",
+    "coverage",
+    "flake8",
+    "hypothesis",
+    "interrogate",
+    "mypy",
+    "pylint",
+    "pytest",
+    "ruff",
+    "semgrep",
+    "vulture",
+]
+
+[project.scripts]
+oracle-hunter = "oracle_hunter:main"
+
+[tool.setuptools]
+py-modules = [
+    "oracle",
+    "oracle_auth_session",
+    "oracle_bounty",
+    "oracle_bundle",
+    "oracle_bulk_download",
+    "oracle_code_seam",
+    "oracle_corpus",
+    "oracle_deeprecon",
+    "oracle_deterministic",
+    "oracle_discovery",
+    "oracle_email",
+    "oracle_foundation",
+    "oracle_h1_api",
+    "oracle_harvest",
+    "oracle_hunt_filter",
+    "oracle_hunter",
+    "oracle_intake",
+    "oracle_llm",
+    "oracle_mindset_context",
+    "oracle_mindsets",
+    "oracle_programs",
+    "oracle_queue",
+    "oracle_rendered",
+    "oracle_runlog",
+    "oracle_scan",
+    "oracle_scan4me",
+    "oracle_seam_templates",
+    "oracle_seam_templates_web3",
+    "oracle_traffic",
+    "oracle_triage",
+    "oracle_ttp_fuse",
+    "oracle_web3_recon",
+]

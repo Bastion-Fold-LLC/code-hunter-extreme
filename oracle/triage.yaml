@@ -1,0 +1,120 @@
+# Oracle fast-triage config.
+# Ranks bug-bounty programs so the operator picks the best first target.
+# Runs entirely from the local cache — zero network.
+#
+# Priority order (fast-money rule): asset_count (surface) + fast_triage
+# (get paid fast) + new_assets (fresh bugs), then recency + low_reports
+# as tie-breakers. Payout stays OFF for ranking — use hunt_filter's
+# min_payout_usd as a hard pay gate instead.
+#
+# THIS FILE is the single source of truth for weights. Code defaults in
+# oracle_triage.py mirror these values; if they ever disagree, this file wins.
+# It is also the boss profile for Scan4Me prescan ranking: the bridge
+# (oracle_scan4me.triage_prescan_overlay) translates these weights, day
+# windows, kind, and the hunt_filter payout gate into Scan4Me scoring.
+# Prescan applies them loosely (public data); signed-in Oracle stages
+# re-measure and gate strictly.
+
+# Where the data lives (relative to the repo root, or absolute paths).
+cache: programs_cache.json
+programs_dir: programs        # downloaded program.json files w/ scope data
+
+# Signal weights. Each signal is normalized to 0..1, then weighted.
+# The final score is the weighted sum.
+weights:
+  # PRIMARY: attack surface size.
+  #   measured  = len(structured_scopes) from a downloaded program.json
+  #   reported  = platform-reported scopes_count (yeswehack listings carry it)
+  #   estimated = log-scaled reports_count proxy, used ONLY when neither of
+  #               the above exists (flagged with ~ in the table)
+  asset_count: 1.0
+
+  # How much to trust the reports_count proxy when no measured/reported
+  # asset count exists. 0.5 = the proxy can contribute at most half of what
+  # a real asset count would.
+  asset_proxy_trust: 0.5
+
+  # Fast triage: programs flagged fast_triage get paid faster.
+  # 1.0 if true, 0.5 if unknown, 0.0 if false.
+  fast_triage: 0.40
+
+  # NEW-ASSET signal: age of the most recently added asset in a program.
+  # Fresh assets are where the bugs are. Scored from per-asset first_seen
+  # timestamps recorded by scope intake; programs with no timestamped
+  # assets score 0. Weighted below raw size (a big old scope still beats
+  # a tiny fresh one) but above the recency/low-reports tie-breakers.
+  new_assets: 0.30
+
+  # Recently launched programs/companies (from launched_at).
+  # Kept small on purpose: these are tie-breakers between similar-sized
+  # programs, never a reason to prefer a small scope over a big one.
+  recency: 0.10
+
+  # Low resolved-report counts = less picked over. Same tie-breaker role.
+  low_reports: 0.10
+
+  # Max payout. OFF per Alex's rule — payout history is not how we rank
+  # targets. Pay is a hard gate instead: hunt_filter.min_payout_usd.
+  # Turn this up only if you ever want payout back in the ranking mix.
+  payout: 0.0
+
+# New-asset curve: a program whose newest asset was added this many days
+# ago (or less) scores 1.0, decaying after that. 0 disables the signal.
+new_asset_full_days: 30
+new_asset_half_life_days: 90
+
+# Recency curve: a program launched this many days ago (or less) scores 1.0,
+# decaying after that. 0 disables the recency signal.
+recency_full_days: 90
+recency_half_life_days: 180
+
+# Program kind filter: web2 | web3 | ai | all (CLI --kind overrides this).
+kind: all
+
+# Minimum asset count to include. Applies to measured/reported counts;
+# programs with unknown counts are kept unless require_known_assets is true.
+min_assets: 0
+require_known_assets: false
+
+# How many rows to print (CLI --top overrides this).
+top: 20
+
+# ── Hunt filter: fast-money scoping ──────────────────────────────────────
+# The hunt downloads ALL of a program's assets, but the mindset (system
+# prompt), scope gate, and recon only ever see the assets that pass this
+# filter. A 30-asset program with 1 new asset hunts that 1 asset — the
+# model cannot cite, probe, or reason about the other 29 because they are
+# not in its world. Set mode: all to disable asset filtering.
+hunt_filter:
+  # Asset filter mode: new_only | all
+  #   new_only — keep assets whose first_seen is within new_asset_max_age_days.
+  #              Assets with unknown age are EXCLUDED (can't prove they're new).
+  #              Run a scope re-intake first so first_seen stamps are real.
+  #   all      — no asset filtering; hunt the whole program scope.
+  mode: all
+
+  # Max age (days) for an asset to count as "new".
+  new_asset_max_age_days: 30
+
+  # ── Program gates: the picked program must pass ALL of these, or the
+  # hunt refuses to start (before any download). null/false = gate off.
+  # Pay gate: only hunt programs paying at least this (max_payout_usd).
+  min_payout_usd: 0
+  # Only hunt programs with verified fast_triage: true. Unknown metadata is
+  # excluded when this gate is enabled rather than treated as fast.
+  require_fast_triage: false
+  # Only hunt programs with at most this many resolved reports
+  # (0 = zero-report programs only — nobody has picked it over yet).
+  max_reports: null
+  # Only hunt companies launched within this many days (launched_at).
+  new_company_max_age_days: null
+
+  # What to do when the asset filter matches zero assets:
+  #   halt             — refuse the hunt (default; never silently widen scope)
+  #   fall_back_to_all — hunt the whole program scope instead (explicit opt-in)
+  on_empty: halt
+
+  # Variant sweep (phase 2): after a finding is CONFIRMED on a filtered
+  # asset, re-hunt the REMAINING in-scope assets for the same issue class.
+  # One bug becomes N reports. Runs through the full-program scope gate.
+  variant_sweep: true

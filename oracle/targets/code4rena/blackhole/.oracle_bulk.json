@@ -1,0 +1,15 @@
+{
+  "program": "Blackhole",
+  "platform": "code4rena",
+  "slug": "blackhole",
+  "downloaded_at": "2026-09-29T06:40:10.517336+00:00",
+  "assets": [
+    "program_page.txt",
+    "code4rena.com__robots.txt",
+    "code4rena.com__security.txt"
+  ],
+  "asset_count": 3,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

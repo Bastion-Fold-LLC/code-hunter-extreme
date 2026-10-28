@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Fireblocks Web Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/fireblocks-mbb-og",
+  "max_payout_usd": 12000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Fireblocks Web Managed Bug Bounty Engagement",
+    "tagline": "Fireblocks is a user-friendly platform that enables the creation of blockchain-based products and manages daily digital asset operations.",
+    "briefUrl": "/engagements/fireblocks-mbb-og",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/a4b4/9127/3eac402e/d6569180f96931ee8d382df1c41ad8e5_fireblocks_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$20 - $12,000",
+      "hint": null,
+      "minReward": "$20",
+      "maxReward": "$12,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Computer Software",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/fireblocks-mbb-og/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 18000.0
+}

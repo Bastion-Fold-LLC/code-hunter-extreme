@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "Kiln V1 Bounty",
+  "url": "https://cantina.xyz/bounties/607dd012-08ad-4080-bf4a-78dc1c28faa9",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Kiln V1 Bounty",
+      "Kiln",
+      "$1,000,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 8 Sep 2024"
+    ]
+  }
+}

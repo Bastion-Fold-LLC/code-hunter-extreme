@@ -1,0 +1,152 @@
+We value your privacy
+
+We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies. Read more.
+
+Customize
+Reject All
+Accept All
+Skip to content
+Skip to footer
+Start trial
+The fastest and smartest vulnerability mitigation for websites
+
+Patchstack prevents up to 74% more vulnerabilities from being exploited compared to leading web application firewalls.
+
+Contact sales
+See pricing
+TRUSTED SECURITY PARTNER FOR
+See list of all hosting partners
+PREMIUM PROTECTION
+74% of vulnerability exploits still bypass leading advanced web hosting defenses
+
+Patchstack’s RapidMitigate automatically blocks these threats with highly targeted mitigation rules, effective even for:
+
+33%
+of all vulnerabilities in the WordPress ecosystem that receive no patch at all
+60%+
+of attacks exploiting vulnerabilities with patches available but not applied
+120
+during the average exposure window in days to update, test and patch a vulnerability
+RapidMitigate
+See case study
+LEADING INTELLIGENCE
+With AI, new vulnerabilities are being mass exploited in just hours
+
+As the #1 global handler of vulnerability intelligence, Patchstack can mitigate vulnerabilities up to 48h ahead of public disclosure and competitors who rely on our data.
+
+12K+
+Highly targeted mitigation rules ready to be deployed, the largest on the market
+4.1K+
+Vulnerabilities disclosed in 2024, of which 13% were highly exploitable
+1,298
+Plugins installed on millions of sites have set Patchstack as a security point of contact
+🌍 🥊 ☄️
+
+"Over the last 6 months, Patchstack has protected our users from 1.3 million vulnerabilities."
+
+Wes Tatters
+
+Managing Director
+
+USERS LOVE IT
+Customers want reliable security they can understand
+
+Patchstack is a user-friendly security solution that’s simple for customers to understand and adopt.
+
+No code changes that break websites
+Automated mitigation rule deployment
+Safely apply updates when convenient
+No false positives or tooling conflicts
+Reduced alert fatigue thanks to prioritization
+Vulnerability alerts help drive adoption
+Minimal exposure thanks to instant mitigation
+Avoid costly cleanups and downtime
+
+Comply with PCI-DSS 4.0 requirements
+
+Rated 4.9 ★
+Unmatched speed, efficiency and scalability
+
+Patchstack is the leader in open-source vulnerability intelligence with the largest collection of mitigation rules on the market.
+
+Find out what Patchstack can do for you.
+
+Contact sales
+See pricing
+SECURING THE WEB WITH THE SUPPORT OF
+
+The first Application Security Platform covering the entire open-source vulnerability lifecycle.
+
+Vulnerability mitigation
+
+Pricing
+Application security (SCA)
+RapidMitigate
+Threat intelligence (API)
+VS Monarx
+VS Imunify360
+VS Wordfence
+Documentation
+Service status
+Log in
+
+Code security
+
+Managed VDP
+Active VDP directory
+1,298
+Security auditing
+Open Source Maintainers
+Compliance (CRA)
+Log in
+
+Bug bounty
+
+Bug bounty
+Leaderboard
+Guidelines
+Learn
+Report
+Discord
+Log in
+
+Use cases
+
+Web developers
+Webhosts
+Software maintainers
+WordPress
+WooCommerce
+NodeJS
+For AI-built apps
+
+Resources
+
+Partners
+Vulnerability database
+Whitepaper 2026
+Articles
+Case studies
+Webinars
+Vulnerability statistics
+
+Patchstack
+
+About
+Careers
+Trust centre
+Merch store
+Press
+Media kit
+LinkedIn
+Facebook
+X
+
+© 2026 Patchstack
+
+DPA
+Privacy policy
+Accessibility
+Terms of service
+Vulnerability disclosure
+Report vulnerability

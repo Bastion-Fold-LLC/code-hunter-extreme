@@ -1,0 +1,14 @@
+{
+  "platform": "huntr",
+  "name": "View details",
+  "url": "https://huntr.com/challenges/4DRe85bV2cu7DrRxPXyiwT/v1/rules",
+  "max_payout_usd": 0,
+  "kind": "ai",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "View details"
+    ]
+  }
+}

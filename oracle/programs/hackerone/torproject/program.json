@@ -1,0 +1,39 @@
+{
+  "platform": "hackerone",
+  "name": "torproject",
+  "url": "https://hackerone.com/torproject",
+  "max_payout_usd": 3000,
+  "kind": "web2",
+  "fast_triage": false,
+  "response_efficiency": 20,
+  "reports_count": 77,
+  "launched_at": "2017-07-20T12:55:07.772Z",
+  "raw": {
+    "handle": "torproject",
+    "name": "Tor",
+    "offers_bounties": true,
+    "submission_state": "open",
+    "triage_active": null,
+    "triage_plus": null,
+    "top_bounty_lower_amount": 1000,
+    "top_bounty_upper_amount": 3000,
+    "minimum_bounty": 100,
+    "response_efficiency_percentage": 20,
+    "resolved_report_count": 77,
+    "launched_at": "2017-07-20T12:55:07.772Z"
+  },
+  "structured_scopes": [
+    {
+      "asset_identifier": "Tor Browser",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "https://gitlab.torproject.org/tpo/applications/tor-browser\n\nIt's a good start to look at the latest stable, alpha, and nightly builds. The former can be found at https://www.torproject.org/download/ and nightlies can be obtained via http://umj4zbqdfcyevlkgqgpq6foxk3z75zzxsbgt5jqmfxofrbrjh3crbnad.onion/nightly-builds/tor-browser-builds/.",
+      "max_severity": "critical"
+    }
+  ],
+  "scope_status": "not-fetched",
+  "intake_status": "discovered",
+  "scope": "Tor Browser",
+  "out_of_scope": ""
+}

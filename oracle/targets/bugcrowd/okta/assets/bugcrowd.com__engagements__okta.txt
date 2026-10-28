@@ -1,0 +1,729 @@
+Hacker Login Customer Login
+EngagementsOkta
+Bug Bounty
+Okta
+
+Cloud Identity and Mobility Management Service
+
+Expedited triage
+Submissions to this Engagement will receive expedited triage by Bugcrowd.
+CloudSafe harbor
+Scope rating
+4 out of 4
+Testing period
+Ongoing
+Started at Nov 16, 2016
+Status
+In progress
+16 Nov 2016 14:00:00 GMT+0
+Submit report
+Follow
+Share
+Details
+Changelog
+Announcements
+31
+CrowdStream
+Hall of Fame
+
+Last Updated :22 May 2026 16:13:07 GMT+0View changes
+
+On this page
+Overview
+Description
+Targets
+What’s new
+Recent activity
+Crowd highlights
+Additional information
+Things to know
+Vulnerabilities rewarded
+476
+Validation within
+14 days
+75% of submissions are accepted or rejected within 14 days in last 3 months
+Average payout
+$1,026.66
+last 3 months
+
+We believe community researcher participation and building a secure foundation plays an integral role in protecting our customers and their data. We appreciate all security submissions and strive to respond in an expedient manner.
+
+Okta is a cloud-based identity service that connects people to their applications from any device, anywhere, anytime. The Okta Identity Cloud provides directory services, single sign-on, strong authentication, provisioning, mobile device management and API access management. It comes with built-in reporting, and integrates deeply with cloud, mobile and on-premises applications, directories and identity management systems.
+
+Targets 
+4 out of 4
+Bugcrowd calculates scope ratings based on the depth and breadth of in-scope targets.
+Okta Personal
+Out of scope
+Register for Okta Personal
+Go to https://personal.trexcloud.com and sign up for an account. You MUST use your @bugcrowdninja.com email address.
+Instructions
+For iOS
+
+Once you register an Okta Personal account, you must install the Okta Personal application through the App Store. Once you open the application, you will need to activate debug mode.
+
+From the main start page:
+
+Tap on "Okta Personal" 3 times
+Tap on the shield logo in the center 2 times
+At this point, "Let us secure what's important to you" should be underlined
+Long press "Let us secure what's important to you"
+Select "Trex" as your Base URL
+
+If the debug mode doesn't show up, completely close out the application and retry.
+
+For Android
+Go to the link here https://appdistribution.firebase.dev/i/4116040c826cc62f
+If the link above doesn't work, try https://appdistribution.firebase.dev/i/2f6eccc30f6a70eb
+Enter your email address to receive the app download link.
+Follow the instructions in the download link to install the app on an Android device.
+Recovery Key
+
+During the mobile application enrollment, a Recovery Key will be provided. Make sure to save the Recovery Key to access the dashboard with the browser.
+
+Push Notifications
+
+The push notification functionality for the mobile applications are not working with the "Trex" env. Make sure to copy your Recovery Key to access your dashboard.
+
+References
+
+Okta Personal Documentation
+Okta Personal Whitepaper
+
+Show more
+personal.trexcloud.com
+API Testing
+Website Testing
+Okta Privileged Access
+In scope
+Payment reward chart
+P1
+$7000 – $35000
+P2
+$3000 – $7000
+P3
+$1000 – $3000
+P4
+$100 – $1000
+Redeem Credentials
+At the bottom of the program brief, click on "Get Credentials" to retrieve 2 sets of credentials.
+DO THIS FIRST!
+Change the email address associated with the provided users so that you can handle your own password resets
+Create at least 2 other Super Admins in each ORG for resetting locked accounts and handling account problems.
+Follow the steps to setup and enforce MFA on each Login under "Required MFA Configuration"
+Accessing Okta Privileged Access
+Go to the Admin Dashboard and Applications
+Go to Browse App Catalog and search for Okta Privileged Access. You will be asked to provide a team name which you should put your org name so bugcrowd-pam-###
+After creating the application, go to assignments and assign yourself to the application
+The Okta Privileged Access chiclet should appear on your Enduser Dashboard. Click the application and you'll be redirected
+For full functionality, go to Groups, create group, and assign all team roles and assign a user to the group
+Documentation
+Overview: https://help.okta.com/en-us/content/topics/privileged-access/pam-overview.htm
+Set up Okta Privileged Access: https://help.okta.com/en-us/content/topics/privileged-access/pam-setup.htm
+Show more
+bugcrowd-pam-###.oktapreview.com
+bugcrowd-pam-###.pam.oktapreview.com
+Okta Workflows
+In scope
+Payment reward chart
+P1
+$7000 – $35000
+P2
+$3000 – $7000
+P3
+$1000 – $3000
+P4
+$100 – $1000
+Redeem Credentials
+
+At the bottom of the program brief, click on "Get Credentials" to retrieve 2 sets of credentials.
+
+Access
+
+To access Okta Workflows, go to the Okta Admin Dashboard -> Workflow -> Workflows Console
+
+Focus Areas
+Focus Areas for Okta Workflows
+Ability to perform SSRF with Flo cards
+Ability to provision and deprovision Workflow orgs
+Performing Flo actions across orgs
+Viewing sensitive information across orgs
+Out of Scope
+
+Testing for Denial of Service issues and testing with any sort of automation is STRICTLY out of scope. This will result in an immediate removal from Okta Workflows and in some cases, the Okta bug bounty program.
+
+https://bugcrowd-pam-###.workflows.oktapreview.com
+API Testing
+Website Testing
+Okta Device Access
+In scope
+Payment reward chart
+P1
+$10000 – $75000
+P2
+$4000 – $10000
+P3
+$1000 – $4000
+P4
+$100 – $1000
+Redeem Credentials
+At the bottom of the program brief, click on "Get Credentials" to retrieve 2 sets of credentials.
+
+Okta Device Access extends IAM (Identity and Access Management) capabilities across devices and applications, increasing your org's security posture and protecting you from phishing attacks. Local device data is protected by the same Identity Provider that protects access to data and applications in the cloud.
+
+Documentation
+Okta Device Access Documentation
+Desktop MFA for Windows
+Desktop MFA for macOS
+Desktop Password Sync for macOS
+Downloads
+
+Download Okta Verify for Windows & macOS
+
+Desktop MFA is part of Okta Device Access, which uses Okta Verify for device registration and user authentication. In the Admin Console, go to Settings -> Downloads and download either Okta Verify for Windows (.exe) or Okta Verify for macOS
+Show more
+Desktop MFA for Windows
+Desktop MFA for macOS
+Password Sync for macOS
+Okta Support Portal (support.okta.com)
+In scope
+Payment reward chart
+P1
+$5000 – $15000
+P2
+$2000 – $5000
+P3
+$500 – $2000
+P4
+$100 – $500
+Focus Areas
+Crafting an aura payload to view data such as first/last name, company name, and IDs will not be accepted. If you are able to view credentials, emails, phone numbers, etc. these will be reviewed and accepted at the sole discretion of Okta.
+Tampering, manipulating, or deleting customer data is strictly out of scope and these tests should be conducted against your own test account.
+Eligible reports will be awarded based on severity, to be determined by Okta in its sole discretion.
+support.okta.com
+https://support.okta.com
+AtSpoke (Okta Access Requests) (New)
+In scope
+Payment reward chart
+P1
+$5000 – $25000
+P2
+$2000 – $5000
+P3
+$500 – $2000
+P4
+$100 – $500
+
+Okta Access Request is enabled for all OIE orgs
+
+https://bugcrowd-pam-###.at.oktapreview.com
+API Testing
+Website Testing
+Okta (OIE) In-Scope Targets (New)
+In scope
+Payment reward chart
+P1
+$10000 – $75000
+P2
+$4000 – $10000
+P3
+$1000 – $4000
+P4
+$100 – $1000
+Redeem Credentials
+At the bottom of the program brief, click on "Get Credentials" to retrieve 2 sets of credentials.
+DO THIS FIRST!
+Change the email address associated with the provided users so that you can handle your own password resets
+Create at least 2 other Super Admins in each ORG for resetting locked accounts and handling account problems.
+Follow the steps to setup and enforce MFA on each Login under "Required MFA Configuration"
+https://bugcrowd-pam-###.oktapreview.com
+API Testing
+Website Testing
+Okta Verify Fastpass
+https://www.okta.com/fastpass/
+https://bugcrowd-pam-###-admin.oktapreview.com
+API Testing
+Website Testing
+Okta (Classic) In-Scope Targets
+Out of scope
+
+As of May 15th 2024, Okta Classic is out of scope. Please refer to Okta OIE.
+
+bugcrowd-%username%-1.oktapreview.com
+Backbone
+nginx
+bugcrowd-%username%-2.oktapreview.com
+Backbone
+nginx
+Advanced Server Access
+In scope
+Payment reward chart
+P1
+$7000 – $35000
+P2
+$3000 – $7000
+P3
+$1000 – $3000
+P4
+$100 – $1000
+Account Creation for Advanced Server Access
+Steps
+In order to participate in Okta's bug bounty program you are required to have a Bugcrowd account
+Visit Advanced Server Access and create your account using the naming convention bugcrowd-<username>
+
+!!NOTE!! Please sign up for an account using your @bugcrowdninja.com email addres. Once again, ALL organization/team names must follow the naming convention bugcrowd-<username>.
+
+For more info regarding @bugcrowdninja email addresses, see here. Researchers will not be asked for credit card information and will not be billed.
+
+Advanced Server Access (ASA) / (ScaleFT)
+https://www.okta.com/products/advanced-server-access/
+http://app.scaleft.com/
+Advanced Server Access Client / Agents
+https://help.okta.com/asa/en-us/Content/Topics/Adv_Server_Access/docs/client.htm
+Other In-Scope Targets
+In scope
+Payment reward chart
+P1
+$10000 – $75000
+P2
+$4000 – $10000
+P3
+$1000 – $4000
+P4
+$100 – $1000
+Okta Verify (iOS)
+https://apps.apple.com/us/app/okta-verify/id490179405
+Objective-C
+SwiftUI
+Swift
++2
+Okta Verify (Android)
+https://play.google.com/store/apps/details?id=com.okta.android.auth&hl=en_US&gl=US
+Java
+Mobile Application Testing
+Android
+Okta Verify (Mac OS)
+https://apps.apple.com/us/app/okta-verify/id490179405
+Objective-C
+Swift
+macOS
+Okta Verify (Windows)
+Okta On-Prem Agents ( AD, LDAP, RDP, IWA )
+Java
+.NET
+Okta Agent Windows
+https://help.okta.com/en/prod/Content/Topics/Adv_Server_Access/docs/sftd-windows.htm
+Windows
+Okta Browser Plugin (IE / Firefox / Chrome)
+https://help.okta.com/en/prod/Content/Topics/Settings/download-browser-plugin.htm
+Out of Scope Targets
+Out of scope
+*.okta.com
+*.trexcloud.com
+login.okta.com
+pages.okta.com
+developer.okta.com
+trust.okta.com
+www.okta.com (static site)
+https://scaleft.com
+https://app.scaleft.com/p/signup
+https://github.com/oktadev
+https://github.com/oktadev
+Backend Okta non-app infrastructure
+Network layer issues
+AtSpoke - Okta Workflows actions in access requests
+AtSpoke - Entitlement bundles as a resource in access requests
+Anything not explicitly called out above as in-scope
+AI-generated content
+
+We do not accept reports that contain low-effort or AI-generated content. Submissions must demonstrate original analysis, clear understanding of the issue, and actionable detail. Reports lacking meaningful human input will be rejected. Repeat offenders will be removed from the program.
+
+Redeem Credentials
+
+At the bottom of the program brief, click on "Get Credentials" to retrieve 2 sets of credentials.
+
+DO THIS FIRST!
+Change the email address associated with the provided users so that you can handle your own password resets
+Create at least 2 other Super Admins in each ORG for resetting locked accounts and handling account problems.
+Follow the steps to setup and enforce MFA on each Login under "Required MFA Configuration"
+Focus Areas per Product
+Focus Areas for Okta
+Okta Expression Language
+LDAP as a Service
+Authentication Protocol Vulnerabilities (e.g. SAML, OAuth & OIDC,Social Auth )
+XXE within the massive amount of XML data we accept
+Okta Browser Plugin (IE / Firefox / Chrome)
+Cross-Org Access / Multi-Tenancy Vulnerabilities
+Privileged (Horizontal / Vertical) Escalation
+All on-premise Agents (e.g. LDAP / AD / OPP / Radius / RSA)
+Okta Verify (iOS / Android)
+XSS and other Top 10 Issue such as Open Redirection and CSRF on sensitive page actions
+Focus Areas for Okta Personal
+Gaining access to Okta Personal Admin Dashboard or Identity Provider Dashboard
+If you gain access, do not proceed further or navigate. Immediately stop all testing and report.
+Breaking Okta Personal’s crypto and retrieving users data
+Push notification flows (unavailable at the moment)
+Sharing functionality
+Input validation issues
+Mobile intents
+Import + Export applications
+Focus Areas for Okta Workflows
+Ability to perform SSRF with Flo cards
+Ability to provision and deprovision Workflow orgs
+Performing Flo actions across orgs
+Viewing sensitive information across orgs
+Ability to escape from sandbox using API Endpoint & Return Raw
+Bypassing maximum 5 active flow limit and running the flows
+Workflows Roles and Permissions
+
+Refer to the roles and permissions for Workflows here
+https://help.okta.com/wf/en-us/content/topics/workflows/access-control/access-control-roles.htm
+
+Focus Areas for Okta Privileged Access
+ASA Client / Agents
+Secrets
+Resource Administration
+Security Administration
+Focus Areas for Advanced Server Access
+ASA Client / Agents
+Focus Areas for AtSpoke (Okta Access Requests)
+Configuration List Create a configuration list. Ability to bypass resource restrictions imposed by configuration lists
+Create a Request Type Create a request type
+Create and manage requests Create requests. Ability to modify critical fields of an access request (like assignee, approver, resource, etc)
+Access request integrations Access Requests Integrations. Ability to execute injection attacks from integrations: Jira, ServiceNow, Slack, Microsoft Teams
+Export data from access requests Export data from Access Requests
+File Upload OIG Access Requests - Can I Attach a File? -OIDC (custom client implementation)
+Advisory Note for AtSpoke
+
+For reference, here is a table of the different privileges of users in AtSpoke. This table may change at any time at the discretion of Okta. This is not an exhaustive list and each submission will be evaluated.
+
+Note: In this table,
+
+“your team” is a team of which the user is a member, and
+“another team” is a team of which the user is not a member.
+Action	Admin	Team Member	Regular User
+View a public request	✅	✅	✅
+Take actions on a public request	✅	✅	✅
+View a private request you're subscribed to	✅	✅	✅
+Take actions on a private request you're subscribed to	✅	✅	✅
+View a private request on your team that you're not subscribed to	❌	✅	❌
+Take actions on a private request on your team that you're not subscribed to	❌	✅	❌
+View a private request on another team that you’re not subscribed to	❌	❌	❌
+Edit a private request on another team that you’re not subscribed to	❌	❌	❌
+View all other users’ profile information	✅	✅	✅
+View all (public and invite-only) teams	✅	✅	✅
+Join a public team	✅	✅	✅
+Edit a public team	✅	✅	✅
+Edit your invite-only team	✅	✅	❌
+Join another invite-only team	✅	❌	❌
+Edit another invite-only team	✅	❌	❌
+Remove a team member from your team	✅	✅	❌
+Remove a team member from another team	✅	❌	❌
+Create request types on your team	✅	✅	❌
+Create request types on another team	✅	❌	❌
+Update integrations (install Slack, etc.)	✅	✅	❌
+View Visible Segments which includes which users are in groups pushed to Access Requests	✅	✅	✅
+Report Criteria
+
+All submissions must be in the following format:
+
+Description
+
+
+Business Impact (how does this affect Okta?)
+
+
+Working proof of concept
+
+
+Discoverability (how likely is this to be discovered)
+
+
+Exploitability (how likely is this to be exploited)
+
+Payout
+
+Eligible reports will be awarded based on severity, which will be determined by Okta at its sole discretion.
+
+For payout ranges, refer to the In-Scope targets above.
+
+Keep in mind that no two bugs are created equal. These payouts define general guidelines. The Okta Security team will determine the nature and impact of the bugs to identify the appropriate payouts around these guidelines. Awards are granted entirely at the discretion of Okta.
+
+Rules of Engagement
+Employees and relatives are NOT eligible for a bounty
+No automated scanning
+No DoS - Amazon prohibits this activity and testing cluster not scaled for these attacks
+Any sort of DoS against Okta Workflows is strictly out of scope
+Any sort of automation against Okta Workflows is strictly out of scope
+Limit AD / LDAP Imports to 1000 users & groups
+Do NOT contact Okta support or helpdesk for bugbounty related concerns - please contact bugcrowd support
+Publicly-known zero-day vulnerabilities will not be considered for eligibility until more than 30 days have passed since patch availability
+You are testing on production systems. As such, please refrain from the use of scanning engines or anything that can affect load on our production servers. In addition, use common sense judgement to not do anything to affect our systems in general.
+Customer data must not be affected in any way as a result of your testing.
+Customer instances must not be accessed in any way.
+The use of any automated tools or scanners is prohibited.
+Do NOT perform any type of burp scans or scanners.
+Do not conduct non-technical attacks such as social engineering, phishing or unauthorized access to infrastructure.
+Do not test the physical security of Auth0 offices, employees, equipment, etc.
+If you gain access to servers, do not attempt to pivot. Stop all testing and report.
+For Okta Personal, if you gain access to the Admin Dashboard or Identity Provider Dashboard, stop all testing and report.
+Out Of Scope
+The following finding types are specifically excluded from the bounty:
+SOQL Injections
+Abandoned/unclaimed domains, domain squatting, link rot, social media hijacking etc
+All subdomain takeovers unless it is immediately critical
+Invalidating User Sessions
+Refer to Invalidating Sessions section
+EXIF Metadata
+HTML Email Injection
+Refer to HTML Injection section
+HTML Injection
+Refer to HTML Injection section
+Host Header Redirect without user impact
+Okta Mobility Management (OMM) (Low severity vulns will be rejected)
+HTTP 404 codes/pages or other HTTP non-200 codes/pages.
+Fingerprinting / banner disclosure on common/public services.
+Disclosure of known public files or directories, (e.g. robots.txt).
+Clickjacking and issues only exploitable through clickjacking.
+CSRF on forms that are available to anonymous users (e.g. login or contact form).
+Logout / Login Cross-Site Request Forgery (logout CSRF).
+Presence of application or web browser ‘autocomplete’ or ‘save password’ functionality.
+Lack of Security Speedbump when leaving the site.
+No Captcha / Weak Captcha / Captcha Bypass
+Login or Forgot Password page brute force and account lockout not enforced
+HTTP method enabled
+OPTIONS, PUT,GET,DELETE,INFO
+WebServer Type disclosures
+Social engineering of our service desk, employees or contractors
+Physical attacks against Okta's offices and data centers
+Requiring a user's physical device
+Error messages with non-sensitive data
+Non-application layer Denial of Service or DDoS
+Lack of HTTP Only / SECURE flag for cookies
+Username / email enumeration
+via Login Page error message
+via Forgot Password error message
+Missing HTTP security headers, specifically (https://www.owasp.org/index.php/List_of_useful_HTTP_headers), e.g.
+Strict-Transport-Security
+X-Frame-Options
+X-XSS-Protection
+X-Content-Type-Options
+Content-Security-Policy, X-Content-Security-Policy, X-WebKit-CSP
+Content-Security-Policy-Report-Only
+SPF / DMARC / DKIM Mail and Domain findings
+Email Rate Limiting or Spamming
+DNSSEC Findings
+CSV Issues
+AV Scanning
+SSL Issues, e.g.
+SSL Attacks such as BEAST, BREACH, Renegotiation attack
+SSL Forward secrecy not enabled
+SSL weak / insecure cipher suites
+Cookie Issues
+HTTPONLY
+SECURE
+multiple cookie setting
+Anything to do with JSESSIONID
+Service Rate Limiting
+User or Org enumeration
+Security Image Issues
+Business Logic READ Issues
+E.G. Any Admin can see Another Admin's users, devices, or download reports
+E.G. Read-Only Admin can see logs or other details
+E.G. Mobile Admin can see Super User details
+Reference Information
+
+Okta Public API References
+Okta Configuration & Support Site
+AD Agent
+Radius Agent
+LDAP Agent Installation
+LDAP as a Service
+Desktop SSO / IWA
+Browser Plugin
+SAML
+OAuth & OIDC
+OAuth Overview
+Social Auth
+
+Please check current Release Notes to see what's new. New code is released weekly.
+
+Theoretical Issues
+
+Any submissions suggesting that an issue could lead to or has the potential to cause impact will be considered OUT OF SCOPE. You MUST provide a complete proof of concept demonstrating the attack detailed in the submission.
+
+Chaining Bugs
+
+Chaining of bugs is not frowned upon in any way, we love to see clever exploit chains! However, if you have managed to compromise an Okta owned server we do not allow for escalations such as port scanning internal networks, privilege escalation attempts, attempting to pivot to other systems, etc. If you get access this level of access to a server please report it us and we will reward you with an appropriate bounty taking into full consideration the severity of what could be done. Chaining a CSRF vulnerability with a self XSS? Nice! Using AWS access key to dump sensitive info? Not cool.
+
+Unsure of a vuln?
+
+We base all payouts on risk AND impact - when in doubt the question always comes down to risk and impact (aka what can actually be done with the vulnerability and what is the consequence to Okta). If you can demonstrate why a finding has significant impact, then please submit.
+
+As an example: Let's say you can, as a limited admin, see logs that are not in your user role - What is the impact? If this allows you to compromise something else then please detail the full exploit chain and report. However if the only impact is reading logs.. then there is no need to report it as it would fall under - Business Logic READ issues.
+
+Another example: Let's say you can, as a limited admin, see a list of applications but you cannot access them - What is the impact? Are you able to utilize the appID and access contents (such as the secret, jwt, etc) of the application with another endpoint? Report it. However, if you're only able to see the list of applications and the names, there is no need to report it.
+
+Additional Details
+Similar Bugs
+
+Bugs of similar nature or root cause reported by the same person may be combined into one item, thus constituting only a single award.
+
+Required MFA Configuration
+
+All orgs are created with a minimal configuration and it's the customer's (your responsibility) to configure the environment to enforce MFA enrollment AND validation.
+
+CLASSIC Orgs
+Require MFA Enrollment
+Go to Security -> Multifactor -> Factor Enrollment and require enrollment to specific authenticators
+Set a factor to be required for all login
+Security -> Authentication Sign On : Default Policy Add Rule Set to anywhere / all the time CHECK Prompt for Factor Select Every Time
+
+This manual configuration above is required to fully enable MFA validation for users and admins within your Okta org
+
+OIE Orgs
+
+Require MFA Enrollment
+
+Go to Security -> Authenticators -> Enrollment and require enrollment to specific authenticators
+
+Set a factor to be required for all login
+
+Security -> Global Session Policy Add Rule Set to Any factor used to meet the Authentication Policy requirements Multifactor authentication (MFA) is REQUIRED
+
+Configure application sign on policies
+
+Security -> Authentication Policies -> Add a policy
+Create new rules and add an application under the policy
+Full MFA Bypass
+The above "Required MFA Configuration" must be added
+If applications are the target MFA must be required per-app with no exceptions
+MFA Bypass would include mechanisms to avoid, remove, or compromise of MFA server side for a customer.
+Examples of unacceptable submissions would include turning off MFA, changing MFA as the admin, changing MFA policies as the admin, bypassing local-only checks
+Requiring compromised credentials, bruteforcing, and locking out the account will reduce severity and impact. The Okta org sign on policy must require MFA and the Enduser & Admin dashboard must require MFA. No social engineering or phishing. No theoretical attacks.
+Browser Plugin Compromise
+Critical browser plugin vulnerabilities would include a compromise of the entire plugin on any supported platform. Accepted, but not critical, issues would include single site reg-ex confusion, inappropriate interaction with the plugin from the target DOM, API vulnerabilities in usage or implementation for the os/browser.
+Examples of unacceptable submissions would include directly modifying the plugin on the host, creating a fake plugin, theoretical issues that can not be reproduced.
+Mobile App Critical Vulnerability
+Critical mobile application vulnerabilities would include a compromise of the mobile application from the network, other apps on the device, 3rd party library vulnerabilities, or via accessible APIs.
+Examples of unacceptable submissions would include enhancement recommendations, issues that are only exploitable on JailBroken / Rooted devices and do not work on un-modified equipment, and reports related to hooking, wrapping, or replacing the application.
+HTML Injection
+
+HTML Injection reports must demonstrate real security risk and impact. Reports demonstrating basic HTML payloads or payloads such as <h1>Test</h1>, <form action="https://evil.com">, <a href="https://okta.com>test</a>, etc, will be rejected as Out of scope.
+In most cases, HTML injections can result into XSS and we encourage you to discover a bypass to our XSS validation.
+
+Invalidating Sessions
+
+Before submitting any requests regarding invalidating user sessions due to changing passwords or performing password resets, ensure that you choose "Sign me out of all other devices" on the password change screen. This action will invalidate sessions on all other devices.
+
+Submissions concerning session invalidation for other applications (such as Workflows, AtSpoke, etc.) when resetting passwords, clearing user sessions, or terminating users in the Okta Admin Dashboard will be marked as not applicable (N/A). It's important to note that terminating a user's session using any of the mentioned methods will not affect any SAML/OIDC applications initiated by the user; their sessions will remain active until expiration.
+
+Okta supports Service Provider-initiated (SP-initiated) logout for third-party SAML and OIDC applications. When a user clicks the sign-out button in applications like Workflows or AtSpoke, the application directs the browser to Okta, triggering an inbound logout request. This action signals to Okta that the user wishes to sign out of the application, and in response, Okta terminates the user's session.
+
+Additionally, there are plans to implement single log-out (SLO) in the future.
+
+What’s new
+View all announcements
+
+yuzu announced $500k Reward bonuses for RCE & SQLi
+
+12 months ago
+(07 Oct 2025 21:56:09 GMT+0)
+
+Hi All!
+
+Okta is offering a limited-time bounty bonus of up to $500,000 for remote code execution (RCE) or SQL injection (SQLi) vulnerabilities that affect in-scope Okta products.
+
+Full program details and scope are in our Okta program brief: https://bugcrowd.com/engagements/okta.
+
+Please read the scope and rules carefully before testing.
+
+Thanks!
+
+More
+
+yuzu announced Okta Credentials
+
+about 1 year ago
+(21 Aug 2025 21:31:30 GMT+0)
+
+Hello Researchers!
+
+All existing credentials have now been claimed, so we’ve added more to the pool.
+
+If you previously tried to claim credentials but didn’t receive any, scroll to the bottom of the brief and click “Get Credentials” to access two sets.
+
+These can be used to test Okta OIE, Workflows, Okta Privileged Access, Advanced Server Access, and more!
+
+If you have any issues claiming credentials, reach out support@bugcrowd.com.
+
+More
+
+yuzu announced Okta - New Target! Okta Personal
+
+about 1 year ago
+(04 Aug 2025 21:12:10 GMT+0)
+
+We have exciting news for Okta!
+
+We have added Okta Personal to the program scope.
+
+Register
+
+Go to https://personal.trexcloud.com and sign up for an account. You MUST use your @bugcrowdninja.com email address.
+
+Focus Areas for Okta Personal
+Gaining access to Okta Personal Admin Dashboard or Identity Provider Dashboard
+If you gain access, do not proceed further or navigate. Immediately stop all testing and report.
+Breaking Okta Personal’s crypto and retrieving users data
+Push notification flows (unavailable at the moment)
+Sharing functionality
+Input validation issues
+Mobile intents
+Import + Export applications
+
+Note: For Okta Personal, if you gain access to the Admin Dashboard or Identity Provider Dashboard, stop all testing and report immediately!
+
+As always, please be sure to review the program brief in detail, and if you have any questions, please reach out support@bugcrowd.com.
+
+Happy Hunting!
+
+More
+Recent activity
+View all CrowdStream activity
+
+Submission accepted on target: https://bugcrowd-pam-###.at.oktapreview.com
+
+By moh3nra021Engagement OktaPriority P4
+Accepted on 11 Sep 2026
+
+Submission accepted on target: https://bugcrowd-pam-###.workflows.oktapreview.com
+
+By rephlexsionEngagement OktaReward $1,250Priority P3
+Accepted on 11 Sep 2026
+
+Submission accepted on target: support.okta.com
+
+By mooimacowEngagement OktaReward $3,000Priority P2
+Accepted on 11 Sep 2026
+Crowd highlights
+Latest hall of famers
+Hall of Fame
+Recently joined this engagement
+368 total
+Additional information
+
+In addition to the above standard disclosure terms, by participating in this program, you're agreeing to abide by Okta's Vulnerability Disclosure Policy and Supplemental Terms.
+
+This bounty requires explicit permission to disclose the results of a submission.
+
+Things to know
+Testing problems
+For any testing issues (such as broken credentials, inaccessible application, or Bugcrowd Ninja email problems), please visit Bugcrowd Support and create a support ticket. We will address your issue as soon as possible.
+Engagement rules
+This engagement follows Bugcrowd’s standard disclosure terms.
+Nondisclosure
+This engagement does not allow disclosure. You may not release information about vulnerabilities found in this engagement to the public.
+Terms & ConditionsPrivacy PolicySecurityDo Not Sell My Information
+DocsFAQResourcesBlogContactGet Help
+Copyright © 2014 – 2026 Bugcrowd, Inc. All rights reserved.

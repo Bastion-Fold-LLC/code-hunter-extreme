@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>YesWeHack #1 Bug Bounty Platform in Europe</title>
+        <base href="/"/>
+        <script type="text/javascript" src="assets/scripts/redirect.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Bug Bounty secures applications the agile way with a global community of ethical hackers through private and public programs. Create an effective vulnerability disclosure strategy for security researchers."/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="YesWeHack #1 Bug Bounty Platform in Europe"/>
+        <meta property="og:url" content="https://www.yeswehack.com/"/>
+        <meta property="og:description" content="Bug Bounty secures applications the agile way with a global community of ethical hackers through private and public programs. Create an effective vulnerability disclosure strategy for security researchers."/>
+        <meta property="og:site_name" content="YesWeHack #1 Bug Bounty Platform in Europe"/>
+        <meta property="og:image" content="https://yeswehack.com/assets/images/meta_ywh.png"/>
+        <meta property="og:image:secure_url" content="https://yeswehack.com/assets/images/meta_ywh.png"/>
+        <meta property="og:image:width" content="300"/>
+        <meta property="og:image:height" content="300"/>
+        <meta property="twitter:title" content="YesWeHack #1 Bug Bounty Platform in Europe"/>
+        <meta property="twitter:card" content="summary"/>
+        <meta property="twitter:url" content="https://www.yeswehack.com/"/>
+        <meta property="twitter:description" content="Bug Bounty secures applications the agile way with a global community of ethical hackers through private and public programs. Create an effective vulnerability disclosure strategy for security researchers."/>
+        <meta property="twitter:creator" content="@yeswehack"/>
+        <meta property="twitter:site" content="@yeswehack"/>
+        <meta property="twitter:image" content="https://yeswehack.com/assets/images/meta_ywh.png"/>
+        <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+    <link rel="stylesheet" href="styles-7EDV6H4E.css"></head>
+    <body class="app" data-theme="system" ngcm="">
+        <ywh-root></ywh-root>
+    <link rel="modulepreload" href="chunk-D339cjUn.js"><link rel="modulepreload" href="chunk-D3SNC7rZ.js"><link rel="modulepreload" href="chunk-DQb5qae7.js"><link rel="modulepreload" href="chunk-B6aEg8bW.js"><link rel="modulepreload" href="chunk-DW-pCsYi.js"><link rel="modulepreload" href="chunk-BXA15sJ-.js"><link rel="modulepreload" href="chunk-DoLfJ-ZO.js"><link rel="modulepreload" href="chunk-DOIJ2KY4.js"><link rel="modulepreload" href="chunk-DFD5bIZ5.js"><link rel="modulepreload" href="chunk-D4pNJlva.js"><script src="main-AF4ZY66Q.js" type="module"></script></body>
+
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer=""></script>
+</html>

@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Axal - TEE & Server",
+  "url": "https://audits.sherlock.xyz/bug-bounties/105",
+  "max_payout_usd": 25000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Axal - TEE & Server",
+      "25,000 USDC",
+      "Payout",
+      "Aug 5, 2025",
+      "Last Updated"
+    ]
+  }
+}

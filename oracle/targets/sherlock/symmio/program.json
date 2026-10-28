@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "SYMMIO",
+  "url": "https://audits.sherlock.xyz/bug-bounties/5",
+  "max_payout_usd": 808808,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "SYMMIO",
+      "808,808 USDC",
+      "Payout",
+      "Oct 30, 2024",
+      "Last Updated"
+    ]
+  }
+}

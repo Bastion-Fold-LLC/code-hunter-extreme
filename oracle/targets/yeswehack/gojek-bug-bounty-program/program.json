@@ -1,0 +1,174 @@
+{
+ "platform": "yeswehack",
+ "name": "gojek-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/gojek-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "GOJEK - Public Bounty Program",
+  "slug": "gojek-bug-bounty-program",
+  "country": "ID",
+  "activity_area": "Tech - Other",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": false,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 1003,
+  "bounty_reward_min": 5,
+  "bounty_reward_max": 3500,
+  "scopes_count": 16,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "dde1545a-ae6f-4763-99ee-4bc41824d97c",
+   "original_name": "gojek_logo.png",
+   "mime_type": "image/png",
+   "size": 37450,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/dde1545a-ae6f-4763-99ee-4bc41824d97c"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "PT GoTo Gojek Tokopedia Tbk",
+   "slug": "pt-goto",
+   "description": "GoTo Group is the largest digital ecosystem in Indonesia, with a mission to \u201cempower progress\u201d by offering technology infrastructure and solutions that help everyone to access and thrive in the digital economy. GoTo\u2019s ecosystem comprises of on-demand transport, e-commerce, food and grocery delivery, logistics and fulfillment, and financial services through the Gojek, Tokopedia and GoTo Financial platforms.",
+   "currency": "USD",
+   "already_activate_product": true,
+   "logo": {
+    "name": "3914a3c5-fc5b-49c1-999d-2e878290ea73",
+    "original_name": "pt_goto_gojek_tokopedia_business_unit_logo_final.png",
+    "mime_type": "image/png",
+    "size": 10535,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/3914a3c5-fc5b-49c1-999d-2e878290ea73"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-08-03T10:04:25+02:00",
+  "report_submission_cost": 5
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "*.gojekapi.com",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.gojek.co.id",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.gojek.app",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/id/app/gojek/id944875099",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "gofood.co.id",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "api.gobiz.co.id",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gofood.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gobiz.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "portal.gofoodmerchant.co.id",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gojek.com",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.golabs.io",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.gofoodmerchant.co.id",
+   "asset_type": "Wildcard",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "gocorp.gojek.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.gojek.resto",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/sg/app/gojek-driver/id1573529788",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.gojek.partner",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+  "program": "mon-espace-sante-mes",
+  "platform": "yeswehack",
+  "slug": "mon-espace-sante-mes",
+  "downloaded_at": "2026-09-29T06:20:51.504708+00:00",
+  "assets": [
+    "program_page.txt",
+    "yeswehack.com__openapi.json",
+    "yeswehack.com__swagger.json",
+    "yeswehack.com__api_docs.html",
+    "yeswehack.com__api_openapi.json",
+    "yeswehack.com__v1_openapi.json",
+    "yeswehack.com__robots.txt"
+  ],
+  "asset_count": 7,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

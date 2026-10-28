@@ -1,0 +1,613 @@
+/* stylelint-disable max-line-length */
+
+/**
+ * Suggested tasks widget.
+ *
+ * Dependencies: progress-planner/suggested-task, progress-planner/web-components/prpl-badge
+ */
+
+.prpl-dashboard-widget-suggested-tasks {
+
+	.prpl-suggested-tasks-widget-description {
+		max-width: 40rem;
+	}
+
+	&:not(:has(.prpl-suggested-tasks-loading)):not(:has(.prpl-suggested-tasks-list li)) {
+
+		.prpl-no-suggested-tasks {
+			display: block;
+		}
+	}
+
+	&:not(:has(.prpl-suggested-tasks-loading)):has(.prpl-suggested-tasks-list li) {
+
+		.prpl-show-all-tasks {
+			display: block;
+		}
+	}
+
+	.prpl-show-all-tasks {
+		display: none;
+
+		.prpl-toggle-all-recommendations-button {
+			background: none;
+			border: none;
+			padding: 0;
+			color: var(--prpl-color-link);
+			text-decoration: underline;
+			cursor: pointer;
+			font-size: inherit;
+			font-family: inherit;
+
+			&:hover {
+				color: var(--prpl-color-link-hover);
+			}
+
+			&:disabled {
+				opacity: 0.6;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	&:has(.prpl-suggested-tasks-list li) {
+
+		.prpl-widget-title {
+			display: flex;
+		}
+	}
+
+	.prpl-widget-title {
+		display: none;
+	}
+
+	.prpl-no-suggested-tasks,
+	.prpl-suggested-tasks-loading {
+		display: none;
+		background-color: var(--prpl-background-activity);
+		padding: calc(var(--prpl-padding) / 2);
+	}
+
+	.prpl-suggested-tasks-loading {
+		display: block;
+	}
+}
+
+.prpl-suggested-tasks-list {
+	list-style: none;
+	padding: 0;
+	margin: 0 0 var(--prpl-padding) 0;
+
+	&:not(:has(+ .prpl-suggested-tasks-list)) .prpl-suggested-task:last-child {
+		border-bottom: none;
+	}
+}
+
+/*------------------------------------*\
+	Interactive tasks, popover.
+\*------------------------------------*/
+.prpl-popover.prpl-popover-interactive {
+	padding: 24px 24px 14px 24px;
+
+	/* 14px is needed for the "next" button hover state. */
+	box-sizing: border-box;
+
+	* {
+		max-width: calc(100% - 1px);
+	}
+
+	.prpl-columns-wrapper-flex {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 40px;
+		overflow: hidden;
+		padding-bottom: 10px;
+
+		/* Needed for the "next" button hover state. */
+
+		>* {
+			flex-grow: 1;
+			flex-basis: 300px;
+			position: relative;
+
+			&:not(:first-child) {
+
+				&::before,
+				&::after {
+					content: "";
+					display: block;
+					position: absolute;
+					top: 0;
+					left: -20px;
+					width: 1px;
+					height: 100%;
+					background-color: var(--prpl-color-border);
+				}
+
+				&::after {
+					top: -20px;
+					left: 0;
+					width: 100%;
+					height: 1px;
+				}
+			}
+		}
+	}
+
+	.prpl-column {
+
+		/* Set margin for headings and paragraphs. */
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		p {
+			margin-bottom: 1rem;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.prpl-interactive-task-title {
+			font-size: 18px;
+			line-height: 22px;
+
+			& + p {
+				margin-top: 4px;
+			}
+		}
+
+		/* Set padding and background color for content column (description text). */
+		&.prpl-column-content {
+			padding: 20px;
+			border-radius: var(--prpl-border-radius-big);
+			background-color: var(--prpl-background-content);
+		}
+
+		.prpl-note {
+			margin-bottom: 1rem;
+			display: flex;
+			align-items: flex-start;
+			gap: 0.5rem;
+			padding: 0.75rem;
+			color: var(--prpl-color-alert-warning-text);
+			font-size: var(--prpl-font-size-small);
+			border-radius: 6px;
+			background-color: var(--prpl-background-alert-warning);
+
+			.prpl-note-icon {
+				display: flex;
+				flex-shrink: 0;
+				align-items: center;
+				justify-content: center;
+				width: 20px;
+				height: 20px;
+				color: var(--prpl-color-alert-warning);
+
+				svg {
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			&.prpl-note-error {
+				color: var(--prpl-color-alert-error-text);
+				background-color: var(--prpl-background-alert-error);
+				margin-bottom: 0;
+
+				order: 98; /* One less than the spinner. */
+				flex-grow: 1;
+
+				.prpl-note-icon {
+					color: var(--prpl-color-alert-error);
+				}
+
+			}
+		}
+
+		/* To align the buttons to the bottom of the column. */
+		&:not(.prpl-column-content) {
+			display: flex;
+			flex-direction: column;
+			padding-top: 3px; /* To prevent custom radio and checkbox from being cut off. */
+		}
+
+		/* Inputs. */
+		input[type="text"],
+		input[type="email"],
+		input[type="number"],
+		input[type="url"],
+		input[type="tel"],
+		input[type="search"] {
+			height: 44px;
+			padding: 1rem;
+
+			/* WIP */
+			width: 100%;
+			min-width: 300px;
+
+			/* WIP */
+			border-radius: 6px;
+			border: 1px solid var(--prpl-color-border);
+		}
+
+		.prpl-button-step,
+		.prpl-button {
+			padding: 0.75rem 1.25rem;
+			margin: 1rem 0;
+			border: none;
+			color: var(--prpl-color-text);
+			font-weight: 600;
+			border-radius: var(--prpl-border-radius);
+			background-color: var(--prpl-background-banner);
+			cursor: pointer;
+
+			/* WIP: pick exact color */
+			transition: all 0.25s ease-in-out;
+			position: relative;
+
+			&::after {
+				content: "";
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: var(--prpl-background-banner) !important;
+
+				/* WIP: pick exact color */
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: -1;
+				border-radius: 6px;
+				transition: all 0.25s ease-in-out;
+			}
+
+			&:hover,
+			&:focus {
+				background: var(--prpl-background-banner);
+
+				/* WIP: pick exact color */
+
+				&::after {
+					background: var(--prpl-background-banner);
+
+					/* WIP: pick exact color */
+					box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+					width: calc(100% + 4px);
+					height: calc(100% + 4px);
+					margin: -2px;
+				}
+			}
+		}
+
+		textarea {
+			width: 100%;
+			min-height: 100px;
+			border-radius: 6px;
+			box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.05);
+			border: 1px solid var(--prpl-color-border);
+		}
+
+		/* Used for radio and checkbox inputs. */
+		.radios {
+			padding-left: 3px;
+
+			/* To prevent custom radio and checkbox from being cut off. */
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+
+			.prpl-radio-wrapper {
+				display: flex;
+				align-items: center;
+			}
+
+			--prpl-input-green: #3bb3a6;
+			--prpl-input-gray: #8b99a6;
+
+			/* Hide the default input, because WP has it's own styles (which include pseudo-elements). */
+			.prpl-custom-checkbox input[type="checkbox"],
+			.prpl-custom-radio input[type="radio"] {
+				position: absolute;
+				opacity: 0;
+				width: 0;
+				height: 0;
+			}
+
+			/* Shared styles for the custom control */
+			.prpl-custom-control {
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 12px;
+				width: 20px;
+				height: 20px;
+				box-sizing: border-box;
+				position: relative;
+				transition: border-color 0.2s, background 0.2s;
+			}
+
+			/* Label text styling */
+			.prpl-custom-checkbox,
+			.prpl-custom-radio {
+				display: flex;
+				align-items: center;
+				margin-bottom: 0.5rem;
+				cursor: pointer;
+				user-select: none;
+			}
+
+			/* Checkbox styles */
+			.prpl-custom-checkbox {
+
+				.prpl-custom-control {
+					border: 1px solid var(--prpl-input-gray);
+					border-radius: 6px;
+					background: #fff;
+				}
+
+				input[type="checkbox"] {
+
+					/* Checkbox hover (off) */
+					&:hover + .prpl-custom-control {
+						box-shadow: 0 0 0 2px #f7f8fa, 0 0 0 3px var(--prpl-input-green);
+					}
+
+					/* Checkbox checked (on) */
+					&:checked + .prpl-custom-control {
+						background: var(--prpl-input-green);
+						border-color: var(--prpl-input-green);
+						box-shadow: 0 0 0 2px #f7f8fa, 0 0 0 3px var(--prpl-input-green);
+					}
+				}
+
+				/* Checkmark */
+				.prpl-custom-control::after {
+					content: "";
+					position: absolute;
+					left: 6px;
+					top: 2px;
+					width: 4px;
+					height: 9px;
+					border: solid #fff;
+					border-width: 0 2px 2px 0;
+					opacity: 0;
+					transform: scale(0.8) rotate(45deg);
+					transition: opacity 0.2s, transform 0.2s;
+				}
+
+				input[type="checkbox"]:checked + .prpl-custom-control::after {
+					opacity: 1;
+					transform: scale(1) rotate(45deg);
+				}
+			}
+
+			/* Radio styles */
+			.prpl-custom-radio {
+
+				.prpl-custom-control {
+					border: 1px solid var(--prpl-input-gray);
+					border-radius: 50%;
+					background: #fff;
+				}
+
+				/* Radio hover (off) */
+				input[type="radio"] {
+
+					&:hover + .prpl-custom-control {
+						box-shadow: 0 0 0 2px #f7f8fa, 0 0 0 3px var(--prpl-input-green);
+					}
+
+					/* Radio checked (on) */
+					&:checked + .prpl-custom-control {
+						background: var(--prpl-input-green);
+						border-color: var(--prpl-input-green);
+						box-shadow: 0 0 0 2px #f7f8fa, 0 0 0 3px var(--prpl-input-green);
+					}
+				}
+
+				/* Radio dot */
+				.prpl-custom-control::after {
+					content: "";
+					position: absolute;
+					top: 5px;
+					left: 5px;
+					width: 8px;
+					height: 8px;
+					background: #fff;
+					border-radius: 50%;
+					opacity: 0;
+					transition: opacity 0.2s;
+				}
+
+				input[type="radio"]:checked + .prpl-custom-control::after {
+					opacity: 1;
+					background: #fff;
+				}
+			}
+		}
+
+		/* Used for next step button. */
+		.prpl-steps-nav-wrapper {
+			margin-top: auto;
+			padding-top: 1rem;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			gap: 1rem;
+			align-self: flex-end;
+			width: 100%;
+
+			/* If there are no other elements in the form, align the button to the left. */
+			&:only-child {
+				padding-top: 0;
+			}
+
+			&:only-child,
+			&.prpl-steps-nav-wrapper-align-left {
+				justify-content: flex-start;
+
+				/* Display the spinner after the button. */
+				.prpl-spinner {
+					order: 99;
+				}
+			}
+
+			.prpl-button {
+				cursor: pointer;
+				margin: 0;
+
+				/* If the button has empty data-action attribute disable it. */
+				&[data-action=""] {
+					pointer-events: none;
+					opacity: 0.5;
+				}
+			}
+
+			/* Display the spinner before the button. */
+			.prpl-spinner {
+				order: -1;
+			}
+
+		}
+	}
+
+	/* Set the date format. */
+	&#prpl-popover-set-date-format {
+
+		.prpl-radio-wrapper {
+
+			.date-time-text {
+				min-width: 10rem;
+			}
+		}
+	}
+}
+
+/*------------------------------------*\
+	Page select setting.
+\*------------------------------------*/
+.prpl-pages-item {
+
+	&:has(input[type="radio"][value="yes"]:checked),
+	&:has(input[type="radio"][value="no"]:checked) {
+
+		h3 {
+
+			.icon-exclamation-circle {
+				display: block;
+			}
+
+			.icon-check-circle {
+				display: none;
+			}
+		}
+	}
+
+	&:has(option[value=""]:not(:checked)):has(input[type="radio"][value="yes"]:checked),
+	&:has(input[type="radio"][value="not-applicable"]:checked) {
+
+		h3 {
+
+			.icon-check-circle {
+				display: block;
+			}
+
+			.icon-exclamation-circle {
+				display: none;
+			}
+		}
+	}
+
+	.item-actions,
+	.prpl-select-page {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.remind-button,
+	.assign-button {
+
+		svg {
+			width: 1rem;
+			height: 1rem;
+		}
+	}
+
+	h3 {
+		font-size: 1.15rem;
+		margin: 0;
+
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+
+		.icon {
+			width: 1em;
+			height: 1em;
+			display: none;
+		}
+	}
+
+	p {
+		margin-block-start: 0.5rem;
+		margin-block-end: 1rem;
+	}
+
+	.radios {
+		margin-bottom: 1rem;
+	}
+
+	.prpl-radio-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		[data-action="select"],
+		[data-action="create"] {
+			visibility: hidden;
+		}
+
+		&:has(input[type="radio"]:checked) {
+
+			[data-action="select"],
+			[data-action="create"] {
+				visibility: visible;
+			}
+		}
+
+		&:has(input[type="radio"][value="not-applicable"]) {
+			padding-top: 0.25rem;
+
+			/* Add bit height, because we dont have button or select */
+		}
+	}
+}
+
+/*------------------------------------*\
+	Post types selection.
+\*------------------------------------*/
+.prpl-post-types-selection {
+
+	label {
+		display: block;
+		margin-top: 0.75rem;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}

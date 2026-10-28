@@ -1,0 +1,14 @@
+{
+  "program": "Woo Customer Coupons",
+  "platform": "patchstack",
+  "slug": "woo_customer_coupons",
+  "downloaded_at": "2026-09-29T06:48:38.776650+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

@@ -1,0 +1,33 @@
+{
+ "platform": "codehawks",
+ "name": "Zaros Part 1",
+ "url": "https://codehawks.cyfrin.io/c/2024-07-zaros",
+ "max_payout_usd": 60000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "Zaros Part 1",
+   "Zaros",
+   "DeFi",
+   "Foundry",
+   "Public",
+   "60,000",
+   "USDC",
+   "Ended",
+   "Ended 789d, 1h ago",
+   "Quick actions",
+   "View contest"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/Cyfrin/2024-07-zaros",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,104 @@
+{
+ "platform": "yeswehack",
+ "name": "moneybox-bug-bounty",
+ "url": "https://yeswehack.com/programs/moneybox-bug-bounty",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Moneybox Bug Bounty",
+  "slug": "moneybox-bug-bounty",
+  "country": "GB",
+  "activity_area": "Finance/Assurance",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 137,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 2000,
+  "scopes_count": 6,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "18faebfb-3fc7-47d2-ad8f-0f9e8af2512b",
+   "original_name": "digital_moneybox_logo.jpg",
+   "mime_type": "image/jpeg",
+   "size": 2950,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/18faebfb-3fc7-47d2-ad8f-0f9e8af2512b"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Moneybox",
+   "slug": "moneybox",
+   "description": "Save and invest for your future. We offer cash savings products and long term investment products. As with all investing, your capital is at risk.",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": null,
+    "original_name": null,
+    "mime_type": null,
+    "size": null,
+    "url": null
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-05-26T16:26:25+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://api.moneyboxapp.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://admin.moneyboxapp.org",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://admin-roundups.moneyboxapp.org",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/gb/app/moneybox-save-and-invest/id1049797239",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.moneyboxapp",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://sycamore.moneyboxapp.org",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

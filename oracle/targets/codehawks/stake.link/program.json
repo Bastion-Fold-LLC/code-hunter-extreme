@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "stake.link",
+  "url": "https://codehawks.cyfrin.io/c/2023-12-stake-link",
+  "max_payout_usd": 27500,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "stake.link",
+      "stake.link",
+      "DeFi",
+      "Hardhat",
+      "Bridge",
+      "Public",
+      "27,500",
+      "USDC",
+      "Ended",
+      "Ended 990d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

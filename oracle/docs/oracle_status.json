@@ -1,0 +1,154 @@
+{
+  "generated": "2026-10-03",
+  "commit": "0b370d2",
+  "branch": "rowan/hunt-filter-fixes",
+
+  "test_suite": {
+    "command_fast": "python3 tests/run_all.py",
+    "command_full": "python3 -m pytest tests/ --ignore=tests/test_oracle_ground_truth.py --ignore=tests/vuln_testbed_full.py",
+    "layers": [
+      {
+        "name": "card-structure smoke",
+        "file": "tests/test_card_structure.py",
+        "status": "PASS",
+        "what_it_tests": "All 14 web seam templates fire and every emitted card has required fields, parseable check URL, status code in Expected, CANDIDATE verdict",
+        "runtime_s": 0.1
+      },
+      {
+        "name": "wordlist coverage",
+        "file": "tests/test_wordlist_coverage.py",
+        "status": "PASS",
+        "what_it_tests": "Every planted vuln route exists in oracle-api-paths.txt so a real ffuf run can find it without hand-seeding",
+        "runtime_s": 0.1
+      },
+      {
+        "name": "golden hunt",
+        "file": "tests/test_golden_hunt.py",
+        "status": "PASS",
+        "what_it_tests": "Recall: all 13 planted vuln classes CONFIRMED. Precision: all 7 benign controls REJECTED. Runs the real template→check→5-gate-verify path against a live testbed.",
+        "runtime_s": 1.6,
+        "confirmed_count": 18,
+        "planted_vulns": 13,
+        "benign_controls": 7
+      }
+    ],
+    "pytest_total": {
+      "passed": 121,
+      "failed": 0,
+      "warnings": 3,
+      "runtime_s": 7.4
+    },
+    "excluded_from_suite": [
+      {
+        "file": "tests/test_oracle_ground_truth.py",
+        "reason": "Calls live LLM (run_reflexes → ollama) — hangs without a running model. Needs --live flag guard before inclusion."
+      }
+    ]
+  },
+
+  "seam_templates": {
+    "total_registered": 16,
+    "web_templates": 14,
+    "code_templates": 2,
+    "all_firing": true,
+    "templates": [
+      { "tid": "mirror-remembered-vs-live",       "class": "PARADOX", "severity": "medium", "what_it_finds": "Old API version still routable while new version is the contract" },
+      { "tid": "vacuum-identity-decoupling",       "class": "PARADOX", "severity": "low",    "what_it_finds": "Privileged-named endpoint may not enforce the identity its name claims" },
+      { "tid": "observer-unwatched-watcher",       "class": "PARADOX", "severity": "medium", "what_it_finds": "GraphQL introspection live — full schema self-discloses" },
+      { "tid": "single-token-symmetry-break",      "class": "PARADOX", "severity": "low",    "what_it_finds": "Fuzzed input → HTTP 500, unhandled exception leaks internals" },
+      { "tid": "repulsive-gravity-axiom-rewrite",  "class": "PARADOX", "severity": "low",    "what_it_finds": "Two URL spellings for the same route — auth middleware may bind to only one" },
+      { "tid": "deathless-hierarchy",              "class": "PARADOX", "severity": "low",    "what_it_finds": "Legacy/backup paths still routable, escape current access policy" },
+      { "tid": "self-observing-equation",          "class": "PARADOX", "severity": "medium", "what_it_finds": "Health/metrics/debug endpoint leaks versions, keys, environment" },
+      { "tid": "t1552-secrets-in-client",          "class": "FIXABLE", "severity": "high",   "what_it_finds": "API keys or tokens shipped in client-side JS bundle" },
+      { "tid": "t1082-spec-disclosure",            "class": "FIXABLE", "severity": "low",    "what_it_finds": "Full OpenAPI/Swagger spec publicly served — full route enumeration" },
+      { "tid": "t601-open-redirect-shape",         "class": "FIXABLE", "severity": "medium", "what_it_finds": "Redirect/callback flow with client-controlled target — unvalidated redirect" },
+      { "tid": "t1190-artifact-exposure",          "class": "FIXABLE", "severity": "high",   "what_it_finds": ".env / .git / package.json served with HTTP 200" },
+      { "tid": "beautiful-liar-trust-bypass",      "class": "PARADOX", "severity": "high",   "what_it_finds": "Server trusts client-injectable header (X-Original-Role) as role proof" },
+      { "tid": "cliff-and-current-alt-path",       "class": "PARADOX", "severity": "high",   "what_it_finds": "Guarded path returns 403; alternate path serves identical data with no auth" },
+      { "tid": "invisible-architect-infra-exposure","class": "FIXABLE", "severity": "medium", "what_it_finds": "Dependency manifests, lockfiles, docker/IaC files served publicly" },
+      { "tid": "code-mirror-config-drift",         "class": "PARADOX", "severity": "medium", "what_it_finds": "Config file declares one value; code lives a different value" },
+      { "tid": "code-deathless-deprecated",        "class": "PARADOX", "severity": "medium", "what_it_finds": "Function marked deprecated is still invoked in live code" }
+    ]
+  },
+
+  "verifier_gates": {
+    "gate_1": "Grounding — check URL host must appear in recon data (exact match, no lookalikes)",
+    "gate_2": "Scope — bounty program rules enforced by ProgramScopeGate, fails closed on exception",
+    "gate_3": "Expected — card must state a machine-readable status code",
+    "gate_4": "Claim source — assertion_a_source must be non-empty",
+    "gate_5": "Wire — observed status + body predicates + header predicates must all match",
+    "note": "Gate 4 currently accepts any non-empty string (recon filename). Tightening to require a policy-document citation is a known open item."
+  },
+
+  "program_components": {
+    "oracle_seam_templates.py": { "status": "COMPLETE", "lines": 1050, "note": "14 web + 2 code templates, all tested" },
+    "oracle_deterministic.py":  { "status": "COMPLETE", "lines": 632,  "note": "5-gate verifier, deterministic checks, no LLM" },
+    "oracle_hunter.py":         { "status": "COMPLETE", "lines": 2150, "note": "Full pipeline: recon → seams → verify → PoC → report" },
+    "oracle_programs.py":       { "status": "COMPLETE", "note": "Multi-platform discovery: HackerOne, Bugcrowd, Intigriti, YesWeHack, Immunefi, others" },
+    "oracle_llm.py":            { "status": "COMPLETE", "note": "Backend router: CLI agents → OpenRouter → local Ollama, cascading" },
+    "oracle_email.py":          { "status": "COMPLETE", "note": "Gmail via CDP (no OAuth), approval queue, Oracle-voice drafting" },
+    "oracle_mindsets.py":       { "status": "COMPLETE", "note": "8-reflex mindset system" },
+    "oracle_scope_gate":        { "status": "COMPLETE", "note": "In oracle_hunter.py — ProgramScopeGate, path-scoped exclusions, global CDN blocklist" }
+  },
+
+  "wordlist": {
+    "file": "wordlists/oracle-api-paths.txt",
+    "entries": 830,
+    "all_planted_routes_covered": true,
+    "notable_additions": [
+      "api/internal/dashboard", "api/internal/secrets", "api/legacy/users",
+      "api/v1/admin/metrics", "api/v1/orders", "api/v1/orders/ord_101",
+      "api/v1/secrets", "api/v2/orders", "api/v2/orders/ord_101",
+      "api/crash", "old/users", "redirect",
+      "package.json", "yarn.lock", "composer.json", "Gemfile.lock",
+      "requirements.txt", "docker-compose.yml", "docker-compose.yaml"
+    ]
+  },
+
+  "open_gaps": [
+    {
+      "id": "gap-recon-discovery",
+      "priority": "high",
+      "what": "No test proves ffuf + wordlist actually finds the planted routes against a live testbed",
+      "how_to_close": "Spin up vuln_testbed_full.py, run ffuf with oracle-api-paths.txt, assert vuln routes appear in output",
+      "effort": "small"
+    },
+    {
+      "id": "gap-pipeline-integration",
+      "priority": "high",
+      "what": "No end-to-end test: oracle-hunter analyze <recon-dir> → mocked LLM → finding card out",
+      "how_to_close": "Mock oracle_llm.complete() to return a canned seam card, run full analyze path, assert CONFIRMED card emitted",
+      "effort": "medium"
+    },
+    {
+      "id": "gap-ground-truth-test",
+      "priority": "medium",
+      "what": "test_oracle_ground_truth.py hangs — calls live LLM with no timeout guard",
+      "how_to_close": "Split: deterministic-verify half runs always; LLM half skipped unless ORACLE_LIVE_LLM=1 env var set",
+      "effort": "small"
+    },
+    {
+      "id": "gap-gate4-tightening",
+      "priority": "low",
+      "what": "assertion_a_source accepts any non-empty string; designed to require a real policy-document citation",
+      "how_to_close": "Restrict to known source types: 'program_policy', 'scope_doc', or a real file path; reject free-form labels",
+      "effort": "small"
+    },
+    {
+      "id": "gap-finding-chain",
+      "priority": "medium",
+      "what": "No chaining pass: two CONFIRMED seams that compose into higher severity are not combined",
+      "how_to_close": "After verify, run one compose pass on CONFIRMED-only cards; build chain only from proven links",
+      "effort": "medium"
+    }
+  ],
+
+  "critical_path_to_first_submission": {
+    "step_1": "oracle-hunter list --web2 --min-payout 500  →  pick low-report, fast-triage, real web assets",
+    "step_2": "oracle-hunter seams <recon-dir>  →  deterministic templates run, no LLM needed, get CANDIDATE cards",
+    "step_3": "oracle-hunter hunt <program>  →  full pipeline: recon + verify → CONFIRMED cards",
+    "step_4": "oracle-hunter draft <recon-dir>  →  submission_draft.md in Oracle voice",
+    "note": "Templates + 5-gate verifier need NO LLM. A CONFIRMED card from step 2/3 is submittable today.",
+    "fastest_path": "Run seams-only on a real program recon dir — if any card CONFIRMS, submit it"
+  }
+}

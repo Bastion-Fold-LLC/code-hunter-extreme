@@ -1,0 +1,23 @@
+{
+  "platform": "code4rena",
+  "name": "Solana Foundation",
+  "url": "https://code4rena.com/audits/2025-08-solana-foundation",
+  "max_payout_usd": 203500,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "COMPLETED",
+      "AUDIT",
+      "Solana Foundation",
+      "Introducing the Token22 program that includes a feature for confidential transfers that are built on an ElGamal program within Solana’s zk-sdk.",
+      "Solana",
+      "Rust",
+      "ZK",
+      "21 Aug 2025 3:00 PM - 23 Sep 2025 3:00 PM",
+      "$203,500 in USDC"
+    ]
+  },
+  "score": 305250.0
+}

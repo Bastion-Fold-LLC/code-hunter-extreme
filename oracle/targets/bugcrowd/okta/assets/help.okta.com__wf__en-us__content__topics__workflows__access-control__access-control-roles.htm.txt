@@ -1,0 +1,162 @@
+Skip to main contentSkip to docs navigation
+Docs
+
+Feedback
+
+Overview
+Role-based access control
+Roles and permissions
+Roles and permissions
+
+The Role assignments tab on the Settings page displays the roles for users and groups who have access to Okta Workflows. Roles are divided into two categories:
+
+Org roles
+
+Folder roles
+
+The Settings page is available only to users with an assigned role in Okta Workflows.
+
+This page inherits the user and group information from the Okta Universal Directory for your org.
+
+Admins must add users to an Okta group using the Okta Admin Console.
+
+Admins can't add users to the matching Okta Workflows group from within the Workflows Console.
+
+Either an Okta super admin or a Workflows Administrator can assign an org role to any users or groups found on the Role assignments tab. See Manage Workflows org roles.
+
+Either an Okta super admin, a Workflows Administrator, or a Folder Manager can assign a role to any users or groups found on the Role assignments tab. See Manage Workflows folder roles.
+
+Org roles
+
+Role
+
+	
+
+Description
+
+
+
+
+Okta super admin
+
+This role is managed through the Okta Admin Console.
+
+	
+
+This is the highest permission level in an Okta org, with full privileges to administer both Okta and Okta Workflows. See Super administrators.
+
+Only a super admin can assign the Workflows Administrator role.
+
+Only a super admin can assign the Okta Workflows app to a user or group.
+
+
+
+
+Workflows Administrator
+
+This role is managed through the Okta Admin Console.
+
+	
+
+This role has full access to administer and view all of Okta Workflows. This includes permissions, settings, connections, folders, tables, flows, and execution history.
+
+Users with this role can grant any Workflows-specific roles to users or groups assigned to the Okta Workflows app, except for the Workflows Administrator role. See Workflows Administrator.
+
+
+
+
+Workflows Auditor
+
+	
+
+A read-only version of the Workflows Administrator role, with access to view most things in Okta Workflows. This role can't view dynamic event card option values.
+
+This role is useful when a new admin is learning about Okta Workflows. They can learn about the product before being granted the full Workflows Administrator role.
+
+In the Workflows Console, this role appears as Auditor on the Role assignments tab.
+
+
+
+
+Connection Manager
+
+	
+
+This role has full access to create or modify any connections used by Okta Workflows.
+
+The Connection Manager can activate and deactivate flows.
+
+
+
+
+Unassigned User
+
+	
+
+This is a minimal-access role given by default to users or groups when the super admin assigns the Okta Workflows app.
+
+If a super admin or Workflows Administrator revokes a higher-level role from a user or group, they automatically return to this role.
+
+Folder roles
+
+Role
+
+	
+
+Description
+
+
+
+
+Folder Manager
+
+	
+
+This role has full access to manage any resources within an assigned folder, including assigning the Folder Editor, Folder Runner, or Folder Reader roles to other users or groups. This role can't create OAuth 2.0 connections.
+
+
+
+
+Folder Editor
+
+	
+
+This role has full access to manage resources within an assigned folder, but no ability to assign or remove roles.
+
+
+
+
+Folder Runner
+
+	
+
+This role has read-only access to resources within an assigned folder, with the ability to invoke existing active flows and see execution history.
+
+
+
+
+Folder Reader
+
+	
+
+This role has read-only access to resources within an assigned folder, but without the ability to run flows or view execution history.
+
+
+
+
+Integration Builder
+
+	
+
+This role has access to manage projects in Integration Builder, and can access Workflows templates.
+
+See Resource permissions for complete details of the associated permissions for these roles.
+
+Related topics
+Manage Workflows org roles
+Manage Workflows folder roles
+
+© 2026 Okta, Inc. All Rights Reserved. Various trademarks held by their respective owners.
+
+We use cookies to provide the best website experience and to help understand marketing efforts. We may also share data with ad partners to reach potential customers across the web. To learn more, visit our Privacy Policy. Click here for Your Privacy Choices. You may also opt out of this sharing by signaling your preference via GPC, applicable only to the browser signaling the opt-out.
+Cookie Settings

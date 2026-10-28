@@ -1,0 +1,39 @@
+{
+  "platform": "bugcrowd",
+  "name": "YNAB",
+  "url": "https://bugcrowd.com/engagements/ynab",
+  "max_payout_usd": 3000,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "YNAB",
+    "tagline": "Download YNAB to get good with money and never worry about it again.",
+    "briefUrl": "/engagements/ynab",
+    "backgroundColor": "#3B5EDA",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/74db/98a2/d8d154a4/858155d20c942a7a64eb370961433813_Group_288__1_.png",
+    "rewardSummary": {
+      "summary": "$150 - $3,000",
+      "hint": null,
+      "minReward": "$150",
+      "maxReward": "$3,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 1,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/ynab/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  }
+}

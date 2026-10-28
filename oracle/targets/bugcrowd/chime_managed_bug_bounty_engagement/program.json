@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Chime Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/chime",
+  "max_payout_usd": 20000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Chime Managed Bug Bounty Engagement",
+    "tagline": "We unite everyday people to unlock their financial progress!",
+    "briefUrl": "/engagements/chime",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/ab3b/361c/bd9cc487/9224892564269a0295542710ce8f7362_images.png",
+    "rewardSummary": {
+      "summary": "$50 - $20,000",
+      "hint": null,
+      "minReward": "$50",
+      "maxReward": "$20,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 4,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/chime/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 30000.0
+}

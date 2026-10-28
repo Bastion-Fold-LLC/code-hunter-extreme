@@ -1,0 +1,20 @@
+{
+ "platform": "hackenproof",
+ "name": "ADI Predictstreet Smart Contracts",
+ "url": "https://hackenproof.com/programs/adi-predictstreet-smart-contracts",
+ "max_payout_usd": 10000,
+ "kind": "web3",
+ "fast_triage": true,
+ "raw": {
+  "card_text": "TRIAGED BY HACKENPROOF | ADI Predictstreet Smart Contracts | STARTED DATE: | 13 Jul 2026 | LAST UPDATED: | 18 Sep 2026 | SCOPE REVIEW: | 221734 | PAID | $0 | UP TO | $10,000"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/hackenproof-public/predictstreet-dd",
+   "asset_type": "Copy",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

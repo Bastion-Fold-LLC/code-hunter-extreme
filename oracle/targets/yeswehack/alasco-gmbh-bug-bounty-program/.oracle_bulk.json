@@ -1,0 +1,19 @@
+{
+  "program": "alasco-gmbh-bug-bounty-program",
+  "platform": "yeswehack",
+  "slug": "alasco-gmbh-bug-bounty-program",
+  "downloaded_at": "2026-09-29T06:26:40.006195+00:00",
+  "assets": [
+    "program_page.txt",
+    "yeswehack.com__openapi.json",
+    "yeswehack.com__swagger.json",
+    "yeswehack.com__api_docs.html",
+    "yeswehack.com__api_openapi.json",
+    "yeswehack.com__v1_openapi.json",
+    "yeswehack.com__robots.txt"
+  ],
+  "asset_count": 7,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

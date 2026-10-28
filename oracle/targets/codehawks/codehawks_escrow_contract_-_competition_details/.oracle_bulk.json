@@ -1,0 +1,14 @@
+{
+  "program": "CodeHawks Escrow Contract - Competition Details",
+  "platform": "codehawks",
+  "slug": "codehawks_escrow_contract_-_competition_details",
+  "downloaded_at": "2026-09-29T06:46:36.505650+00:00",
+  "assets": [
+    "program_page.txt",
+    "codehawks.cyfrin.io__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

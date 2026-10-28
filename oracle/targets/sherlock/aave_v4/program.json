@@ -1,0 +1,20 @@
+{
+  "platform": "sherlock",
+  "name": "Aave V4",
+  "url": "https://audits.sherlock.xyz/bug-bounties/300",
+  "max_payout_usd": 2500000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Aave V4",
+      "2,500,000 USD",
+      "Payout",
+      "Sep 29, 2026",
+      "Last Updated"
+    ]
+  },
+  "score": 3750000.0
+}

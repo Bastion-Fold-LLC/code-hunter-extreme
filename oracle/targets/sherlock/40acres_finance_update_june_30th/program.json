@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "40acres Finance Update June 30th",
+  "url": "https://audits.sherlock.xyz/bug-bounties/102",
+  "max_payout_usd": 50000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "40acres Finance Update June 30th",
+      "50,000 USDC",
+      "Payout",
+      "Mar 25, 2026",
+      "Last Updated"
+    ]
+  }
+}

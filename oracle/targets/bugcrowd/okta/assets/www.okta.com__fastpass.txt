@@ -1,0 +1,177 @@
+Skip to content
+Beyond Oktane: "Breach in a Box" — Preventing AI incidents Register now →
+opens in a new tab
+Login
+Free trial
+Contact us
+Okta Platform
+
+FastPass
+
+Security without the slowdown
+
+One tap. No push. You're in. FastPass uses device trust and biometric checks to eliminate passwords, without compromising identity.
+
+Try for free
+opens in a new tab
+Contact sales
+opens in a new tab
+Watch a demo of Okta FastPass
+
+Explore technical features, deployment strategies, and tips for strengthening your organization’s security.
+
+Watch now
+opens in a new tab
+~91%
+
+of all daily authentications use FastPass¹
+
+~36K hrs
+
+saved in staff hours per year compared to traditional MFA¹
+
+$930K+
+
+annual time savings per year, every year²
+
+Do more with a Zero Trust authenticator
+
+Prevent credential and session theft with secure access policies that don’t burden your users.
+
+Watch the video (2:02 min)
+Enable phishing-resistant authentication
+Evaluate device context
+Allow passwordless logins
+Tap into your security ecosystem
+Secure the moment of access and beyond
+
+Set minimum security requirements for devices and browsers at login, and silently verify device context every time a user opens a new application.
+
+Watch the video (1:17 min)
+
+“We use Okta Verify and FastPass company-wide. For a significant amount of our applications, passwords are no longer required. Users simply put their finger on their Touch ID sensor or use Face ID and they’re in.”
+
+Mitch Francese
+
+Senior IT Systems Administrator, Identity and Access Management
+
+Read their story
+Supported phishing-resistant authenticators
+FIDO2 WebAuthn
+
+Okta supports FIDO2 WebAuthn authenticators such as YubiKey and Touch ID, which follow a standards-driven approach for secure authentication on the web.
+
+Learn more
+opens in a new tab
+Smart cards
+
+PIV/CAC cards can securely authenticate to any Okta-protected application, and are ideal for organizations in regulated industries.
+
+Add a card
+opens in a new tab
+Explore more resources
+
+DATASHEET
+
+Deliver a true passwordless experience
+
+Learn how FastPass can minimize end-user friction while preventing phishing attacks.
+
+Download it now
+opens in a new tab
+
+WHITEPAPER
+
+FastPass in depth
+
+Read more about the ins-and-outs of how FastPass protects against real-time credential phishing attempts across all your devices.
+
+Get the info
+opens in a new tab
+
+BLOG
+
+FedRAMP and AAL3 compliance
+
+Understand how FastPass meets security standards with authorization for FedRAMP High and support for AAL3.
+
+Read the blog
+opens in a new tab
+
+WHITEPAPER
+
+A guide to phishing resistance
+
+Get the steps to set up FastPass and configure policies and rules to require phishing-resistant authentication.
+
+Get the info
+opens in a new tab
+Complementary products
+Adaptive MFA
+
+Secure your apps with robust contextual policies and a set of modern authenticators.
+
+Learn more
+Single Sign-On
+
+Give your people access to enterprise apps with a single set of credentials.
+
+Learn more
+Device Access
+
+Introduce an easier way for your workforce to securely access devices, apps, and resources — from the first login.
+
+Learn more
+A UNIFIED CONTROL PLANE
+Okta secures AI
+
+Securing AI starts by answering three questions every CTO and CISO is asking: Where are my agents? What can they connect to? And what can they do?
+
+
+ 
+ 
+Explore solutions
+Get the blueprint
+Let’s get you going
+
+Start a free trial or talk with us — the next step is all yours.
+
+Try for free
+opens in a new tab
+Contact sales
+opens in a new tab
+
+1 Savings are estimates based on internal Okta implementation. 
+
+2 Compared to an August 2021 baseline.
+
+To connect with a product expert today, email us or call +1-800-425-1267.
+
+Contact us
+opens in a new tab
+opens in a new tab
+opens in a new tab
+Starting with Okta
+Okta Platform
+Auth0 Platform
+Pricing
+Free Trial
+Contact Sales
+Help & Support
+Help & Support
+Contact Us
+Okta Platform Status
+Auth0 Platform Status
+Legal
+Privacy Policy
+Site Terms
+Security
+Sitemap
+Cookie Preferences
+Your Privacy Choices
+United States
+Copyright © 2026 Okta. All rights reserved.
+We use cookies and similar technologies to improve your experience and to understand our marketing efforts. We may share data with ad partners. Opt out of this sharing via cookie settings or by configuring the GPC signal for this browser. To learn more, visit our Privacy Policy
+Settings
+Reject All
+Accept All

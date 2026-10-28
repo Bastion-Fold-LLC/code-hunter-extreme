@@ -1,0 +1,104 @@
+{
+ "platform": "yeswehack",
+ "name": "louis-vuitton-malletier-public-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/louis-vuitton-malletier-public-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Louis Vuitton Malletier - Public Bug Bounty Program",
+  "slug": "louis-vuitton-malletier-public-bug-bounty-program",
+  "country": "FR",
+  "activity_area": "Retail",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 679,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 5000,
+  "scopes_count": 6,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "e44a92ea-d517-47b7-ad7e-0dcce52028ed",
+   "original_name": "thumb programme public.jpg",
+   "mime_type": "image/jpeg",
+   "size": 9305,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/e44a92ea-d517-47b7-ad7e-0dcce52028ed"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Louis Vuitton Malletier",
+   "slug": "louis-vuitton-malletier",
+   "description": "Louis Vuitton Malletier, commonly known as Louis Vuitton is a French fashion house and luxury goods company founded in 1854 by Louis Vuitton. The label's LV monogram appears on most of its products, ranging from luxury trunks and leather goods to ready-to-wear, shoes, watches, jewelry, accessories, sunglasses and books. Louis Vuitton is one of the world's leading international fashion houses; it sells its products through standalone boutiques, lease departments in high-end department stores, and through the e-commerce section of its website.",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "d53bc203-25c5-433e-9653-af8e91a92809",
+    "original_name": "thumb BU.png",
+    "mime_type": "image/png",
+    "size": 9338,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/d53bc203-25c5-433e-9653-af8e91a92809"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-02-18T08:57:23+01:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://[it | fr | us | sg | \u2026].louisvuitton.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "*.api.louisvuitton.com",
+   "asset_type": "API",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/louis-vuitton/id709101942",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.vuitton.android&hl=fr&gl=US",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://appgallery.huawei.com/#/app/C102099703?locale=zh_CN&source=appshare&subsource=C102099703",
+   "asset_type": "Mobile application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/louis-vuitton-city-guide/id1014618396",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

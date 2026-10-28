@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "USDO/CCIP",
+  "url": "https://codehawks.cyfrin.io/c/openeden",
+  "max_payout_usd": 3200,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "USDO/CCIP",
+      "Open Eden",
+      "Solidity",
+      "Bridge",
+      "Invite-only",
+      "3,200",
+      "USDC",
+      "Ended",
+      "Ended 562d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

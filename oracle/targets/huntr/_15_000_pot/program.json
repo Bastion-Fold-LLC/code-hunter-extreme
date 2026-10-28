@@ -1,0 +1,29 @@
+{
+  "max_payout_usd": 15000,
+  "fast_triage": true,
+  "raw": {
+    "lines": [
+      "$15,000 Pot",
+      "Closed 14 Sep, 2026 10:00 AM CDT",
+      "Inside Job - Three Agents, Three Secrets",
+      "Get three AI agents to spill the tools and secrets they're built to protect.",
+      "View Results"
+    ]
+  },
+  "launched_at": null,
+  "structured_scopes": [],
+  "scope_status": "not-fetched",
+  "intake_status": "discovered",
+  "score": 0.4,
+  "name": "$15,000 Pot",
+  "platform": "huntr",
+  "kind": "ai",
+  "assets": null,
+  "asset_src": "unknown",
+  "asset_est": true,
+  "reports": null,
+  "reports_count": null,
+  "launched": null,
+  "newest_asset": null,
+  "url": "https://huntr.com/challenges/3AjanuyEaXoNr6ySHpyo6L/v1/leaderboard"
+}

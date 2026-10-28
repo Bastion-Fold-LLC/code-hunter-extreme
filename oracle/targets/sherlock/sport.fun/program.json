@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Sport.Fun",
+  "url": "https://audits.sherlock.xyz/bug-bounties/100",
+  "max_payout_usd": 250000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Sport.Fun",
+      "250,000 USDC",
+      "Payout",
+      "Jun 2, 2026",
+      "Last Updated"
+    ]
+  }
+}

@@ -1,0 +1,591 @@
+/*------------------------------------*\
+	Set variables.
+\*------------------------------------*/
+:root {
+	--prpl-gap: 32px;
+	--prpl-settings-page-gap: 1.5rem;
+	--prpl-padding: 20px;
+	--prpl-column-min-width: 22rem;
+	--prpl-max-columns: 3;
+	--prpl-border-radius: 8px;
+	--prpl-border-radius-big: calc(var(--prpl-border-radius) * 2);
+
+	--prpl-container-max-width: calc(var(--prpl-column-min-width) * var(--prpl-max-columns) + var(--prpl-gap) * (var(--prpl-max-columns) - 1) + var(--prpl-column-min-width));
+
+	--prpl-font-size-xs: 0.75rem;     /* 12px */
+	--prpl-font-size-small: 0.875rem; /* 14px */
+	--prpl-font-size-base: 1rem;      /* 16px */
+	--prpl-font-size-lg: 1.125rem;    /* 18px */
+	--prpl-font-size-xl: 1.25rem;     /* 20px */
+	--prpl-font-size-2xl: 1.5rem;     /* 24px */
+	--prpl-font-size-3xl: 2rem;       /* 32px */
+	--prpl-font-size-4xl: 3rem;       /* 48px */
+	--prpl-font-size-5xl: 3.5rem;     /* 56px */
+	--prpl-font-size-6xl: 4.5rem;     /* 72px */
+}
+
+/*------------------------------------*\
+	Accessibility: Skip link
+\*------------------------------------*/
+.prpl-skip-link {
+	position: absolute;
+	top: -40px;
+	left: 0;
+	background: var(--prpl-color-button-primary);
+	color: var(--prpl-color-button-primary-text);
+	padding: 8px 16px;
+	text-decoration: none;
+	border-radius: var(--prpl-border-radius);
+	z-index: 100000;
+}
+
+.prpl-skip-link:focus {
+	top: 10px;
+	left: 10px;
+}
+
+/*------------------------------------*\
+	Progress Planner dashboard page.
+\*------------------------------------*/
+/* stylelint-disable-next-line selector-class-pattern */
+body.toplevel_page_progress-planner {
+
+	#wpwrap {
+		background-color: var(--prpl-background);
+	}
+
+	ul#adminmenu {
+
+		a.wp-has-current-submenu,
+		>li.current > a.current {
+
+			&::after {
+				border-right-color: var(--prpl-background) !important;
+			}
+		}
+	}
+}
+
+/*------------------------------------*\
+	Styles for the container of the page.
+\*------------------------------------*/
+.prpl-wrap {
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-settings-page-gap) var(--prpl-padding);
+	max-width: var(--prpl-container-max-width);
+	color: var(--prpl-color-text);
+	font-size: var(--prpl-font-size-base);
+	line-height: 1.4;
+	position: relative;
+	margin-top: var(--prpl-padding);
+}
+
+/*------------------------------------*\
+	Generic styles.
+\*------------------------------------*/
+.prpl-wrap p {
+	font-size: var(--prpl-font-size-base);
+	color: var(--prpl-color-text);
+	margin: var(--prpl-padding) 0;
+}
+
+.prpl-wrap h2:has(+ p) {
+	margin-bottom: 0;
+}
+
+.prpl-wrap h2 + p {
+	margin-top: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.prpl-wrap h1,
+.prpl-wrap h2,
+.prpl-wrap h3,
+.prpl-wrap h4,
+.prpl-wrap h5,
+.prpl-wrap h6 {
+	color: var(--prpl-color-headings);
+}
+
+.prpl-wrap a {
+	color: var(--prpl-color-link);
+}
+
+.prpl-wrap input[type="checkbox"] {
+	border-color: var(--prpl-color-selection-controls-inactive);
+}
+
+.prpl-wrap select {
+	border-color: var(--prpl-color-field-border);
+
+	/* box-shadow: 1px 2px 4px 0 var(--prpl-color-field-shadow); */
+}
+
+.prpl-widget-width-2 {
+	grid-column: span 2;
+
+	.prpl-widget-description {
+		max-width: 640px;
+	}
+}
+
+.prpl-widget-title {
+	margin-top: 0;
+	font-size: 1.375rem;
+	line-height: 1.2;
+
+	&:has(.prpl-info-icon) {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		display: inline-block;
+
+		/* Fake hover effect for the info icon */
+		&.prpl-info-icon {
+			position: relative;
+
+			&:hover {
+				border-radius: 50%;
+
+				color: var(--prpl-color-ui-icon-hover);
+				border-color: var(--prpl-color-ui-icon-hover);
+				background-color: var(--prpl-color-ui-icon-hover-fill);
+
+				svg path {
+					fill: var(--prpl-color-ui-icon-hover);
+				}
+			}
+		}
+	}
+}
+
+.prpl-hidden {
+	display: none !important;
+}
+
+.prpl-disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+/*------------------------------------*\
+	Info buttons.
+\*------------------------------------*/
+button.prpl-info-icon {
+	background: none;
+	border: none;
+	color: var(--prpl-color-ui-icon);
+	cursor: pointer;
+	font-size: var(--prpl-font-size-xs);
+	padding: 0;
+
+	svg path {
+		fill: var(--prpl-color-ui-icon);
+	}
+}
+
+/*------------------------------------*\
+	Header & logo.
+\*------------------------------------*/
+.prpl-header {
+	margin-bottom: 2rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+
+	.prpl-header-logo img {
+		max-width: 300px;
+		max-height: 100px;
+		width: auto;
+		height: auto;
+		vertical-align: bottom;
+	}
+}
+
+.prpl-header-logo svg {
+	height: 88px;
+}
+
+.prpl-header-right {
+	display: flex;
+	gap: var(--prpl-padding);
+	align-items: center;
+
+	.prpl-info-icon {
+		width: 2rem;
+		height: 2rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.4em;
+
+		/* color: var(--prpl-color-border); */
+		background-color: #fff;
+		border: 1px solid var(--prpl-color-ui-icon);
+		border-radius: var(--prpl-border-radius);
+
+		svg {
+			width: 1rem;
+			height: 1rem;
+
+			& path {
+				fill: currentcolor;
+			}
+		}
+
+		&:hover {
+			color: var(--prpl-color-ui-icon-hover);
+			border-color: var(--prpl-color-ui-icon-hover);
+			background-color: var(--prpl-color-ui-icon-hover-fill);
+		}
+	}
+}
+
+/*------------------------------------*\
+	Layout for widgets.
+\*------------------------------------*/
+.prpl-widgets-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(var(--prpl-column-min-width), 1fr));
+	column-gap: var(--prpl-gap);
+	grid-auto-rows: var(--prpl-gap);
+	grid-auto-flow: dense;
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	h3 {
+		font-size: 1.15rem;
+		margin-top: 0;
+	}
+}
+
+/*------------------------------------*\
+	Generic styles for individual widgets.
+\*------------------------------------*/
+.prpl-widget-wrapper {
+	background-color: var(--prpl-background-paper);
+	border: 1px solid var(--prpl-color-border);
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-padding);
+	min-width: 0;
+	min-height: 0;
+	margin-bottom: var(--prpl-gap);
+	box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07), -2px 0 6px rgba(0, 0, 0, 0.07);
+
+	hr {
+		margin-top: 1.25rem;
+		margin-bottom: 1.25rem;
+		border-top-color: var(--prpl-color-border);
+	}
+
+	/* Force the last column to be the last column. */
+	&[data-force-last-column="1"] {
+		grid-column: -2 / -1;
+	}
+}
+
+/*------------------------------------*\
+	Generic styles for the graph wrappers.
+\*------------------------------------*/
+.prpl-graph-wrapper {
+	position: relative;
+	height: 100%;
+}
+
+/*------------------------------------*\
+	Top notice - used above logo.
+\*------------------------------------*/
+.prpl-wrap .prpl-top-notice {
+	margin-bottom: var(--prpl-gap);
+	position: relative;
+
+	button.prpl-button-primary {
+		margin: 0;
+		width: 250px;
+	}
+
+	button.prpl-close-button {
+		border: none;
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		background: none;
+		cursor: pointer;
+	}
+}
+
+/*------------------------------------*\
+	Sunset notice.
+\*------------------------------------*/
+.prpl-wrap .prpl-sunset-notice {
+	border-left: 4px solid var(--prpl-background-banner);
+
+	h1 {
+		color: var(--prpl-color-headings);
+		margin-top: 0;
+	}
+
+	p {
+		max-width: 680px;
+	}
+}
+
+/*------------------------------------*\
+  Buttons
+\*------------------------------------*/
+
+.prpl-wrap input.prpl-button-primary,
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-primary,
+.prpl-wrap button.prpl-button-secondary,
+.prpl-wrap a.prpl-button-primary,
+.prpl-wrap a.prpl-button-secondary,
+#progress_planner_dashboard_widget_score a.prpl-button-primary,
+#progress_planner_dashboard_widget_score a.prpl-button-secondary { /* To be used in WP Dashboard widget */
+	display: block;
+	margin: 1rem 0;
+	padding: 0.75rem 1.25rem;
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: var(--prpl-font-size-base);
+	background: var(--prpl-color-button-primary);
+	line-height: 1.25;
+	box-shadow: none;
+	border: none;
+	border-radius: 6px;
+	transition: all 0.25s ease-in-out;
+	font-weight: 600;
+	text-align: center;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 1;
+
+	&::after {
+		content: "";
+		display: block;
+		width: 100%;
+		height: 100%;
+		background: var(--prpl-color-button-primary);
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		border-radius: 6px;
+		transition: all 0.25s ease-in-out;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	&:not([disabled]):hover,
+	&:not([disabled]):focus {
+		background: var(--prpl-color-button-primary-hover);
+
+		&::after {
+			background: var(--prpl-color-button-primary-hover);
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+			width: calc(100% + 4px);
+			height: calc(100% + 4px);
+			margin: -2px;
+		}
+	}
+}
+
+.prpl-wrap input.prpl-button-secondary,
+.prpl-wrap button.prpl-button-secondary,
+.prpl-wrap a.prpl-button-secondary,
+#progress_planner_dashboard_widget_score a.prpl-button-secondary {
+	background: var(--prpl-color-selection-controls-inactive);
+
+	&::after {
+		background: var(--prpl-color-selection-controls-inactive);
+	}
+
+	&:not([disabled]):hover,
+	&:not([disabled]):focus {
+		background: var(--prpl-color-ui-icon);
+		box-shadow: 3px 3px 10px var(--prpl-color-ui-icon);
+
+		&::after {
+			background: var(--prpl-color-ui-icon);
+		}
+	}
+}
+
+/*------------------------------------*\
+	Input fields.
+\*------------------------------------*/
+
+.prpl-wrap input[type="text"],
+.prpl-wrap input[type="email"],
+.prpl-wrap input[type="number"],
+.prpl-wrap input[type="url"],
+.prpl-wrap input[type="tel"],
+.prpl-wrap input[type="search"] {
+	height: 40px;
+	box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/*------------------------------------*\
+	Popovers generic styles.
+\*------------------------------------*/
+.prpl-popover {
+	background: var(--prpl-background-paper);
+	border: 1px solid var(--prpl-color-border);
+	border-radius: var(--prpl-border-radius);
+	padding: var(--prpl-padding);
+	font-weight: 400;
+	max-height: 82vh;
+	width: 1200px;
+	max-width: 80vw;
+
+	p {
+		font-weight: 400;
+	}
+}
+
+::backdrop {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+/*------------------------------------*\
+	Popovers close button.
+\*------------------------------------*/
+.prpl-popover-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.5em;
+	cursor: pointer;
+	background: none;
+	border: none;
+	color: var(--prpl-color-text);
+
+	&:hover,
+	&:focus {
+		color: var(--prpl-color-text-hover);
+	}
+}
+
+/*------------------------------------*\
+	Mobile styles.
+\*------------------------------------*/
+
+@media all and (max-width: 1024px) {
+
+	.prpl-welcome .inner-content .right {
+		display: none !important;
+	}
+
+	.prpl-widget-width-2 {
+		grid-column: span 1;
+	}
+}
+
+/*------------------------------------*\
+	Settings popover.
+\*------------------------------------*/
+#prpl-settings-license-form {
+
+	label {
+		display: grid;
+		grid-template-columns: 1fr 3fr;
+		margin-bottom: 0.5em;
+		gap: var(--prpl-padding);
+	}
+
+	p {
+		max-width: 42em;
+	}
+
+	h3 {
+		font-size: 1.15em;
+	}
+
+	button.button-primary {
+		margin-top: 1em;
+	}
+}
+
+.driver-popover.prpl-driverjs-theme {
+	background-color: var(--prpl-background-monthly);
+	color: var(--prpl-color-text);
+
+	.driver-popover-title {
+		color: var(--prpl-color-headings);
+	}
+
+	button {
+		color: var(--prpl-color-headings);
+	}
+
+	button:not(.driver-popover-close-btn):hover {
+		background-color: var(--prpl-background-monthly);
+	}
+}
+
+/*------------------------------------*\
+	External link accessibility helper.
+\*------------------------------------*/
+.prpl-external-link-icon {
+	display: inline-flex;
+	margin-inline-start: 0.25em;
+	vertical-align: middle;
+
+	svg {
+		width: 1em;
+		height: 1em;
+	}
+}
+
+/*------------------------------------*\
+	Layout for columns.
+\*------------------------------------*/
+.prpl-columns-wrapper {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--prpl-padding);
+}
+
+/*------------------------------------*\
+	Loader.
+	See https://cssloaders.github.io/ for more.
+\*------------------------------------*/
+.prpl-loader {
+	width: 48px;
+	height: 48px;
+	border: 5px solid #fff;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	z-index: 20;
+	position: absolute;
+	top: calc(50% - 24px);
+	left: calc(50% - 24px);
+}
+
+@keyframes rotation {
+
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}

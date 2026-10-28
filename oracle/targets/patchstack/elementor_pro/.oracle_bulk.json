@@ -1,0 +1,14 @@
+{
+  "program": "Elementor Pro",
+  "platform": "patchstack",
+  "slug": "elementor_pro",
+  "downloaded_at": "2026-09-29T06:46:47.085645+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

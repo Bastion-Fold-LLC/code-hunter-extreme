@@ -1,0 +1,69 @@
+{
+ "platform": "immunefi",
+ "name": "Hedera",
+ "url": "https://immunefi.com/bug-bounty/hedera/information/",
+ "max_payout_usd": 35,
+ "kind": "web3",
+ "fast_triage": false,
+ "raw": {
+  "card_text": "Hedera |  | Triaged by  |  | \t | $35.5k | \t | Private | \t | Private | \t24/9/2026\t$30k"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-consensus-node",
+   "asset_type": "blockchain_dlt",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-mirror-node",
+   "asset_type": "blockchain_dlt",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-json-rpc-relay",
+   "asset_type": "blockchain_dlt",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-cryptography",
+   "asset_type": "blockchain_dlt",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/has...edera-transaction-tool",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-sdk-go",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-sdk-js",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/hiero-ledger/hiero-sdk-java",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

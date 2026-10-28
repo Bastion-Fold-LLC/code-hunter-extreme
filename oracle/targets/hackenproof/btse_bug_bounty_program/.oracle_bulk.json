@@ -1,0 +1,13 @@
+{
+  "program": "BTSE Bug Bounty Program",
+  "platform": "hackenproof",
+  "slug": "btse_bug_bounty_program",
+  "downloaded_at": "2026-09-29T06:34:01.469639+00:00",
+  "assets": [
+    "program_page.txt"
+  ],
+  "asset_count": 1,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

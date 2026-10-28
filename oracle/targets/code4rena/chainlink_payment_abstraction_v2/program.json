@@ -1,0 +1,30 @@
+{
+ "platform": "code4rena",
+ "name": "Chainlink Payment Abstraction V2",
+ "url": "https://code4rena.com/audits/2026-03-chainlink-payment-abstraction-v2",
+ "max_payout_usd": 65000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Chainlink Payment Abstraction V2",
+   "Payment Abstraction is onchain infrastructure that enables users to pay for Chainlink services in their preferred form of payment, which is then programmatically converted to LINK.",
+   "EVM",
+   "Solidity",
+   "18 Mar 3:00 PM - 27 Mar 3:00 PM",
+   "$65,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-03-chainlink",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

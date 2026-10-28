@@ -1,0 +1,34 @@
+{
+  "platform": "patchstack",
+  "name": "Aryo Activity Log",
+  "url": "https://patchstack.com/database/wordpress/plugin/aryo-activity-log/vulnerabilities",
+  "max_payout_usd": 15000,
+  "kind": "web2",
+  "fast_triage": true,
+  "structured_scopes": [
+    {
+      "asset_identifier": "https://wordpress.org/plugins/aryo-activity-log/",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "WordPress plugin page for aryo-activity-log",
+      "source": "patchstack-derived"
+    },
+    {
+      "asset_identifier": "https://downloads.wordpress.org/plugin/aryo-activity-log.2.15.0.zip",
+      "asset_type": "OTHER",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Plugin zip download: https://downloads.wordpress.org/plugin/aryo-activity-log.2.15.0.zip",
+      "source": "patchstack-wporg"
+    },
+    {
+      "asset_identifier": "*.activitylog.io",
+      "asset_type": "WILDCARD",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "Vendor domain for aryo-activity-log",
+      "source": "patchstack-wporg"
+    }
+  ]
+}

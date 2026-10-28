@@ -1,0 +1,14 @@
+{
+  "program": "Woo Product Builder",
+  "platform": "patchstack",
+  "slug": "woo_product_builder",
+  "downloaded_at": "2026-09-29T06:48:59.557974+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

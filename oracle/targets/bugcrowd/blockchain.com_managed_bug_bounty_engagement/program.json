@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Blockchain.com Managed Bug Bounty Engagement",
+  "url": "https://bugcrowd.com/engagements/blockchain-dot-com",
+  "max_payout_usd": 10000,
+  "kind": "web2",
+  "fast_triage": true,
+  "raw": {
+    "name": "Blockchain.com Managed Bug Bounty Engagement",
+    "tagline": "The world’s leading crypto finance house serving people, projects, protocols and institutions since 2011.",
+    "briefUrl": "/engagements/blockchain-dot-com",
+    "backgroundColor": "#fff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/4249/5f41/cf530cbb/dac0835f0aeeea653b0d0dfbcd7cc447_blockchain_logo.jpeg",
+    "rewardSummary": {
+      "summary": "$100 - $10,000",
+      "hint": null,
+      "minReward": "$100",
+      "maxReward": "$10,000",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 2,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Technology",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/blockchain-dot-com/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 15000.0
+}

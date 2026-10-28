@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "Brix Money",
+ "url": "https://code4rena.com/audits/2025-11-brix-money",
+ "max_payout_usd": 23000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Brix Money",
+   "iTRY is a TRY-denominated digital asset, backed by tokenized money market funds. Brix is the protocol layer through which iTRY becomes accessible to DeFi users, enabling onchain staking, yield distribution, and integration with the broader ecosystem.",
+   "EVM",
+   "Solidity",
+   "26 Nov 2025 2:00 PM - 03 Dec 2025 2:00 PM",
+   "$23,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-11-brix-money",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-11-brix-money-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,13 @@
+{
+  "target": "Starknet Staking Competition",
+  "platform": "codehawks",
+  "url": "https://codehawks.cyfrin.io/c/2025-04-starknet-part-2",
+  "payout": "Paid Prize Pool (0,000 USDC Guaranteed Split)",
+  "max_payout_usd": 80000,
+  "page_title": "Cyfrin CodeHawks | Staking Part 2",
+  "github_repositories": [
+    "https://github.com/Cyfrin",
+    "https://github.com/starkware-libs/starknet-staking"
+  ],
+  "body_summary": "All Contests\nStaking Part 2\nStaking Part 2\nStarknet\nCairo\nStaking\nKYC Rewards\nPrivate\n80,000\nUSDC\n\nThis project holds the implementation of Starknet's staking mechanism v2, following Starknet SNIP 28. Key changes in Staking v2 1. Validator Block Attestation: Validators must attest to randomly selected blocks to demonstrate active network participation. 2. Commission Model Update: Validators will be able to set a maximum commission rate, ensuring transparency while allowing for economic adjustments.\n\nEnded\nApr 3rd, 2025 \u2192 Apr 24th, 2025\nView repo\nView results\nPrize pool breakdown\nTotal prize\n80,000\nUSDC\nEagles\n12,000\nUSDC\nnSLOC\n4,307\n19 USDC / LOC\nHigh\nMedium\n65,000\nLow\n3,000\nContest Details\nCollapse\nAbout the Project\n\nThis project holds the implementation of Starknet's staking mechanism v2, following Starknet SNIP 28.\n\nDocumentation\n\nDocs\n\nGitHub\n\nKey changes in Staking v2\n\nValidator Block Attestation: Validators must attest to randomly selected blocks to demonstrate active network participation.\n\nCommission Model Update: Validators will be able to set a maximum commission rate, ensuring transparency while allowing for economic adjustments.\n\nActors\n\nDelegator:\n\nDelegates their stake to a Validator and shares rewards.\n\nCan move between Validators with an epoch delay.\n\nValidator (Previously called Staker):\n\nRuns a full node and attests to blocks.\n\nReceives rewards based on successful attestations.\n\nCan set a maximum commission rate for delegators.\n\nSecurity Roles:\n\nSecurity Admin: Unpauses contracts and can replace the security agent.\n\nSecurity Agent: Can pause staking contracts in case of issues.\n\nL1 Mint Manager:\n\nHandles minting of STRK as allowed by governance.\n\nAllowanceGovernor: Can authorize minting.\n\nStopGovernor: Can restrict minting.\n\nKey Features of Staking v2\n\nEpochs and Reward Mechanism:\n\nStaking v2 introduces epochs to define staking power updates.\n\nValidators must successfully attest to assigned blocks within an epoch to earn rewards.\n\nRewards follow an"
+}

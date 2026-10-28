@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "kinetiq-contracts",
+  "url": "https://cantina.xyz/bounties/a98129d7-dd15-4c16-b2cb-d8cc42f87de4",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "kinetiq-contracts",
+      "Kinetiq",
+      "$1,000,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 15 Sep 2025"
+    ]
+  }
+}

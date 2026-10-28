@@ -1,0 +1,14 @@
+{
+  "program": "9map Map Multi Locations",
+  "platform": "patchstack",
+  "slug": "9map_map_multi_locations",
+  "downloaded_at": "2026-09-29T06:49:18.306096+00:00",
+  "assets": [
+    "program_page.txt",
+    "patchstack.com__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

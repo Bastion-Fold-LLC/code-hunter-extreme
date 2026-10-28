@@ -1,0 +1,97 @@
+{
+ "platform": "yeswehack",
+ "name": "contentsquare-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/contentsquare-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Contentsquare Bug Bounty Program",
+  "slug": "contentsquare-bug-bounty-program",
+  "country": "FR",
+  "activity_area": "CyberSec",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 811,
+  "bounty_reward_min": 0,
+  "bounty_reward_max": 2000,
+  "scopes_count": 5,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "62aa4681-494d-438c-b415-56e86bbcad25",
+   "original_name": "Screenshot 2025-04-07 at 23.38.56.png",
+   "mime_type": "image/png",
+   "size": 15211,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/62aa4681-494d-438c-b415-56e86bbcad25"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Contentsquare",
+   "slug": "contentsquare",
+   "description": "UX Analytics",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "618d1e69-b739-4e9c-906b-8dd4a53dbd41",
+    "original_name": "1648047227139.jpeg",
+    "mime_type": "image/jpeg",
+    "size": 8409,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/618d1e69-b739-4e9c-906b-8dd4a53dbd41"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-16T14:08:13+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "*.contentsquare.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://mobile-production.content-square.net/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://m.csqtrk.net",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://s.contentsquare.net",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Contentsquare SDK (cf : Program Description)",
+   "asset_type": "Application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

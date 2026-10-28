@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "Flow",
+  "url": "https://codehawks.cyfrin.io/c/2024-10-sablier",
+  "max_payout_usd": 20000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Flow",
+      "Sablier",
+      "Foundry",
+      "DeFi",
+      "Public",
+      "20,000",
+      "USDC",
+      "Ended",
+      "Ended 696d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

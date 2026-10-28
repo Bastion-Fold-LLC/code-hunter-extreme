@@ -1,0 +1,37 @@
+{
+ "platform": "code4rena",
+ "name": "LayerZero Endpoint V2 - Sui",
+ "url": "https://code4rena.com/audits/2025-09-layerzero-endpoint-v2-sui",
+ "max_payout_usd": 103000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "LayerZero Endpoint V2 - Sui",
+   "Build Anything. Build Omnichain.",
+   "Sui",
+   "Move",
+   "17 Sep 2025 3:00 PM - 30 Sep 2025 3:00 PM",
+   "$103,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-09-layerzero",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-09-layerzero-findings",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

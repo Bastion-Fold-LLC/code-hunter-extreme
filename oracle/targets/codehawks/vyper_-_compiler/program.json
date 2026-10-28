@@ -1,0 +1,24 @@
+{
+  "platform": "codehawks",
+  "name": "Vyper - Compiler",
+  "url": "https://codehawks.cyfrin.io/c/2023-09-vyper-compiler",
+  "max_payout_usd": 160000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "Vyper - Compiler",
+      "Vyper",
+      "Updates",
+      "Private",
+      "160,000",
+      "USDC",
+      "Ended",
+      "Ended 1060d, 22h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  },
+  "score": 240000.0
+}

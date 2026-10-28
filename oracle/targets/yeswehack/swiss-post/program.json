@@ -1,0 +1,125 @@
+{
+ "platform": "yeswehack",
+ "name": "swiss-post",
+ "url": "https://yeswehack.com/programs/swiss-post",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Swiss Post",
+  "slug": "swiss-post",
+  "country": "CH",
+  "activity_area": "Transportation",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 2713,
+  "bounty_reward_min": 50,
+  "bounty_reward_max": 10000,
+  "scopes_count": 9,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "9fe0f712-4798-435e-9df4-39e9a12e427e",
+   "original_name": "Post_Logo_digital_RGB (1).png",
+   "mime_type": "image/png",
+   "size": 12204,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/9fe0f712-4798-435e-9df4-39e9a12e427e"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Swiss Post",
+   "slug": "swiss-post",
+   "description": "Bug Bounty Post - Securing Digital Trust",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "6dc5820f-f66e-44f4-a34f-359295db4bc7",
+    "original_name": "Post_Logo_digital_RGB300.png",
+    "mime_type": "image/png",
+    "size": 3801,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/6dc5820f-f66e-44f4-a34f-359295db4bc7"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-04T11:08:12+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "(*.post.ch:80|*.post.ch:443) AND 194.41.128.0/17",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://account.post.ch",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://shop.post.ch/shop",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://service.post.ch/ekp-web/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://service.post.ch/zopa/app/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.nth.swisspost&hl=de_CH&gl=US",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/ch/app/die-post/id378676700",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://billingonline.post.ch/OnlinePayment/Web/v1/BOI",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://service.post.ch/ele-klp/ele/",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

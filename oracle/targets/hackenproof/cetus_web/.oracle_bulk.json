@@ -1,0 +1,13 @@
+{
+  "program": "Cetus Web",
+  "platform": "hackenproof",
+  "slug": "cetus_web",
+  "downloaded_at": "2026-09-29T06:35:28.937874+00:00",
+  "assets": [
+    "program_page.txt"
+  ],
+  "asset_count": 1,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

@@ -1,0 +1,23 @@
+{
+  "platform": "cantina",
+  "name": "Reserve Protocol Bug Bounty",
+  "url": "https://cantina.xyz/bounties/3709ca85-4050-407e-9b36-51f5d5ea9b00",
+  "max_payout_usd": 10000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Reserve Protocol Bug Bounty",
+      "Reserve Protocol",
+      "$10,000,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 26 Mar 2026"
+    ]
+  },
+  "score": 15000000.0
+}

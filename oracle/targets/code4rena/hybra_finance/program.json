@@ -1,0 +1,31 @@
+{
+ "platform": "code4rena",
+ "name": "Hybra Finance",
+ "url": "https://code4rena.com/audits/2025-10-hybra-finance",
+ "max_payout_usd": 33000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "AUDIT",
+   "Hybra Finance",
+   "Decentralized public liquidity layer for Hyperliquid",
+   "Hyperliquid",
+   "EVM",
+   "Solidity",
+   "06 Oct 2025 3:00 PM - 16 Oct 2025 3:00 PM",
+   "$33,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-10-hybra-finance",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

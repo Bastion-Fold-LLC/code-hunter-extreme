@@ -1,0 +1,40 @@
+{
+  "platform": "bugcrowd",
+  "name": "Rapyd",
+  "url": "https://bugcrowd.com/engagements/rapyd",
+  "max_payout_usd": 7500,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "name": "Rapyd",
+    "tagline": "We provide APIs that help integrate local payments and Fintech capabilities.",
+    "briefUrl": "/engagements/rapyd",
+    "backgroundColor": "#ffffff",
+    "logoUrl": "https://logos.bugcrowdusercontent.com/logos/13a5/c1ee/7624f625/29a746eeb7538a2c124904dde8ea4b32_rapyd.jpeg",
+    "rewardSummary": {
+      "summary": "$100 - $7,500",
+      "hint": null,
+      "minReward": "$100",
+      "maxReward": "$7,500",
+      "compensationSummary": null,
+      "compensationHint": null
+    },
+    "isDemo": false,
+    "scopeRank": 4,
+    "isBanned": false,
+    "isFollowing": false,
+    "industryName": "Finance",
+    "accessStatus": "open",
+    "paymentAllocationUrl": null,
+    "badgeVariant": null,
+    "endsAt": null,
+    "productEngagementType": {
+      "label": "Bug Bounty",
+      "iconVariant": "bug-bounty"
+    },
+    "subscriptionUrl": "/rapyd/engagement_subscribers",
+    "isPrivate": false,
+    "serviceLevel": "Platform"
+  },
+  "score": 7500.0
+}

@@ -1,0 +1,26 @@
+{
+  "platform": "codehawks",
+  "name": "DittoETH",
+  "url": "https://codehawks.cyfrin.io/c/2023-09-ditto",
+  "max_payout_usd": 165000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "DittoETH",
+      "Ditto",
+      "DeFi",
+      "Foundry",
+      "Oracle",
+      "Public",
+      "55,000",
+      "USDC",
+      "Ended",
+      "Ended 1087d, 2h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  },
+  "score": 247500000.0
+}

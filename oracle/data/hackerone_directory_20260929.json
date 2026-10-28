@@ -1,0 +1,877 @@
+[
+ {
+  "platform": "hackerone",
+  "name": "Live Nation",
+  "url": "https://hackerone.com/live_nation",
+  "handle": "live_nation",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "CoinDCX Vulnerability Disclosure",
+  "url": "https://hackerone.com/coindcx_vdp",
+  "handle": "coindcx_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Nebius AI Vulnerability Disclosure",
+  "url": "https://hackerone.com/nebius_ai_vdp",
+  "handle": "nebius_ai_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Vercel",
+  "url": "https://hackerone.com/vercel",
+  "handle": "vercel",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "d-you App & German EUDI Wallet Ecosystem",
+  "url": "https://hackerone.com/common_codes",
+  "handle": "common_codes",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Arc",
+  "url": "https://hackerone.com/arc-bbp",
+  "handle": "arc-bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Semtech",
+  "url": "https://hackerone.com/semtech",
+  "handle": "semtech",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Vanguard",
+  "url": "https://hackerone.com/vanguard",
+  "handle": "vanguard",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Essity",
+  "url": "https://hackerone.com/essity",
+  "handle": "essity",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "PRISM",
+  "url": "https://hackerone.com/prism_vdp",
+  "handle": "prism_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Box BB",
+  "url": "https://hackerone.com/box_private",
+  "handle": "box_private",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Assa Abloy Americas",
+  "url": "https://hackerone.com/assa_abloy_americas",
+  "handle": "assa_abloy_americas",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Omnicell",
+  "url": "https://hackerone.com/omnicell",
+  "handle": "omnicell",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Wolt",
+  "url": "https://hackerone.com/wolt",
+  "handle": "wolt",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Abercrombie & Fitch Bug Bounty",
+  "url": "https://hackerone.com/abercrombie_fitch_bbp",
+  "handle": "abercrombie_fitch_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Discover VDP",
+  "url": "https://hackerone.com/discover-vdp",
+  "handle": "discover-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Anthropic Cyber Jailbreak",
+  "url": "https://hackerone.com/anthropic-cyber-jailbreak",
+  "handle": "anthropic-cyber-jailbreak",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Agoda Public",
+  "url": "https://hackerone.com/agoda-public",
+  "handle": "agoda-public",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Epic Games VDP",
+  "url": "https://hackerone.com/epicgames-vdp",
+  "handle": "epicgames-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "PhonePe",
+  "url": "https://hackerone.com/phonepe_vdp",
+  "handle": "phonepe_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Gogo VDP",
+  "url": "https://hackerone.com/gogo_vdp",
+  "handle": "gogo_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Cognition",
+  "url": "https://hackerone.com/cognition",
+  "handle": "cognition",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "McGraw Hill",
+  "url": "https://hackerone.com/mcgrawhill",
+  "handle": "mcgrawhill",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Anthropic",
+  "url": "https://hackerone.com/anthropic",
+  "handle": "anthropic",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Coupang Taiwan",
+  "url": "https://hackerone.com/coupang_tw",
+  "handle": "coupang_tw",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Taxwell VDP",
+  "url": "https://hackerone.com/taxwell-vdp",
+  "handle": "taxwell-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "CoinMate.io",
+  "url": "https://hackerone.com/coinmate",
+  "handle": "coinmate",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "1win",
+  "url": "https://hackerone.com/1win_com",
+  "handle": "1win_com",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Luminor",
+  "url": "https://hackerone.com/luminor",
+  "handle": "luminor",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Clear Street Disclosure Program",
+  "url": "https://hackerone.com/clear_street_vdp",
+  "handle": "clear_street_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "GetYourGuide VDP",
+  "url": "https://hackerone.com/getyourguide_vdp",
+  "handle": "getyourguide_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Whatnot",
+  "url": "https://hackerone.com/whatnot",
+  "handle": "whatnot",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Best Buy",
+  "url": "https://hackerone.com/bestbuy",
+  "handle": "bestbuy",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hexagon-VDP",
+  "url": "https://hackerone.com/hexagon_vdp",
+  "handle": "hexagon_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "QinetiQ Response",
+  "url": "https://hackerone.com/qinetiq",
+  "handle": "qinetiq",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Treasury Board of Canada Secretariat",
+  "url": "https://hackerone.com/tbs-sct",
+  "handle": "tbs-sct",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "CLEAR",
+  "url": "https://hackerone.com/clear",
+  "handle": "clear",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "MOD Supply Chain VDP",
+  "url": "https://hackerone.com/mod_supply_chain_vdp",
+  "handle": "mod_supply_chain_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Meesho",
+  "url": "https://hackerone.com/meesho_bbp",
+  "handle": "meesho_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Vodafone",
+  "url": "https://hackerone.com/vodafone",
+  "handle": "vodafone",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "MSCI",
+  "url": "https://hackerone.com/msci",
+  "handle": "msci",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Bose (VDP)",
+  "url": "https://hackerone.com/bose_vdp",
+  "handle": "bose_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Twilio",
+  "url": "https://hackerone.com/twilio",
+  "handle": "twilio",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "DailyPay VDP",
+  "url": "https://hackerone.com/dailypay_vdp",
+  "handle": "dailypay_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Anduril Industries",
+  "url": "https://hackerone.com/anduril_industries",
+  "handle": "anduril_industries",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Tines (VDP)",
+  "url": "https://hackerone.com/tines_automation_vdp",
+  "handle": "tines_automation_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Unico IDtech",
+  "url": "https://hackerone.com/unico_idtech",
+  "handle": "unico_idtech",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Banco Plata",
+  "url": "https://hackerone.com/banco_plata",
+  "handle": "banco_plata",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "MUFG VDP",
+  "url": "https://hackerone.com/mufg-vdp",
+  "handle": "mufg-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Henkel",
+  "url": "https://hackerone.com/henkel_vdp",
+  "handle": "henkel_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "BankUnited",
+  "url": "https://hackerone.com/bankunited",
+  "handle": "bankunited",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hotmart (VDP)",
+  "url": "https://hackerone.com/hotmartvdp",
+  "handle": "hotmartvdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "FanDuel Response",
+  "url": "https://hackerone.com/fanduel-vdp",
+  "handle": "fanduel-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Vectra AI, Inc. (Response)",
+  "url": "https://hackerone.com/vectra_ai_vdp",
+  "handle": "vectra_ai_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Notion Labs, Inc.",
+  "url": "https://hackerone.com/notion",
+  "handle": "notion",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Mueller Water Products (VDP)",
+  "url": "https://hackerone.com/mueller_water_products_vdp",
+  "handle": "mueller_water_products_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Adevinta",
+  "url": "https://hackerone.com/adevinta_vdp",
+  "handle": "adevinta_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Stripchat",
+  "url": "https://hackerone.com/stripchat",
+  "handle": "stripchat",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "DoorDash",
+  "url": "https://hackerone.com/doordash",
+  "handle": "doordash",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Kong",
+  "url": "https://hackerone.com/kong",
+  "handle": "kong",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Robinhood Markets",
+  "url": "https://hackerone.com/robinhood_markets",
+  "handle": "robinhood_markets",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Robinhood Markets Bounty",
+  "url": "https://hackerone.com/robinhood",
+  "handle": "robinhood",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Regions Financial",
+  "url": "https://hackerone.com/regions_financial",
+  "handle": "regions_financial",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Lovable VDP",
+  "url": "https://hackerone.com/lovable-vdp",
+  "handle": "lovable-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Baird",
+  "url": "https://hackerone.com/baird_vdp",
+  "handle": "baird_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hyland Software",
+  "url": "https://hackerone.com/hyland_software",
+  "handle": "hyland_software",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Kaseya",
+  "url": "https://hackerone.com/kaseya",
+  "handle": "kaseya",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "British Airways VDP",
+  "url": "https://hackerone.com/british_airways_vdp",
+  "handle": "british_airways_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "DocuSign",
+  "url": "https://hackerone.com/docusign",
+  "handle": "docusign",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "NetScaler Public Program",
+  "url": "https://hackerone.com/netscaler_public_program",
+  "handle": "netscaler_public_program",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hack The Box",
+  "url": "https://hackerone.com/hack_the_box",
+  "handle": "hack_the_box",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Ripio",
+  "url": "https://hackerone.com/ripio",
+  "handle": "ripio",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Citi Group",
+  "url": "https://hackerone.com/citi_group",
+  "handle": "citi_group",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "SingleStore",
+  "url": "https://hackerone.com/singlestore",
+  "handle": "singlestore",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "HPE VDP",
+  "url": "https://hackerone.com/hpe_vdp",
+  "handle": "hpe_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Tucows (VDP)",
+  "url": "https://hackerone.com/tucows_vdp",
+  "handle": "tucows_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Dyson",
+  "url": "https://hackerone.com/dyson",
+  "handle": "dyson",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Alibaba VDP",
+  "url": "https://hackerone.com/alibaba_vdp",
+  "handle": "alibaba_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "HubSpot",
+  "url": "https://hackerone.com/hubspot",
+  "handle": "hubspot",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Braze, Inc.",
+  "url": "https://hackerone.com/braze_inc",
+  "handle": "braze_inc",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Wallet on Telegram",
+  "url": "https://hackerone.com/walt_bbp",
+  "handle": "walt_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Recreation.gov",
+  "url": "https://hackerone.com/recreation_gov_vdp",
+  "handle": "recreation_gov_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Audible",
+  "url": "https://hackerone.com/audible",
+  "handle": "audible",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Dust",
+  "url": "https://hackerone.com/dust",
+  "handle": "dust",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hertz VDP",
+  "url": "https://hackerone.com/hertz",
+  "handle": "hertz",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Penn Entertainment",
+  "url": "https://hackerone.com/penn_entertainment",
+  "handle": "penn_entertainment",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Ferrero",
+  "url": "https://hackerone.com/ferrero",
+  "handle": "ferrero",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Hex",
+  "url": "https://hackerone.com/hex",
+  "handle": "hex",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Worldpay",
+  "url": "https://hackerone.com/worldpay",
+  "handle": "worldpay",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Flipkart",
+  "url": "https://hackerone.com/flipkart",
+  "handle": "flipkart",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Experian",
+  "url": "https://hackerone.com/experian",
+  "handle": "experian",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Zooplus",
+  "url": "https://hackerone.com/zooplus",
+  "handle": "zooplus",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Syfe",
+  "url": "https://hackerone.com/syfe_bbp",
+  "handle": "syfe_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Kraken Tech (VDP)",
+  "url": "https://hackerone.com/kraken-tech",
+  "handle": "kraken-tech",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "VF Corporation - VDP",
+  "url": "https://hackerone.com/vf-corporation-vdp",
+  "handle": "vf-corporation-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Neon",
+  "url": "https://hackerone.com/neon_bbp",
+  "handle": "neon_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Whoop Bug Bounty",
+  "url": "https://hackerone.com/whoop_bug_bounty",
+  "handle": "whoop_bug_bounty",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Corebridge Financial",
+  "url": "https://hackerone.com/corebridge_financial",
+  "handle": "corebridge_financial",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "OPPO",
+  "url": "https://hackerone.com/oppo_bbp",
+  "handle": "oppo_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Fiserv",
+  "url": "https://hackerone.com/fiserv",
+  "handle": "fiserv",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Zurich Insurance",
+  "url": "https://hackerone.com/zurich-insurance",
+  "handle": "zurich-insurance",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Inspectorio",
+  "url": "https://hackerone.com/inspectorio",
+  "handle": "inspectorio",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Autodesk",
+  "url": "https://hackerone.com/autodesk",
+  "handle": "autodesk",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Bumba",
+  "url": "https://hackerone.com/bumba_bbp",
+  "handle": "bumba_bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "BILL VDP",
+  "url": "https://hackerone.com/bill_vdp",
+  "handle": "bill_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Privy (Bounty)",
+  "url": "https://hackerone.com/privy-bbp",
+  "handle": "privy-bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Verily Life Sciences",
+  "url": "https://hackerone.com/verily_life_sciences",
+  "handle": "verily_life_sciences",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "1Password - Enterprise Password Manager",
+  "url": "https://hackerone.com/1password",
+  "handle": "1password",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Bykea",
+  "url": "https://hackerone.com/bykea",
+  "handle": "bykea",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "The Browser Company of NYC",
+  "url": "https://hackerone.com/bcny",
+  "handle": "bcny",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Mintel",
+  "url": "https://hackerone.com/mintel",
+  "handle": "mintel",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Starbucks Japan",
+  "url": "https://hackerone.com/starbucks_japan",
+  "handle": "starbucks_japan",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Starbucks China",
+  "url": "https://hackerone.com/starbucks_china",
+  "handle": "starbucks_china",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "TomTom",
+  "url": "https://hackerone.com/tomtom",
+  "handle": "tomtom",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Itau Unibanco",
+  "url": "https://hackerone.com/itau_unibanco",
+  "handle": "itau_unibanco",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Wells Fargo Bounty",
+  "url": "https://hackerone.com/wellsfargo-bbp",
+  "handle": "wellsfargo-bbp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Liverpool Victoria",
+  "url": "https://hackerone.com/liverpool_victoria",
+  "handle": "liverpool_victoria",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "3CX",
+  "url": "https://hackerone.com/3cx",
+  "handle": "3cx",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Finnair Vulnerability Disclosure",
+  "url": "https://hackerone.com/finnair_vdp",
+  "handle": "finnair_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "PepsiCo VDP",
+  "url": "https://hackerone.com/pepsico_vdp",
+  "handle": "pepsico_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "LPL Financial VDP",
+  "url": "https://hackerone.com/lpl_financial-vdp",
+  "handle": "lpl_financial-vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "AWS VDP",
+  "url": "https://hackerone.com/aws_vdp",
+  "handle": "aws_vdp",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "ION Group",
+  "url": "https://hackerone.com/ion",
+  "handle": "ion",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "KHealth",
+  "url": "https://hackerone.com/khealth",
+  "handle": "khealth",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ },
+ {
+  "platform": "hackerone",
+  "name": "Capital One Bug Bounty",
+  "url": "https://hackerone.com/capital-one-bounty",
+  "handle": "capital-one-bounty",
+  "discovery_source": "hackerone-directory-browser-2026-09-29"
+ }
+]

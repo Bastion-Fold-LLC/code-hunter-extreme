@@ -1,0 +1,60 @@
+{
+  "platform": "yeswehack",
+  "name": "bitoasis-bug-bounty-program",
+  "url": "https://yeswehack.com/programs/bitoasis-bug-bounty-program",
+  "max_payout_usd": 0,
+  "kind": "web2",
+  "fast_triage": false,
+  "raw": {
+    "title": "BitOasis - Bug Bounty Program",
+    "slug": "bitoasis-bug-bounty-program",
+    "country": "IN",
+    "activity_area": "Finance/Assurance",
+    "average_first_response_time": 1,
+    "type": "bug-bounty",
+    "status": "V",
+    "demo": false,
+    "public": true,
+    "bounty": true,
+    "gift": false,
+    "hall_of_fame": true,
+    "hacktivity": false,
+    "report_collaboration_active": true,
+    "pid": null,
+    "secured": false,
+    "disabled": false,
+    "vdp": false,
+    "archived": false,
+    "reports_count": 242,
+    "bounty_reward_min": 5,
+    "bounty_reward_max": 2000,
+    "scopes_count": 3,
+    "pentest_campaign_status": null,
+    "thumbnail": {
+      "name": "54b9f272-da02-4df0-885f-2cf90529637d",
+      "original_name": "bitoasis.png",
+      "mime_type": "image/png",
+      "size": 11427,
+      "url": "https://cdn-yeswehack.com/program/thumbnail/54b9f272-da02-4df0-885f-2cf90529637d"
+    },
+    "event": null,
+    "business_unit": {
+      "name": "Coindcx",
+      "slug": "coindcx",
+      "description": "CoinDCX is India’s largest and safest cryptocurrency exchange. Our exchange is built with user experience and security in mind. The KYC and Bank Account verification are done within a few minutes and give users a smooth onboarding experience. We provide users single-point access to a diverse suite of crypto-based financial products and services that are backed by security processes and insurance.",
+      "currency": "USD",
+      "already_activate_product": true,
+      "logo": {
+        "name": null,
+        "original_name": null,
+        "mime_type": null,
+        "size": null,
+        "url": null
+      }
+    },
+    "hunter_audience": null,
+    "scopes_enabled": null,
+    "last_update_at": "2026-09-22T18:41:24+02:00",
+    "report_submission_cost": 2
+  }
+}

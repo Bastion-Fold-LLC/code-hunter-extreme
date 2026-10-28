@@ -1,0 +1,83 @@
+{
+ "platform": "yeswehack",
+ "name": "cryptobox-bug-bounty",
+ "url": "https://yeswehack.com/programs/cryptobox-bug-bounty",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Cryptobox",
+  "slug": "cryptobox-bug-bounty",
+  "country": "FR",
+  "activity_area": "CyberSec",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 392,
+  "bounty_reward_min": 100,
+  "bounty_reward_max": 5000,
+  "scopes_count": 3,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "42813fed-12be-4549-9add-2e17d92e3b39",
+   "original_name": "screenshot-2023-01-31-at-15-19-12-ercom-recherche-google.png",
+   "mime_type": "image/png",
+   "size": 31972,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/42813fed-12be-4549-9add-2e17d92e3b39"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Ercom",
+   "slug": "ercom",
+   "description": "Ercom is a reference French company with 30 years of combined expertise in two key areas: cybersecurity and communication networks. Ercom is part of the Thales Group.",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "0891c2559d41a81fa7a8d255c149c909",
+    "original_name": "7e2d9628e83e27f633692576bc72bc8e.png",
+    "mime_type": "image/png",
+    "size": 18974,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/0891c2559d41a81fa7a8d255c149c909"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-17T19:25:30+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://bounty.cryptobox.com",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://play.google.com/store/apps/details?id=com.ercom.cryptobox.release&hl=fr",
+   "asset_type": "Mobile application Android",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://apps.apple.com/fr/app/cryptobox/id972602802",
+   "asset_type": "Mobile application IOS",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

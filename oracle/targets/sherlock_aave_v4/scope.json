@@ -1,0 +1,15 @@
+{
+  "target": "Aave V4 Bug Bounty",
+  "platform": "sherlock",
+  "url": "https://audits.sherlock.xyz/bug-bounties/300",
+  "payout": "Paid Cash/USD (Up to ,500,000)",
+  "max_payout_usd": 2500000,
+  "page_title": "Aave V4 Bug Bounty - Sherlock",
+  "github_repositories": [
+    "https://github.com/aave-dao/aave-address-book/blob/main/src/AaveV4Ethereum.sol",
+    "https://github.com/aave-dao/aave-address-book/",
+    "https://github.com/aave-dao/aave-address-book/blob/main/src/AaveV4Avalanche.sol",
+    "https://github.com/aave/aave-v4/blob/main/docs/overview.md"
+  ],
+  "body_summary": "Contests\nLeaderboards\nBug Bounties\nFeatured\nSettings\nHelp Center\nLogout\nCodeHunterExtreme\n\nWatson\n\n0x52Cef6e0...e2b4c899\n\nPublic Profile\n\nSettings\n\nMedium\n\n0\n\nSolo\n\n0\n\nTotal\n\nHigh\n\n0\n\nSolo\n\n0\n\nTotal\n\n$0\n\nTotal Earnings\n\n#-\n\nRanking\n\nBug Bounties\n\nAave V4\nAave V4\nDetails\n\nScope\n\nMy Submission\n\nAave V4 Bounty Program\n\nAave V4 introduces a Hub-and-Spoke architecture, where the Hub manages shared liquidity and Spokes implement asset-specific supply and borrow logic. Spokes are modular components that can connect to one or more Hubs, routing user actions (supply, withdraw, borrow, repay) based on reserve configuration and capacity constraints.\n\nThe protocol retains core functionality from previous versions while extending the design to support additional mechanisms such as collateral-level risk premiums, reinvestment strategies, and more flexible risk configuration, enabling support for more heterogeneous assets and scalable system behavior.\n\nSeverity and Rewards\n\nVulnerabilities are classified using two factors: Impact and Likelihood. The combination of these factors determines the severity and guides the reward amount.\n\nSeverity Levels\n\nVulnerabilities will be classified according to the following severity levels:\n\nCritical\nDirect theft of user funds (at least 100,000 USD at risk)\nPermanent freezing of user funds (>100,000 USD)\nProtocol insolvency due to accounting errors\nUnauthorized minting of tokens (>100 USD worth of tokens can be minted).\nPermanent modification of protocol parameters leading to a significant loss\nHigh\nDirect theft of user funds (<100,000 USD and >100 USD at risk)\nTemporary freezing of user funds (>2 days)\nTheft of unclaimed yield (>100 USD at risk)\nPermanent freezing of unclaimed yield\nSignificant manipulation of oracle prices affecting protocol operations\nMedium\nSmart contracts are inoperable due to a lock of funds\nGriefing attacks causing temporary service disruption (either >12 hours of functionality DOS without lock of funds, or short-term tim"
+}

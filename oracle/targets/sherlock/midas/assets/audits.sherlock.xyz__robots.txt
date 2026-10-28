@@ -1,0 +1,4 @@
+User-Agent: *
+
+Host: https://audits.sherlock.xyz
+Sitemap: https://audits.sherlock.xyz/sitemap.xml

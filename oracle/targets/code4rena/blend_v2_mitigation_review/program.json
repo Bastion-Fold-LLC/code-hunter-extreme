@@ -1,0 +1,30 @@
+{
+ "platform": "code4rena",
+ "name": "Blend V2 Mitigation Review",
+ "url": "https://code4rena.com/audits/2025-04-blend-v2-mitigation-review",
+ "max_payout_usd": 20000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "MITIGATION REVIEW",
+   "Blend V2 Mitigation Review",
+   "A liquidity protocol primitive built on Stellar",
+   "Stellar",
+   "Rust",
+   "07 Apr 2025 3:00 PM - 11 Apr 2025 3:00 PM",
+   "$20,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/code-423n4/2025-04-blend-mitigation",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

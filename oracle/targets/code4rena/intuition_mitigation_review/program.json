@@ -1,0 +1,44 @@
+{
+ "platform": "code4rena",
+ "name": "Intuition Mitigation Review",
+ "url": "https://code4rena.com/audits/2026-04-intuition-mitigation-review",
+ "max_payout_usd": 4000,
+ "kind": "web3",
+ "fast_triage": true,
+ "reports_count": null,
+ "raw": {
+  "lines": [
+   "COMPLETED",
+   "MITIGATION REVIEW",
+   "Intuition Mitigation Review",
+   "The decentralized language protocol, knowledge network, & native blockchain for InfoFi - unlocking the next generation of the internet. Powered by $TRUST.",
+   "EVM",
+   "Solidity",
+   "02 Apr 3:00 PM - 06 Apr 3:00 PM",
+   "$4,000 in USDC"
+  ]
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://github.com/0xIntuition/intuition-contracts-v2",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/0xIntuition/intuition-contracts-v2-periphery",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/code-423n4/2026-04-intuition-mitigation",
+   "asset_type": "repo",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{
+  "program": "Beanstalk: Dive Into Basin",
+  "platform": "codehawks",
+  "slug": "beanstalk__dive_into_basin",
+  "downloaded_at": "2026-09-29T06:45:42.715644+00:00",
+  "assets": [
+    "program_page.txt",
+    "codehawks.cyfrin.io__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

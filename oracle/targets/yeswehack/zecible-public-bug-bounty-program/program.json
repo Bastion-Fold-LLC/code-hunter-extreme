@@ -1,0 +1,181 @@
+{
+ "platform": "yeswehack",
+ "name": "zecible-public-bug-bounty-program",
+ "url": "https://yeswehack.com/programs/zecible-public-bug-bounty-program",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "ZECIBLE PUBLIC BUG BOUNTY PROGRAM",
+  "slug": "zecible-public-bug-bounty-program",
+  "country": "FR",
+  "activity_area": "Marketing Tech",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 190,
+  "bounty_reward_min": 100,
+  "bounty_reward_max": 2000,
+  "scopes_count": 17,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "e5afd270df6563242737005b91a2ccfb",
+   "original_name": "logo-zecible-new.png",
+   "mime_type": "image/png",
+   "size": 4493,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/e5afd270df6563242737005b91a2ccfb"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "ZECIBLE",
+   "slug": "zecible",
+   "description": "Zecible provides companies with a selection of prospecting files of professionals and individuals",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "bc8ea5b274df5d866b153f472d9dc8d2",
+    "original_name": "logo-zecible-new.png",
+    "mime_type": "image/png",
+    "size": 4493,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/bc8ea5b274df5d866b153f472d9dc8d2"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-06-30T10:31:07+02:00",
+  "report_submission_cost": 2
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "ywh.zcb.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.comptage.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.static.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.fichiers.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.mydata.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.admin.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.api.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.dev.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.crons.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.routage.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "ywh.update.zecible.fr",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "odoo14.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "registre.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "svn.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "todo.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "webtoolbox.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "cam.notebleue.pro",
+   "asset_type": "Web application",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

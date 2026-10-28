@@ -1,0 +1,11 @@
+{
+  "platform": "immunefi",
+  "name": "Cosmos",
+  "url": "https://immunefi.com/bug-bounty/cosmos/information/",
+  "max_payout_usd": 100,
+  "kind": "web3",
+  "fast_triage": false,
+  "raw": {
+    "card_text": "Cosmos |  | Triaged by  |  | \t | $100.0k | \t | Private | \t | Private | \t24/9/2026\t$50k"
+  }
+}

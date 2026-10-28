@@ -1,0 +1,97 @@
+{
+ "platform": "yeswehack",
+ "name": "swiss-post-evoting",
+ "url": "https://yeswehack.com/programs/swiss-post-evoting",
+ "max_payout_usd": 0,
+ "kind": "web2",
+ "fast_triage": false,
+ "raw": {
+  "title": "Swiss Post - E-Voting",
+  "slug": "swiss-post-evoting",
+  "country": "CH",
+  "activity_area": "Transportation",
+  "average_first_response_time": 1,
+  "type": "bug-bounty",
+  "status": "V",
+  "demo": false,
+  "public": true,
+  "bounty": true,
+  "gift": false,
+  "hall_of_fame": true,
+  "hacktivity": false,
+  "report_collaboration_active": true,
+  "pid": null,
+  "secured": false,
+  "disabled": false,
+  "vdp": false,
+  "archived": false,
+  "reports_count": 1935,
+  "bounty_reward_min": 100,
+  "bounty_reward_max": 230000,
+  "scopes_count": 5,
+  "pentest_campaign_status": null,
+  "thumbnail": {
+   "name": "da96b57b-b30c-4c87-9f0f-661e7945d869",
+   "original_name": "Post_Logo_digital_RGB (1).png",
+   "mime_type": "image/png",
+   "size": 12204,
+   "url": "https://cdn-yeswehack.com/program/thumbnail/da96b57b-b30c-4c87-9f0f-661e7945d869"
+  },
+  "event": null,
+  "business_unit": {
+   "name": "Swiss Post",
+   "slug": "swiss-post",
+   "description": "Bug Bounty Post - Securing Digital Trust",
+   "currency": "EUR",
+   "already_activate_product": true,
+   "logo": {
+    "name": "6dc5820f-f66e-44f4-a34f-359295db4bc7",
+    "original_name": "Post_Logo_digital_RGB300.png",
+    "mime_type": "image/png",
+    "size": 3801,
+    "url": "https://cdn-yeswehack.com/business-unit/logo/6dc5820f-f66e-44f4-a34f-359295db4bc7"
+   }
+  },
+  "hunter_audience": null,
+  "scopes_enabled": null,
+  "last_update_at": "2026-09-22T12:02:29+02:00",
+  "report_submission_cost": 7
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "Source Code",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "System Specification",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Scenarios with Special Bounties",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Protocol of the Swiss Post Voting System",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "Protocol of the Swiss Post Voting System 2.0 (Whitepaper)",
+   "asset_type": "Other",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

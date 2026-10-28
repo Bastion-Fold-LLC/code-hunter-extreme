@@ -1,0 +1,376 @@
+{
+  "_meta": {
+    "generated": "2026-10-03",
+    "head_commit": "4238a7f",
+    "branch": "rowan/hunt-filter-fixes",
+    "purpose": "Single-source-of-truth snapshot: what is done, what is broken, what the plan is, in priority order. Read this before touching anything."
+  },
+
+  "what_oracle_is": {
+    "summary": "Deterministic-at-the-core bug-bounty pipeline. Pull scope → recon → two LLM lenses + deterministic template engine → prove every candidate on the wire with a 5-gate verifier → synthesize a submission-ready PoC.",
+    "core_bet": "The AI proposes, nothing is confirmed unless a code-only verifier sees a binary conflict proven on the wire.",
+    "loc": "~17,740 lines core Python, 54 files",
+    "local_model": "qwen3-coder:30b-16k",
+    "local_test_target": "127.0.0.1:8765",
+    "test_app": "oracle/tests/bad_code_app.py"
+  },
+
+  "committed_and_working": [
+    "5-gate deterministic verifier — refuses to confirm junk (proven: rejects benign /health)",
+    "Two LLM lenses: paradox (philosophy corpus + invisible seam) and mitre (full TTP + invisible seam)",
+    "Invisible seam feeds BOTH lenses (5b0b45e)",
+    "Template engine reaches the wire (Bug B fixed, df59405) and carries machine-checkable predicates",
+    "Precision: info-disclosure requires real leak marker, not bare status 200 (0b03995)",
+    "Remaining templates given predicates + severity floor so low/info confirmations never auto-draft (4238a7f)",
+    "Recon tools installed: ffuf, katana, nuclei, subfinder, httpx, gau",
+    "12 platform sessions live (cookies persisted, 0600 security fix, 6ef9d3c)",
+    "OpenRouter + local qwen models wired",
+    "Filter fix: max_reports no longer silently blocks non-HackerOne platforms (adcdeeb)",
+    "Verified precision on live app both directions: self-observing /debug/config CONFIRMS, /health REJECTS, artifact, open-redirect"
+  ],
+
+  "not_verified_unproven": [
+    "repulsive-gravity + deathless-hierarchy templates do not trigger on current fixture — UNTESTED",
+    "vacuum-identity TRUE positive untested (test app's access-control bug needs injected X-Original-Role header; template sends plain GET)",
+    "No end-to-end run on a real external program — all confirmed findings are on local app",
+    "Full loop (recon → analysis → verify → report) has never completed to a written report"
+  ],
+
+  "architecture_decisions_locked": {
+    "philosophy_engine": "Domain-agnostic — zero changes for web3; only the target-specific layer differs",
+    "mitre_engine": "Domain-agnostic — same",
+    "web3_recon_source": "Sourcify API (GET https://sourcify.dev/server/v2/contract/{chainId}/{address}?fields=abi,sources) — no key, 447 chains, full ABI + all .sol source files",
+    "etherscan": "Optional fallback only. All major bounty contracts verified on Sourcify (8/8 tested: Aave, Compound, Uniswap, MakerDAO, Curve, Lido, Chainlink, Cosmos)",
+    "foundry_tools": "forge, cast, anvil, chisel — installed (v1.5.1). cast call / forge test for web3 verification",
+    "slither_tools": "slither 0.11.5, echidna 2.3.2, mythril 0.24.8, slitherin — all installed",
+    "mindset_config": "The operator CLI has no mindset flag and oracle.config.json has no mindset selector; every product hunt runs M1+M2+M3. Subset selection is internal test/API only",
+    "no_add": "Do NOT add sqlmap, nikto, feroxbuster — they produce noise the 5-gate verifier would filter anyway",
+    "philosophy_framing": "Alex Sorrell's impossible problems / paradoxes / philosophies are the GENERATOR layer. MITRE is taxonomy. Philosophy provides generative attack moves.",
+    "iphone_problem_output": "Two irreconcilable assertions, one reproducible check, binary verdict. No essays. No log dumps.",
+    "no_dumb_down": "Do NOT summarize philosophies in worked examples — show the MOTION (the reframe happening), not what it means"
+  },
+
+  "subsystem_readiness": {
+    "scope_scraper_14_platforms": {
+      "verdict": "PARTIAL",
+      "evidence": "oracle_programs.py:1719-1734",
+      "real_scrapers_with_scope_adapters": ["hackerone", "bugcrowd", "yeswehack", "sherlock", "codehawks", "cantina", "hackenproof", "immunefi", "code4rena", "huntr", "patchstack"],
+      "real_scrapers_no_scope_adapters": ["intigriti"],
+      "stub_scrapers": ["bugbase", "hatsfinance"],
+      "note": "structured_scopes is always [] after a listing scrape. Scope only populated during bulk download. Intigriti has no scope adapter in _SCOPE_ADAPTERS."
+    },
+    "config_filters": {
+      "verdict": "WORKS",
+      "evidence": "oracle_hunt_filter.py:145-296",
+      "note": "oracle.config.json filter.max_resolved_reports is not forwarded into the hunt_filter block — only applies in CLI filter_programs path."
+    },
+    "asset_scope_download_auth_cascade": {
+      "verdict": "PARTIAL",
+      "evidence": "oracle_programs.py:418-434, oracle_bulk_download.py:1244-1253",
+      "cascade": "CDP (logged-in browser) → Firecrawl → plain GET. Bad key logs warning and falls through — no crash.",
+      "gap": "Client-rendered Sherlock pages call _looks_client_rendered and return [] silently — documented, not a crash"
+    },
+    "recon_endpoints_vs_hosts": {
+      "verdict": "PARTIAL",
+      "evidence": "oracle_hunter.py:1039-1068, oracle_deeprecon.py:291-349",
+      "produces": ["live_hosts.txt (httpx)", "fuzzed_paths.txt (ffuf)", "js_endpoints.txt (hakrawler/JS mining)", "api_specs.txt", "known_urls.txt (gau)"],
+      "root_cause_run4_0_endpoints": "fuzz_hidden_paths requires scope_gate is not None — skips entirely with no scope gate. For direct target 127.0.0.1:8765 with platform=direct, scope gate may be too strict. Also: deep recon (JS mining + ffuf) only runs when not controlled.",
+      "confirmed_fix": "Write 7 test app routes into fuzzed_paths.txt manually and re-run (Work 1)"
+    },
+    "three_mindsets_cross_compare": {
+      "verdict": "WORKS",
+      "evidence": "oracle_mindsets.py:10-98, oracle_hunter.py:3714-3749",
+      "lenses": ["mitre (Engine B: local tactic sweep, one pass per tactic)", "paradox (Engine A: OpenRouter, philosophy corpus)", "seam (deterministic: code lens + template engine)"],
+      "cross_compare": "Real signal — annotates corroborated_by + agreement by URL/file+function identity. Ranking metadata only, never a gate."
+    },
+    "seam_generation_machine_checkable": {
+      "verdict": "PARTIAL",
+      "evidence": "oracle_seam_templates.py:60-61, oracle_deterministic.py:432-472",
+      "template_seams": "Machine-checkable, deterministic, have Expected field — but fire from fuzzed_paths.txt. 1 line = 0 candidates for most templates.",
+      "llm_seams": "ALWAYS REJECTED at Gate 3 — _reflex_task() prompt at oracle_hunter.py:3618-3628 never asks for Expected: with a status code"
+    },
+    "deterministic_5_gate_verifier": {
+      "verdict": "WORKS",
+      "evidence": "oracle_deterministic.py:539-631",
+      "gate_1": "line 567 — grounding: URL host must match recon data exactly, no lookalike",
+      "gate_2": "line 573 — scope: scope_gate.is_in_scope(url), exception fails closed",
+      "gate_3": "line 587 — machine-readable expectation + status code mandatory",
+      "gate_4": "line 593 — assertion_a_source must be non-empty",
+      "gate_5": "line 600-627 — status, body contains/not-contains, headers absent/contains — all checked",
+      "vacuous_gates": "None. All 5 can reject."
+    },
+    "llm_collaborate_bounded": {
+      "verdict": "WORKS",
+      "evidence": "oracle_llm.py:462-519, line 472",
+      "timeout": "120s per role (scout, adversary, private_reviewer). OllamaBackend passes timeout to requests POST. CliBackend uses subprocess.run timeout=180. All bounded."
+    },
+    "report_generation_loop_close": {
+      "verdict": "PARTIAL / UNPROVEN",
+      "evidence": "oracle_hunter.py:2450-2603, line 4014",
+      "code_path": "cmd_hunt → recon → LLM reflexes → seam parsing → verify → _finalize_verify → PoC synthesis → _write_report — structurally complete",
+      "empirical_status": "Never run to completion. Run 4 died at recon (1-line fuzzed_paths → 0 template seams → 0 LLM cards with valid Expected → 0 confirmed → no report written)"
+    }
+  },
+
+  "doc_overclaims": [
+    {
+      "doc": "oracle_mindset_context.py",
+      "lines": [10, 21],
+      "claim": "8 paradox→reflex worked examples",
+      "reality": "ORACLE_SYSTEM_PROMPT.md defines 11 reflexes (Reflexes 9/10/11 present at lines 100, 113, 125)"
+    },
+    {
+      "doc": "oracle_hunter.py",
+      "lines": [1643, 1736, 3607],
+      "claim": "Run ALL 8 Oracle reflexes",
+      "reality": "Prompt ships 11 reflexes to the model but task string says 8. Model told to run 8, receives 11."
+    },
+    {
+      "doc": "oracle_mindset_context.py",
+      "line": "ttp_mode docstring",
+      "claim": "full 342 TTPs on cloud",
+      "reality": "oracle_ttps_fused.json has 342 entries but Reflexes 9/10/11 have ZERO TTP entries — the three most novel reflexes are unrepresented in Engine B"
+    },
+    {
+      "doc": "ARCHITECTURE.md, docs/ORACLE_MASTER_PLAN.md",
+      "claim": "Loop described as proven or near-proven",
+      "reality": "Loop has never completed end-to-end. No report written from a hunt run to completion."
+    }
+  ],
+
+  "blockers_to_real_submission": [
+    {
+      "rank": 1,
+      "title": "LLM seam cards always fail Gate 3 — _reflex_task() never asks for Expected: field",
+      "effort": "~2 hours",
+      "file": "oracle_hunter.py:3618-3628",
+      "detail": "_reflex_task() asks for 'Reproducible check: curl -i -s [REAL URL]' but never requests 'Expected: status <NNN>[, body contains \"<marker>\"]'. Gate 3 at oracle_deterministic.py:587 rejects any card with expected[\"status\"] is None. Every Engine A + Engine B output is dead on arrival on a real program.",
+      "fix": "Add '- Expected: status <NNN>[, body contains \"<marker>\"]' to the card template in _reflex_task(). Add HARD RULE 8: Expected field is mandatory and must include a status code."
+    },
+    {
+      "rank": 2,
+      "title": "fuzzed_paths.txt is single-point-of-failure for all 11 template seam functions",
+      "effort": "~2 hours (local test), ~1 week (real target)",
+      "file": "oracle_seam_templates.py:60",
+      "detail": "All template functions read from fuzzed_paths.txt. 1 line = 0 candidates for most templates. For Phase A close: manually write the 7 test app routes. For real program: verify the scope gate for platform=direct passes 127.0.0.1:8765 before blaming ffuf.",
+      "fix": "Write correct fuzzed_paths.txt with all 10 test routes, re-run hunt 127.0.0.1:8765 --mindset seam --auto, confirm ≥3 CONFIRMED findings."
+    },
+    {
+      "rank": 3,
+      "title": "Scope data never populated during listing pass — every platform except H1/YWH/Bugcrowd starts with structured_scopes: []",
+      "effort": "~2-3 days",
+      "file": "oracle_programs.py:1759, oracle_bulk_download.py:1229-1241",
+      "detail": "normalize_program_record() calls setdefault(structured_scopes, []). Scope-intake adapters only run during download_program_assets(), not during scraping. cmd_hunt with --auto-pick selects a program with empty scope. ProgramScopeGate built from empty scope is either vacuously open or blocks everything. Recon seed_hosts gets nothing.",
+      "fix": "Phase A: ensure scope download runs before hunt for any real program. Phase B+: wire _SCOPE_ADAPTERS into the listing pass OR enforce a mandatory intake step before hunt."
+    }
+  ],
+
+  "repair_work_items": [
+    {
+      "id": "Work-1",
+      "priority": "MOST URGENT — Phase A close",
+      "title": "Seed fuzzed_paths.txt with test routes, re-run hunt, confirm ≥3 findings",
+      "detail": "Write all 10 test app routes into targets/direct/127.0.0.1_8765/recon/fuzzed_paths.txt. Run: python3 oracle_hunter.py hunt 127.0.0.1:8765 --mindset seam --auto. Confirm ≥3 CONFIRMED findings in the findings/ dir. Commit as 'Phase A close'.",
+      "test_app_routes": ["/", "/health", "/debug/config", "/api/users", "/api/users/<id>", "/redirect", "/upload", "/static/<path>", "/api/internal/dashboard", "/api/v1/admin/metrics"]
+    },
+    {
+      "id": "Work-2",
+      "priority": "HIGH",
+      "title": "Fix _reflex_task() to require Expected: field — HARD RULE 8",
+      "file": "oracle_hunter.py:3618-3628",
+      "detail": "Add '- Expected: status <NNN>[, body contains \"<marker>\"]' to the SEAM card template. Add HARD RULE 8: 'Expected field MANDATORY. Must include status code. No status code = card is invalid.' Update '8 Oracle reflexes' references to '11 Oracle reflexes' at lines 1643, 1736, 3607."
+    },
+    {
+      "id": "Work-3",
+      "priority": "HIGH",
+      "title": "Add Reflexes 9/10/11 to oracle_ttps_fused.json",
+      "file": "oracle_ttps_fused.json",
+      "detail": "Add 2-3 entries per reflex for Beautiful Liar (Reflex 9), Cliff and the Current (Reflex 10), Invisible Architect (Reflex 11). Each entry needs correct you_never_said seeds and technique. Currently all 342 entries map to Reflexes 1-5 only."
+    },
+    {
+      "id": "Work-4",
+      "priority": "RED FLAG",
+      "title": "Fix ALL platform scrapers to collect actual in-scope assets from detail pages",
+      "file": "oracle_programs.py",
+      "detail": "Every platform scraper collects only listing-level data (name, payout, URL, card text). Scope gate, templates, and model all depend on structured_scopes being populated. Without it: scope gate uses no real scope, templates have no real targets, model has no program rules. Affects every platform, every hunt.",
+      "platforms_need_fix": ["intigriti (no scope adapter at all)", "bugbase (generic regex, max_payout_usd=0, raw={})", "hatsfinance (generic regex, max_payout_usd=0, raw={})"]
+    },
+    {
+      "id": "Work-5",
+      "priority": "MEDIUM",
+      "title": "Wire scan.platforms config to cmd_hunt auto-pick",
+      "file": "oracle_hunter.py",
+      "detail": "oracle.config.json scan.platforms already supports 'all' or ['hackerone','bugcrowd'] but cmd_hunt auto-pick doesn't read it."
+    },
+    {
+      "id": "Work-6",
+      "priority": "LOW",
+      "title": "Fix doc overclaims: 8 reflexes → 11 throughout codebase",
+      "files": ["oracle_mindset_context.py:10,21", "oracle_hunter.py:1643,1736,3607"]
+    }
+  ],
+
+  "phase_plan": {
+    "phase_A": {
+      "name": "Full philosophy coverage + close the loop on local test target",
+      "status": "IN PROGRESS",
+      "steps": [
+        "Extract technique-shaped philosophies into moves + templates: Beautiful Liar (trust/validation, forged/invalid credential), Cliff and the Current (alternate-path auth), Invisible Architect (infrastructure seam)",
+        "Wire STANCE docs into system prompt as operating instructions: Pushing Physics, The Mind That Does Not Wait, Build the World",
+        "Clear verification debt: build fixture (or second test app) that triggers repulsive-gravity + deathless-hierarchy + vacuum-identity TRUE positive",
+        "Verify every move BOTH directions on live app via real run. Never from pytest or unit test passing status= directly.",
+        "DONE = every philosophy is a verified move or stance block; all templates pass both-ways; debt cleared"
+      ],
+      "work_items": ["Work-1", "Work-2", "Work-3"]
+    },
+    "phase_B": {
+      "name": "First real-program run",
+      "status": "BLOCKED on Phase A",
+      "steps": [
+        "Pick one HackerOne web2 program: ≥$500, real JS+API, not picked-over (don't set max_reports; ignore patchstack's fake $15k)",
+        "Scope intake: oracle-hunter prescan --sync && oracle-hunter scan -N 1 --download",
+        "Run: oracle-hunter queue --execute",
+        "Triage CONFIRMED set: KEEP disclosure / access-control / IDOR / secret-exposure / logic; DROP header-only",
+        "Goal: one real, in-scope finding end-to-end"
+      ]
+    },
+    "phase_C": {
+      "name": "Credentialed multi-step (ceiling raise)",
+      "status": "NOT STARTED",
+      "steps": [
+        "Make templates produce credentialed checks via the dual-account harness (oracle_auth_session.py:270)",
+        "Enables: IDOR, auth-bypass, role-escalation — the four-figure findings",
+        "Do after Phase B proves the base loop earns something real"
+      ]
+    },
+    "phase_D": {
+      "name": "Volume + submit",
+      "status": "NOT STARTED",
+      "steps": [
+        "Fan out across many in-scope programs in parallel",
+        "Variant-sweep one confirmed bug across remaining assets → N reports",
+        "HUMAN reviews every PoC before sending — never auto-submit",
+        "Feed triage outcomes back into target selection + templates"
+      ]
+    }
+  },
+
+  "web3_layer": {
+    "decision": "Build after Phase A closes. Engines (philosophy + MITRE) are domain-agnostic — zero changes needed there. Only target-specific layer differs.",
+    "pieces": [
+      {
+        "file": "oracle_web3_recon.py",
+        "description": "Sourcify fetch + source write + Slither run",
+        "lines": "~150",
+        "time": "2-3 hours",
+        "sourcify_api": "GET https://sourcify.dev/server/v2/contract/{chainId}/{address}?fields=abi,sources",
+        "sourcify_returns": "Full ABI (list of function dicts with name/inputs/outputs/stateMutability) + all .sol source files as {filename: {content: '...'}}",
+        "no_key_needed": true,
+        "chains_covered": 447
+      },
+      {
+        "file": "oracle_seam_templates_web3.py",
+        "description": "8 template functions reading ABI + Slither output",
+        "lines": "~300",
+        "time": "4-6 hours",
+        "slither_output_format": "{results: {detectors: [{check, impact, confidence, elements: [{name, source_mapping}]}]}}",
+        "slither_invocation": "slither <dir> --json output.json"
+      },
+      {
+        "file": "oracle_deterministic.py",
+        "description": "Gate 5 extended for cast call / forge test output parsing",
+        "lines": "~50",
+        "time": "1 hour"
+      },
+      {
+        "file": ".env + oracle.config.json",
+        "description": "Etherscan key slot + web3 config block",
+        "lines": "~20",
+        "time": "30 min",
+        "env_key": "ETHERSCAN_API_KEY"
+      },
+      {
+        "file": "oracle_hunter.py",
+        "description": "Detect web3 target, route to web3 recon",
+        "lines": "~40",
+        "time": "1 hour"
+      }
+    ],
+    "total": {
+      "lines": "~560",
+      "time": "~1.5 days"
+    },
+    "sourcify_coverage_verified": {
+      "chains": [1, 42161, 137, 8453, 10, 56, 43114, 11155111],
+      "chain_names": ["Ethereum", "Arbitrum", "Polygon", "Base", "Optimism", "BNB", "Avalanche", "Sepolia"],
+      "major_bounty_contracts_all_on_sourcify": ["Aave", "Compound", "Uniswap", "MakerDAO", "Curve", "Lido", "Chainlink"],
+      "tested": "8/8"
+    }
+  },
+
+  "platform_api_keys": {
+    "env_file": "oracle/.env",
+    "keys": {
+      "HACKERONE_API_KEY": "HackerOne API — full program list with payouts + scope via GraphQL",
+      "HACKERONE_USERNAME": "HackerOne username for API auth",
+      "INTIGRITI_JWT": "Intigriti JWT Bearer token",
+      "HACKENPROOF_API_KEY": "HackenProof API",
+      "FIRECRAWL_API_KEY": "Firecrawl — JS-rendered scrape (all platforms)",
+      "OPENROUTER_API_KEY": "OpenRouter — cloud LLM (Engine A)",
+      "NVIDIA_API_KEY": "NVIDIA NIM — cloud LLM (Engine A adversary role)",
+      "ETHERSCAN_API_KEY": "Etherscan — optional fallback for web3 contract lookup (add when available)",
+      "TAVILY_API_KEY": "Tavily — web search fallback"
+    }
+  },
+
+  "verification_discipline": {
+    "rule": "Verify by RUNNING the real path, both directions, on the live app. A green test suite is not evidence (121 tests passed while the whole template path was silently blocked by Bug B). 'Looks done' has been wrong every time until a real run confirmed it.",
+    "both_directions_means": "benign endpoint REJECTS, real-finding endpoint CONFIRMS",
+    "never_from": "pytest passing status= directly"
+  },
+
+  "guardrails": [
+    "Submit only what the verifier CONFIRMED and a human eyeballed",
+    "Session cookies expire (days) — when a platform returns 0 programs, re-run save-cookies",
+    "Local-only testing until a real program is chosen — no scanning third-party infra without a named, in-scope target",
+    "HUMAN reviews every PoC before sending — never auto-submit",
+    "Template checks are plain GETs today (caps findings at disclosure/misconfig class). High-value IDOR/auth-bypass requires Phase C (credentialed checks)"
+  ],
+
+  "honest_calibration": {
+    "simple_disclosure_misconfig_on_real_targets": "Reasonably likely with volume — engine's wheelhouse, now tuned to avoid false positives",
+    "high_value_logic_auth_bypass": "Gated on Phase C (credentialed checks). Low probability until then",
+    "path_to_money": "Phase B proving it on reality + Phase D volume — throughput, not a deadline"
+  },
+
+  "key_files": {
+    "core_pipeline": {
+      "oracle_hunter.py": "cmd_hunt main loop (line 3349); _reflex_task() prompt (line 3618) — NEEDS Expected: field; _finalize_verify (line 2450); recon() (line 799)",
+      "oracle_deterministic.py": "5-gate verifier; verify_seam_card (line 539); parse_expected (line 432); _run_check runner",
+      "oracle_seam_templates.py": "11 web template functions + 2 code templates; scan_template_seams(); all fire from fuzzed_paths.txt",
+      "oracle_mindset_context.py": "OracleMindsetContext._build() (line 574); says '8 reflexes' in docstring (lines 10, 21) — needs → 11",
+      "oracle_programs.py": "14 platform scrapers; cmd_save has H1 scope fetch via GraphQL; ALL scrapers need detail-page pass added",
+      "oracle_llm.py": "collaborate() (line 462) — bounded at 120s; complete() router; all backends"
+    },
+    "philosophy_corpus": {
+      "ORACLE_SYSTEM_PROMPT.md": "11 reflexes defined; worked examples need rewriting to show motion not summary",
+      "oracle_ttps_fused.json": "342 entries, Reflexes 1-5 only — needs Reflexes 9/10/11 added",
+      "oracle_mindset_context.py": "_build() fuses system prompt + framework + voice + corpus + TTPs + program brief",
+      "corpus_dir": "corpus/philosophies/, corpus/impossible_problems/, corpus/paradoxes/, corpus/analysis/"
+    },
+    "config": {
+      "oracle.config.json": "scan.platforms: 'all'; platform_auth for 14 platforms; no mindset selector",
+      "triage.yaml": "ranking weights; hunt_filter block; mode: new_only (change to all for real programs)",
+      "oracle_backends.json": "LLM routing; local model qwen3-coder:30b-16k"
+    },
+    "test_infrastructure": {
+      "tests/bad_code_app.py": "7-flaw test app on port 8765 — all routes confirmed live",
+      "targets/direct/127.0.0.1_8765/recon/fuzzed_paths.txt": "CRITICAL: 1 line only (/health [200]) — needs 10 routes written",
+      "targets/direct/127.0.0.1_8765/findings/": "6 finding JSONs, all verify_confirmed: false"
+    },
+    "to_create_web3": {
+      "oracle_web3_recon.py": "Sourcify fetch + source write + Slither run (~150 lines)",
+      "oracle_seam_templates_web3.py": "8 template functions reading abi.json + slither_output.json (~300 lines)"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "platform": "cantina",
+  "name": "Robinhood",
+  "url": "https://cantina.xyz/bounties/2acbecd1-3a5e-44fb-a324-a524c156d690",
+  "max_payout_usd": 1000000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": 0,
+  "raw": {
+    "lines": [
+      "Robinhood",
+      "Robinhood",
+      "$1,000,000",
+      "in USDC",
+      "Bug Bounty",
+      "Live",
+      "Cantina-Triaged",
+      "Deposit required",
+      "Started on 8 Sep 2026"
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+We value your privacy
+
+We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies. Read more.
+
+Customize
+Reject All
+Accept All
+Pricing
+Case studies
+Login
+Start trial
+Activity Log
+Elementor
+
+Developer
+
+2.15.0
+
+Latest version
+
+200,000
+
+Installations
+
+No date
+
+Last updated
+
+WordPress Plugin
+Active VDP
+Report vulnerability
+Vulnerabilities
+Security Policy
+Security Contributors
+Vulnerability history
+0 present
+5 patched
+1 Mitigation rules
+Cross Site Request Forgery (CSRF) vulnerability
+<= 2.13.1
+02/09/2026
+Unauthenticated Stored Cross-Site Scripting via Event Context vulnerability
+<= 2.11.1
+20/11/2024
+IP Spoofing vulnerability
+< 2.8.8
+05/09/2023
+CSV Injection vulnerability
+<= 2.8.3
+26/09/2022
+Authenticated SQL Injection (SQLi) vulnerability
+<= 2.6.1
+02/05/2021
+Vulnerability mitigation
+Pricing 
+Application security (SCA) 
+RapidMitigate
+NEW
+Threat Intelligence (API) 
+VS Monarx 
+VS Imunify360 
+VS Wordfence 
+Documentation 
+Service status 
+Log in 
+Code security
+Managed VDP
+NEW
+Active VDP directory
+1,298
+Report vulnerability 
+Security auditing 
+Compliance (CRA)
+NEW
+Log in
+NEW
+Bug bounty
+Bug bounty 
+Leaderboard 
+Guidelines 
+Learn
+NEW
+Report 
+Discord 
+Log in
+NEW
+Use cases
+Web developers 
+Webhosts
+NEW
+Software vendors 
+WordPress 
+WooCommerce 
+Resources
+Partners 
+Vulnerability database 
+Whitepaper 2026
+NEW
+Articles 
+Case studies
+NEW
+Webinars
+NEW
+Vulnerability statistics 
+Patchstack
+About 
+Compliance
+NEW
+Careers 
+Merch store 
+Media kit 
+LinkedIn 
+Facebook 
+X 
+© 2026 Patchstack
+DPA
+Privacy Policy
+Accessibility
+Terms & Conditions

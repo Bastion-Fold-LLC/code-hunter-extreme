@@ -1,0 +1,23 @@
+{
+  "platform": "patchstack",
+  "name": "Elementor Pro",
+  "url": "https://patchstack.com/database/wordpress/plugin/elementor-pro/vulnerabilities",
+  "max_payout_usd": 15000,
+  "kind": "web2",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "href": "https://patchstack.com/database/wordpress/plugin/elementor-pro/vulnerabilities"
+  },
+  "score": 22500.0,
+  "structured_scopes": [
+    {
+      "asset_identifier": "https://wordpress.org/plugins/elementor-pro/",
+      "asset_type": "URL",
+      "eligible_for_bounty": true,
+      "eligible_for_submission": true,
+      "instruction": "WordPress plugin page for elementor-pro",
+      "source": "patchstack-derived"
+    }
+  ]
+}

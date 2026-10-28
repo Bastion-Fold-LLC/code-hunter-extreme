@@ -1,0 +1,83 @@
+{
+ "platform": "immunefi",
+ "name": "ENS",
+ "url": "https://immunefi.com/bug-bounty/ens/information/",
+ "max_payout_usd": 79,
+ "kind": "web3",
+ "fast_triage": false,
+ "raw": {
+  "card_text": "ENS |  | Triaged by  |  | \t | $79.4k | \t | Private | \t | Private | \t27/8/2026\t$250k"
+ },
+ "structured_scopes": [
+  {
+   "asset_identifier": "https://ens.domains",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://metadata.ens.domains/docs",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/ensdomains/ensdomains-landing",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/ensdomains/ens-app-v3",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://app.ens.domains/",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/ensdomains/ens-metadata-service",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://metadata.ens.domains/",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://github.com/ensdomains/ens-contracts/wiki/ENS-Contract-Deployments",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://immunefi.com",
+   "asset_type": "smart_contract",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  },
+  {
+   "asset_identifier": "https://immunefi.com",
+   "asset_type": "websites_and_applications",
+   "eligible_for_bounty": true,
+   "eligible_for_submission": true,
+   "source": "bulk-intake"
+  }
+ ]
+}

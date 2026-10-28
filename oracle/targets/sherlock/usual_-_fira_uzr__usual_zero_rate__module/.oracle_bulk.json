@@ -1,0 +1,14 @@
+{
+  "program": "Usual - Fira UZR (Usual Zero Rate) module",
+  "platform": "sherlock",
+  "slug": "usual_-_fira_uzr__usual_zero_rate__module",
+  "downloaded_at": "2026-09-29T06:40:46.691671+00:00",
+  "assets": [
+    "program_page.txt",
+    "audits.sherlock.xyz__robots.txt"
+  ],
+  "asset_count": 2,
+  "repos": [],
+  "repo_count": 0,
+  "by": "oracle_bulk_download.py"
+}

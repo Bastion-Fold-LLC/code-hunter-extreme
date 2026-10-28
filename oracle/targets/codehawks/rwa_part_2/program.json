@@ -1,0 +1,25 @@
+{
+  "platform": "codehawks",
+  "name": "RWA Part 2",
+  "url": "https://codehawks.cyfrin.io/c/2025-03-remora-2",
+  "max_payout_usd": 4000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "lines": [
+      "KYC Rewards",
+      "RWA Part 2",
+      "Remora",
+      "Real World Assets",
+      "Solidity",
+      "Invite-only",
+      "4,000",
+      "USDC",
+      "Ended",
+      "Ended 550d, 1h ago",
+      "Quick actions",
+      "View contest"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "platform": "sherlock",
+  "name": "Napier",
+  "url": "https://audits.sherlock.xyz/bug-bounties/11",
+  "max_payout_usd": 50000,
+  "kind": "web3",
+  "fast_triage": true,
+  "reports_count": null,
+  "raw": {
+    "type": "bug-bounty",
+    "lines": [
+      "Napier",
+      "50,000 USDC",
+      "Payout",
+      "Aug 20, 2024",
+      "Last Updated"
+    ]
+  }
+}
