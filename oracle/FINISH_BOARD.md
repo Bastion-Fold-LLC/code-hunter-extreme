@@ -112,6 +112,31 @@ consumed the packing yet.
 | G8 Agent-instance XDG config empties OmniCLI keys (0/16) — env trap, fails closed | closed | OmniCLI `e1a9245`: `ConfigManager.key_preflight()` (counts only, no secrets) + `OmniClient._require_api_key` fails loud BEFORE any HTTP (chat_complete raises, chat_stream yields one error chunk) naming env var, configured N/total, config dir, and fix. Empty-dir live probe: exit 1 with `0/14 providers configured in /tmp/omni-empty…` instead of bare 401. OmniCLI suite 538 passed. Spark verify AGREE. Workaround `OMNICLI_CONFIG_DIR` no longer load-bearing for silence — wrong config now screams |
 | G12 Canonical pipeline batch (prescan/scan/queue-only chain, feed-trust gate, H1 independent re-scan, product bundles, runlog, OmniCLI conductor) | closed | This commit series: operator mindset selector + integrity bypasses removed (every product hunt M1+M2→M3); `scan` sole verified-context producer, `queue --execute` sole pipeline runner; SHA-256 bundles with separate `ready_for_submission` gate (feed_trust.ok, Oracle re-scan provenance, independent H1 re-scan, per-seam PoC); per-run structured runlog that cannot break a hunt; OmniCLI `oracle-pipeline` conductor complete only with a ready product. Three independent verifiers DISAGREEd on the in-tree batch; every claim adjudicated against code (several verifier claims disproven: pyproject packaging, compound-PoC acceptance, conductor placeholder API). Real blockers fixed fail-first: H1 client redirect forwarded Authorization (S5-class regression) → no-redirect opener; feed trust accepted Scan4Me public listing sources (`live-board`/`live-api`/`pd-repo`/`live-listing`/unknown) → only `authenticated` counted rows trusted; runlog redaction passed unlisted credential variants (accounts/sessions/JWT/Basic/multi-pair cookies) → meaning-class redaction fail-closed; prose scope parser granted wildcards from exclusion clauses → per-clause negation, exclusion wins; `verify_bundle` trusted self-asserted manifest readiness → recomputed from bundled artifacts (+ stale-artifact stamp guard vs hunt mixing); conductor completed on integrity-broken bundles → integrity+exit-code gate; G11 residuals (see G11 row); `--json` stdout kept clean on warn/die; a queued hunt's `_die` no longer freezes the shared runlog. Suites after fixes: Oracle 1433 passed, invisible-seam 98, OmniCLI 545; ruff at HEAD baseline. Not yet exercised live: authenticated prescan→scan→queue chain (Next actions 2–3) |
 
+## Candidate census — Matomo tree (2026-10-28)
+
+`scripts/teardown_census.py` assigns every candidate one terminal stage
+(first gate it failed, walking the hunt's own order), so the counts reconcile
+to the candidate total. On the 2026-10-27 Matomo findings (53 cards):
+
+| Terminal stage | Count | Share | Meaning |
+|---|---|---|---|
+| `runnable-check` | 49 | 92% | static PHP conflicts, `verdict=UNSOLVED`, no probe exists to run |
+| `teardown` | 4 | 8% | reached teardown, PoC failed replay 0/3 |
+| confirmed | 0 | 0% | — |
+
+Accounting: 53/53. Per lens: `invisible-seam` 49 runnable-check,
+`seam-template` 4 teardown.
+
+**This corrects the M6 row's framing.** "Teardown demoted 53/53" was wrong:
+only 4 candidates ever reached teardown. The actual blocker for 92% of
+candidates is that the PHP code lens emits a *static* check (`grep`, file
+inspection) with no observable probe, so nothing downstream can confirm it —
+not a precision failure but a verification-form gap. The remaining 8% are a
+replay failure in the template PoC, a separate fix.
+
+Evidence: `python3 scripts/teardown_census.py targets/HackerOne/matomo`;
+tests `tests/test_teardown_census.py` (9 passed).
+
 ## Next actions (ordered)
 
 1. [x] DONE 2026-10-28 — `Bastion-Fold-LLC/invisible-seam` created (private),
