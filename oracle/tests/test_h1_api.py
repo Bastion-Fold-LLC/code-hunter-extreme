@@ -265,6 +265,22 @@ def _trusted_feed(monkeypatch):
     )
 
 
+def _prescan_fields():
+    prov = {
+        "refresh_ok": True,
+        "age_hours": 1.0,
+        "stale": False,
+        "platforms": {
+            "hackerone": {
+                "count": 1,
+                "source": "authenticated",
+                "status": "ok",
+            }
+        },
+    }
+    return {"feed_provenance": prov, "feed_trust": intake.feed_trust_block(prov)}
+
+
 def test_scan_records_independent_rescan_and_propagates_failure(tmp_path, monkeypatch):
     _trusted_feed(monkeypatch)
     prescan = {
@@ -279,7 +295,7 @@ def test_scan_records_independent_rescan_and_propagates_failure(tmp_path, monkey
                 "currency": "USD",
             }
         ],
-        "feed_trust": {"ok": True, "issues": []},
+        **_prescan_fields(),
     }
 
     def vanished(snap):
@@ -340,7 +356,7 @@ def test_product_scan_without_h1_credentials_fails_before_dispatch(
                         "currency": "USD",
                     }
                 ],
-                "feed_trust": {"ok": True, "issues": []},
+                **_prescan_fields(),
             }
         )
     )
@@ -380,7 +396,7 @@ def test_verified_h1_scope_feeds_deep_dive_without_bridge(tmp_path, monkeypatch)
                 "currency": "USD",
             }
         ],
-        "feed_trust": {"ok": True, "issues": []},
+        **_prescan_fields(),
     }
 
     def h1_rescan(snap):
@@ -461,7 +477,7 @@ def test_scan_reports_mixed_rescan_provenance(tmp_path, monkeypatch):
                 "out_of_scope": [],
             },
         ],
-        "feed_trust": {"ok": True, "issues": []},
+        **_prescan_fields(),
     }
 
     def rescan(snap):

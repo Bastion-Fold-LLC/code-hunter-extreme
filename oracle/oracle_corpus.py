@@ -322,14 +322,28 @@ def source_context(query: str, max_chars: int = 18_000) -> str:
     return joined
 
 
-def source_context_chunks(query: str, max_chars: int) -> list[str]:
+def source_context_chunks(
+    query: str,
+    max_chars: int,
+    *,
+    repeat_foundations: bool = True,
+    split_oversized: bool = False,
+) -> list[str]:
     """Return every corpus document verbatim, grouped into fitting chunks.
 
-    Foundation texts lead every chunk (core framing on each pass); every
-    other document appears in exactly one chunk, relevance-ordered.
-    Nothing is selected away, split, or truncated: a single document
-    that cannot fit one chunk (with header + foundations) fails loud
-    naming the document, mirroring source_context's law.
+    Default (cloud) law: foundation texts lead every chunk (core framing
+    on each pass); every other document appears in exactly one chunk,
+    relevance-ordered. Nothing is selected away, split, or truncated: a
+    single document that cannot fit one chunk (with header +
+    foundations) fails loud naming the document, mirroring
+    source_context's law.
+
+    Local-window options (opt-in, used only for small local contexts):
+    ``repeat_foundations=False`` delivers foundation documents exactly
+    once like every other document, and ``split_oversized=True`` splits
+    a document that cannot fit whole into sequential ``(part i/n)``
+    blocks. Every character is still delivered exactly once across the
+    chunk set; nothing is truncated or dropped.
     """
     if max_chars <= 0:
         raise ValueError("max_chars must be positive")
@@ -353,20 +367,57 @@ def source_context_chunks(query: str, max_chars: int) -> list[str]:
             f"{read_document(document.identifier)}"
         )
 
-    base_blocks = list(header) + [_block(d) for d in foundations]
+    if repeat_foundations:
+        base_blocks = list(header) + [_block(d) for d in foundations]
+        ordered = rest
+    else:
+        base_blocks = list(header)
+        ordered = foundations + rest
     base_len = len("\n\n".join(base_blocks))
+    if base_len > max_chars:
+        raise ValueError(
+            f"max_chars={max_chars} cannot fit chunk header/foundations "
+            f"alone ({base_len} chars)"
+        )
 
-    chunks: list[str] = []
-    current = list(base_blocks)
-    current_len = base_len
-    for document in rest:
+    blocks: list[str] = []
+    for document in ordered:
         block = _block(document)
-        if base_len + 2 + len(block) > max_chars:
+        if base_len + 2 + len(block) <= max_chars:
+            blocks.append(block)
+            continue
+        if not split_oversized:
             raise ValueError(
                 f"max_chars={max_chars} cannot fit corpus document "
                 f"{document.identifier} ({len(block)} chars + "
                 f"{base_len} header/foundations)"
             )
+        text = read_document(document.identifier)
+        prefix = f"### SOURCE: {document.title} [{document.identifier}]"
+        avail = max_chars - base_len - 2 - len(prefix) - 24
+        if avail <= 0:
+            raise ValueError(
+                f"max_chars={max_chars} cannot fit any part of corpus "
+                f"document {document.identifier} ({base_len} base chars)"
+            )
+        parts: list[str] = []
+        rest_text = text
+        while rest_text:
+            piece = rest_text[:avail]
+            if len(rest_text) > avail:
+                cut = piece.rfind("\n", avail // 2)
+                if cut > 0:
+                    piece = piece[:cut]
+            parts.append(piece)
+            rest_text = rest_text[len(piece):]
+        total = len(parts)
+        for i, piece in enumerate(parts, start=1):
+            blocks.append(f"{prefix} (part {i}/{total})\n{piece}")
+
+    chunks: list[str] = []
+    current = list(base_blocks)
+    current_len = base_len
+    for block in blocks:
         if current_len + 2 + len(block) > max_chars:
             chunks.append("\n\n".join(current))
             current = list(base_blocks)

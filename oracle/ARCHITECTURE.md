@@ -132,28 +132,52 @@ scan4me sync            discover: 13+ platform feeds into the local DB
   → oracle-hunter hunt      the per-program pipeline below
 ```
 
-Prescan/scan hard-fail unless Scan4Me is authenticated and fresh: stale
-snapshots, failed refreshes, `public-file` rows, and feeds with no
-authenticated platform rows are rejected. `prescan` preserves the rejected
-report on disk and the runlog records the failure; there is no operator
-bypass flag.
+Scan4Me discovery is no-login: `prescan --sync` calls Scan4Me with
+`use_auth=False`. Its report is raw candidate material
+(`trusted=false`, `feed_trust.raw_candidate_ok`); public provenance is
+never product truth, and `feed_trust.ok` remains only the separate
+authenticated-feed verdict. Prescan/scan hard-fail when the feed is
+unavailable, stale (including age over Scan4Me's 48h bound), or its last
+refresh failed. `prescan` preserves the rejected report on disk and the
+runlog records the failure; there is no operator bypass flag.
 
-On the verify pass, HackerOne scope is re-fetched from HackerOne's own
-authenticated Hacker API with Oracle's `HACKERONE_USERNAME` +
-`HACKERONE_API_TOKEN`/`HACKERONE_API_KEY`; an auth/transport failure fails
-the scan instead of reusing Scan4Me's DB copy. A 404 is rendered as a
-vanished program, never as stale scope. Other platforms still use the
-Scan4Me bridge and are stamped `oracle_rescan.independent=false`.
+Trust is created in `scan`, per program. HackerOne scope is re-fetched
+from HackerOne's own authenticated Hacker API with Oracle's
+`HACKERONE_USERNAME` + `HACKERONE_API_TOKEN`/`HACKERONE_API_KEY`; an
+auth/transport failure fails the scan instead of reusing Scan4Me's DB
+copy. A 404 is rendered as a vanished program, never as stale scope.
+Other platforms have no Oracle API/browser adapter yet: they are stamped
+`oracle_rescan={source: no-oracle-adapter, independent: false}` and
+cannot verify, download, queue, or become submission-ready. The Scan4Me
+bridge is never used to corroborate its own DB copy, deep-dive consumes
+the scan verdict's embedded fresh listing, and the handoff copies the
+scan's discovery provenance verbatim (trust verdicts re-derived from it,
+never copied). Every downstream entry gate — scan verdict, deep-dive,
+download, schedule build, queue execution, chain hunt — uses one
+strict record check: `verdict=verified`, no failed checks, and re-scan
+metadata with `independent=true`, `found=true`, a real adapter source,
+and (whenever the adapter stamps one; HackerOne always does) a handle
+bound to the program. Bundle readiness uses the same strict metadata
+check and additionally requires the handle stamp to be present and
+bound to the workspace `program.json`. Malformed feed
+provenance fails closed, stored prescan trust blocks are always
+re-derived from provenance, and a queued hunt pins the scan-verified
+deep-dive assets from its pick (stamping chain vs final scope hashes)
+instead of re-resolving scope from the DB.
 
 Every completed `queue --execute` hunt is packaged into
 `reports/product_<stamp>.zip` with `manifest.json` + `manifest.sha256`.
 `verify-download` checks the manifest offline. Integrity and readiness are
 separate: `ready_for_submission` requires matching confirmed results and
-finding JSONs, a full report, a non-empty PoC per confirmed finding, no
-unserved mindset, `feed_trust.ok=true`, Oracle re-scan provenance, and clean
-manifest verification. HackerOne products additionally require
-`oracle_rescan.independent=true`; non-H1 bridge provenance is carried
-explicitly. A zero-confirmed or direct/non-queue workspace gets a valid,
+finding JSONs, a full report, a non-empty PoC per confirmed finding,
+explicit mindset yield accounting with no unserved mindset,
+`oracle_rescan.independent=true` (handle-bound) for the hunted
+program (every platform), a non-empty download report when one exists
+(it is packed and recorded in readiness checks either way), and clean
+manifest verification. Scan4Me
+`feed_trust` is carried as discovery provenance only; its public rows
+neither create readiness nor block an independently verified product.
+A zero-confirmed or direct/non-queue workspace gets a valid,
 explicitly non-ready bundle — never a green gate.
 OmniCLI's `omni oracle-pipeline` conductor runs the same three commands and
 returns `complete` only when at least one verified bundle is submission-ready.

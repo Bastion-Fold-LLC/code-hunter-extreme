@@ -154,6 +154,19 @@ def test_prescan_sync_refused_offline(tmp_path):
         )
 
 
+def test_prescan_sync_uses_no_login_scan4me(tmp_path, monkeypatch):
+    s4m = _import_scan4me()
+    calls = []
+    monkeypatch.setattr(
+        s4m, "sync_data", lambda **kw: calls.append(kw)
+    )
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    intake.run_prescan(
+        fetch_fn=lambda: [], sync=True, out_dir=tmp_path, stamp="sync-public"
+    )
+    assert calls == [{"refresh": True, "use_auth": False}]
+
+
 # ── verify pass: three checks ───────────────────────────────────────────────
 
 
@@ -333,18 +346,33 @@ def _scan_report(*verdicts):
     return {"_schema": intake.SCAN_SCHEMA, "verdicts": list(verdicts)}
 
 
-def _verdict(name, score, ok=True, failed=()):
+def _verdict(name, score, ok=True, failed=(), fresh=None):
+    handle = name.lower()
+    if fresh is None and ok:
+        fresh = make_prog(
+            name,
+            handle,
+            payout=1000,
+            score=score,
+            scopes=[_scope(f"app.{handle}.com")],
+        )
     return {
         "name": name,
-        "handle": name.lower(),
+        "handle": handle,
         "platform": "hackerone",
-        "url": f"https://hackerone.com/{name.lower()}",
+        "url": f"https://hackerone.com/{handle}",
         "score": score,
         "max_payout_usd": 1000,
         "currency": "USD",
         "verdict": "verified" if ok else "unverified",
         "failed_checks": list(failed),
         "checks": {},
+        "oracle_rescan": {
+            "source": "test-independent-adapter",
+            "independent": True,
+            "found": True,
+        },
+        "_fresh": fresh,
     }
 
 
@@ -405,7 +433,7 @@ def test_deep_dive_carries_assets_company_resources():
     assert dd["assets"] and dd["assets"][0]["asset_identifier"] == "app.acme.com"
     assert dd["company"]["website"] == "https://acme.com"
     assert dd["resources"]["program_url"].endswith("/acme")
-    assert dd["sources"] == ["scan4me:programs+assets"]
+    assert "scan-rescan:test-independent-adapter" in dd["sources"]
 
 
 # ── offline path + handoff ──────────────────────────────────────────────────
@@ -492,30 +520,38 @@ def test_handoff_only_verified(tmp_path):
 # ── P11-findings (a): fresh deep-dive assets ─────────────────────────────────
 
 
-def test_deep_dive_reresolves_fresh_assets_not_snapshot():
+def test_deep_dive_uses_scan_fresh_assets_not_snapshot_or_bridge():
     """Aged prescan: snapshot scopes must NOT feed deep-dive (MODERATE)."""
     aged_snap = snap_of(make_prog(scopes=[_scope("old-retired.acme.com")], score=70.0))
     fresh_prog = make_prog(
         scopes=[_scope("new.acme.com"), _scope("api.acme.com")], score=70.0
     )
-    scan = _scan_report(_verdict("Acme", 70.0))
+    scan = _scan_report(_verdict("Acme", 70.0, fresh=dict(fresh_prog)))
+
+    def must_not_call(_key):
+        raise AssertionError("deep-dive re-resolved after the verify pass")
+
     sel = intake.select_deep_dive(
         scan,
         prescan_programs=[aged_snap],
         top_n=1,
-        resolve_fn=lambda _k: dict(fresh_prog),
+        resolve_fn=must_not_call,
     )
     assert len(sel["ranked_verified"]) == 1
     dd = sel["ranked_verified"][0]["deep_dive"]
     idents = [a["asset_identifier"] for a in dd["assets"]]
     assert idents == ["new.acme.com", "api.acme.com"]
     assert "old-retired.acme.com" not in idents
-    assert "deep-dive:fresh-resolve" in dd["sources"]
+    assert "scan-rescan:test-independent-adapter" in dd["sources"]
 
 
 def test_deep_dive_missing_fresh_excluded_fail_closed():
     """Vanished-at-dive-time program: excluded, never snapshot-fed."""
-    scan = _scan_report(_verdict("Acme", 70.0), _verdict("Beta", 60.0))
+    acme = _verdict("Acme", 70.0)
+    beta = _verdict("Beta", 60.0)
+    acme.pop("_fresh")
+    beta.pop("_fresh")
+    scan = _scan_report(acme, beta)
     snaps = [snap_of(make_prog("Acme", "acme")), snap_of(make_prog("Beta", "beta"))]
 
     def resolve(key):
@@ -537,7 +573,9 @@ def test_deep_dive_resolve_error_excluded_fail_closed():
     def boom(_key):
         raise RuntimeError("db locked")
 
-    scan = _scan_report(_verdict("Acme", 70.0))
+    verdict = _verdict("Acme", 70.0)
+    verdict.pop("_fresh")
+    scan = _scan_report(verdict)
     sel = intake.select_deep_dive(
         scan,
         prescan_programs=[snap_of(make_prog())],
@@ -548,15 +586,16 @@ def test_deep_dive_resolve_error_excluded_fail_closed():
     assert any("deep-dive-stale" in e["reason"] for e in sel["excluded_named"])
 
 
-def test_deep_dive_legacy_snapshot_path_without_resolver():
-    """No resolve_fn: snapshot path preserved (sources unflagged)."""
-    scan = _scan_report(_verdict("Acme", 70.0))
+def test_deep_dive_without_fresh_or_resolver_excluded_fail_closed():
+    """No scan-fresh scope and no resolver: never fall back to prescan."""
+    verdict = _verdict("Acme", 70.0)
+    verdict.pop("_fresh")
+    scan = _scan_report(verdict)
     sel = intake.select_deep_dive(
         scan, prescan_programs=[snap_of(make_prog(score=70.0))], top_n=1
     )
-    dd = sel["ranked_verified"][0]["deep_dive"]
-    assert dd["assets"][0]["asset_identifier"] == "app.acme.com"
-    assert dd["sources"] == ["scan4me:programs+assets"]
+    assert sel["ranked_verified"] == []
+    assert any("deep-dive-stale" in e["reason"] for e in sel["excluded_named"])
 
 
 # ── P11-findings (b): precise --sites matching ───────────────────────────────
@@ -838,6 +877,10 @@ def test_feed_trust_rejects_public_rows_and_missing_auth():
     assert trust["ok"] is False
     assert any("public-file" in i for i in trust["issues"])
     assert any("authenticated" in i for i in trust["issues"])
+    # Public provenance is not product truth, but a fresh no-login feed is
+    # valid raw candidate material for Oracle's independent verify pass.
+    assert trust["raw_candidate_ok"] is True
+    assert trust["raw_candidate_issues"] == []
 
 
 def test_feed_trust_accepts_fresh_authenticated_feed():
@@ -845,6 +888,7 @@ def test_feed_trust_accepts_fresh_authenticated_feed():
     assert trust["ok"] is True
     assert trust["issues"] == []
     assert trust["authenticated_platforms"] == ["hackerone"]
+    assert trust["raw_candidate_ok"] is True
 
 
 def test_feed_trust_rejects_public_listing_sources():
@@ -871,34 +915,86 @@ def test_feed_trust_rejects_unknown_and_unlabeled_sources():
 def test_feed_trust_rejects_stale_or_failed_refresh():
     stale = intake.feed_trust_block(_prov("authenticated", age=200.0, stale=True))
     assert stale["ok"] is False
+    assert stale["raw_candidate_ok"] is False
     assert any("stale" in i for i in stale["issues"])
     failed = intake.feed_trust_block(
         _prov("authenticated", refresh_ok=False)
     )
     assert failed["ok"] is False
+    assert failed["raw_candidate_ok"] is False
     assert any("refresh" in i for i in failed["issues"])
+    # The raw gate does not blindly trust a stale=False label: Scan4Me's
+    # own freshness bound is 48h, so an older age fails either way.
+    old = intake.feed_trust_block(_prov(age=999.0, stale=False))
+    assert old["raw_candidate_ok"] is False
+    assert any("48" in i for i in old["raw_candidate_issues"])
 
 
-def test_run_prescan_writes_report_then_rejects_untrusted_feed(
+def test_feed_trust_malformed_metadata_fails_closed():
+    cases = []
+    for bad_age in ("9999", float("nan"), True, -10.0):
+        prov = _prov()
+        prov["age_hours"] = bad_age
+        cases.append(prov)
+    prov = _prov()
+    prov["stale"] = "true"
+    cases.append(prov)
+    prov = _prov()
+    del prov["refresh_ok"]
+    cases.append(prov)
+    prov = _prov()
+    prov["platforms"] = "garbage"
+    cases.append(prov)
+    prov = _prov()
+    prov["platforms"]["hackerone"]["count"] = "x"
+    cases.append(prov)
+    for prov in cases:
+        trust = intake.feed_trust_block(prov)
+        assert trust["ok"] is False, prov
+        assert trust["raw_candidate_ok"] is False, prov
+
+
+def test_run_prescan_accepts_fresh_public_feed_as_raw_candidates(
     tmp_path, monkeypatch
 ):
     monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
     monkeypatch.setattr(
         _bridge, "fetch_programs", lambda limit: [make_prog()]
     )
-    with pytest.raises(intake.FeedTrustError) as exc:
-        intake.run_prescan(out_dir=tmp_path, stamp="untrusted")
-    report = exc.value.report
-    path = Path(exc.value.report_path)
+    report = intake.run_prescan(out_dir=tmp_path, stamp="public-raw")
+    path = Path(report["_report_path"])
     assert path.exists()
+    assert report["trusted"] is False
     assert report["feed_trust"]["ok"] is False
+    assert report["feed_trust"]["raw_candidate_ok"] is True
     assert report["feed_trust"]["enforced"] is True
     on_disk = json.loads(path.read_text())
     assert on_disk["feed_trust"]["ok"] is False
+    assert on_disk["feed_trust"]["raw_candidate_ok"] is True
     assert on_disk["count"] == 1
 
 
-def test_run_prescan_explicit_public_override_is_recorded(
+def test_run_prescan_writes_report_then_rejects_stale_feed(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setattr(
+        intake,
+        "feed_provenance_block",
+        lambda: _prov(age=200.0, stale=True),
+    )
+    monkeypatch.setattr(
+        _bridge, "fetch_programs", lambda limit: [make_prog()]
+    )
+    with pytest.raises(intake.FeedTrustError) as exc:
+        intake.run_prescan(out_dir=tmp_path, stamp="stale")
+    report = exc.value.report
+    path = Path(exc.value.report_path)
+    assert path.exists()
+    assert report["feed_trust"]["raw_candidate_ok"] is False
+    assert report["feed_trust"]["enforced"] is True
+
+
+def test_run_prescan_public_override_never_mints_authenticated_truth(
     tmp_path, monkeypatch
 ):
     monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
@@ -908,44 +1004,215 @@ def test_run_prescan_explicit_public_override_is_recorded(
     report = intake.run_prescan(
         out_dir=tmp_path, stamp="override", allow_public_feed=True
     )
-    assert report["feed_trust"]["ok"] is True
-    assert report["feed_trust"]["overridden"] is True
-    assert report["feed_trust"]["warnings"]
+    assert report["feed_trust"]["ok"] is False
+    assert report["feed_trust"]["raw_candidate_ok"] is True
+    assert report["feed_trust"]["overridden"] is False
 
 
-def test_run_scan_requires_trusted_prescan_and_current_feed(
+def test_run_scan_accepts_fresh_public_prescan_and_current_feed(
     tmp_path, monkeypatch
 ):
-    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov("authenticated"))
-    untrusted = {
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    public = {
         "programs": [],
-        "feed_trust": {"ok": False, "issues": ["public-file rows"]},
+        "feed_provenance": _prov(),
+        "feed_trust": intake.feed_trust_block(_prov()),
+    }
+    report = intake.run_scan(
+        public,
+        out_dir=tmp_path,
+        stamp="public-accept",
+        require_trusted_prescan=True,
+    )
+    assert report["feed_trust"]["ok"] is False
+    assert report["feed_trust"]["raw_candidate_ok"] is True
+
+    stale_prov = _prov(age=200.0, stale=True)
+    stale = {
+        "programs": [],
+        "feed_provenance": stale_prov,
+        "feed_trust": intake.feed_trust_block(stale_prov),
     }
     with pytest.raises(intake.FeedTrustError, match="prescan feed"):
         intake.run_scan(
-            untrusted,
+            stale,
             out_dir=tmp_path,
-            stamp="reject",
+            stamp="stale-reject",
             require_trusted_prescan=True,
         )
-    trusted = {"programs": [], "feed_trust": {"ok": True, "issues": []}}
-    report = intake.run_scan(
-        trusted,
-        out_dir=tmp_path,
-        stamp="accept",
-        require_trusted_prescan=True,
+    # A fresh prescan cannot make a now-stale feed acceptable either.
+    monkeypatch.setattr(
+        intake, "feed_provenance_block", lambda: stale_prov
     )
-    assert report["feed_trust"]["ok"] is True
-    # Current provenance is also part of product truth: a trusted old
-    # prescan cannot make a now-public feed acceptable.
-    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
     with pytest.raises(intake.FeedTrustError, match="current Scan4Me feed"):
         intake.run_scan(
-            trusted,
+            public,
             out_dir=tmp_path,
-            stamp="now-public",
+            stamp="now-stale",
             require_trusted_prescan=True,
         )
+
+
+def test_oracle_rescan_non_h1_has_no_adapter_and_never_reads_bridge(monkeypatch):
+    def must_not_call(_key):
+        raise AssertionError("non-H1 rescan read the Scan4Me bridge")
+
+    monkeypatch.setattr(intake, "_default_resolve", must_not_call)
+    fresh, meta = intake.oracle_rescan(
+        {"name": "Beta", "handle": "beta", "platform": "Bugcrowd"}
+    )
+    assert fresh is None
+    assert meta["independent"] is False
+    assert meta["source"] == "no-oracle-adapter"
+
+
+def test_product_scan_bridge_fresh_cannot_verify(tmp_path, monkeypatch):
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    prog = make_prog("Beta", "beta")
+    prog["platform"] = "Bugcrowd"
+    prescan = {
+        "programs": [snap_of(prog)],
+        "feed_provenance": _prov(),
+        "feed_trust": intake.feed_trust_block(_prov()),
+    }
+
+    def bridge_rescan(_snap):
+        return dict(prog), {"source": "scan4me-db", "independent": False}
+
+    report = intake.run_scan(
+        prescan,
+        out_dir=tmp_path,
+        stamp="bridge-cannot-verify",
+        require_trusted_prescan=True,
+        rescan_fn=bridge_rescan,
+        probe_fn=probe_live,
+    )
+    verdict = report["verdicts"][0]
+    assert verdict["verdict"] == "unverified"
+    assert "oracle_independent_rescan" in verdict["failed_checks"]
+    assert verdict["_fresh"] is None
+
+
+def test_handoff_copies_scan_stamps_not_live_feed(tmp_path, monkeypatch):
+    public_prov = _prov()
+    scan = _scan_report(_verdict("Acme", 70.0))
+    scan["feed_provenance"] = public_prov
+    scan["feed_trust"] = intake.feed_trust_block(public_prov)
+    selection = intake.select_deep_dive(scan, top_n=1)
+    # A later authenticated sync must not relabel this scan's provenance.
+    monkeypatch.setattr(
+        intake, "feed_provenance_block", lambda: _prov("authenticated")
+    )
+    payload = intake.write_handoff(selection, out_dir=tmp_path, stamp="copy")
+    assert payload["feed_provenance"] == public_prov
+    assert payload["feed_trust"]["ok"] is False
+    assert payload["feed_trust"]["raw_candidate_ok"] is True
+
+
+def test_prescan_trust_is_rederived_from_provenance():
+    stale_prov = _prov(age=999.0, stale=False)
+    lying = {
+        "programs": [],
+        "feed_provenance": stale_prov,
+        "feed_trust": {"ok": True, "raw_candidate_ok": True, "issues": []},
+    }
+    with pytest.raises(intake.FeedTrustError, match="raw candidates"):
+        intake.require_trusted_prescan(lying)
+    bare = {"programs": [], "feed_trust": {"ok": True, "issues": []}}
+    with pytest.raises(intake.FeedTrustError, match="raw candidates"):
+        intake.require_trusted_prescan(bare)
+    fresh = {
+        "programs": [],
+        "feed_provenance": _prov(),
+        "feed_trust": {"ok": True, "issues": []},
+    }
+    trust = intake.require_trusted_prescan(fresh)
+    assert trust["ok"] is False
+    assert trust["raw_candidate_ok"] is True
+
+
+def test_product_scan_injected_resolver_cannot_verify(tmp_path, monkeypatch):
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    prog = make_prog()
+    prescan = {
+        "programs": [snap_of(prog)],
+        "feed_provenance": _prov(),
+        "feed_trust": intake.feed_trust_block(_prov()),
+    }
+    called = []
+    report = intake.run_scan(
+        prescan,
+        out_dir=tmp_path,
+        stamp="product-resolver",
+        require_trusted_prescan=True,
+        resolve_fn=lambda key: called.append(key) or dict(prog),
+        probe_fn=probe_live,
+    )
+    assert called == []
+    verdict = report["verdicts"][0]
+    assert verdict["verdict"] == "unverified"
+    assert verdict["oracle_rescan"]["source"] == "no-oracle-adapter"
+    assert verdict["_fresh"] is None
+
+
+def test_scan_bridge_resolver_is_never_independent(tmp_path, monkeypatch):
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    prog = make_prog()
+    prescan = {"programs": [snap_of(prog)]}
+    report = intake.run_scan(
+        prescan,
+        out_dir=tmp_path,
+        stamp="bridge-resolver",
+        resolve_fn=intake._default_resolve,
+        probe_fn=probe_live,
+    )
+    verdict = report["verdicts"][0]
+    assert verdict["verdict"] == "unverified"
+    assert verdict["oracle_rescan"]["independent"] is False
+    assert verdict["_fresh"] is None
+
+
+def test_scan_contradictory_rescan_metadata_cannot_verify(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setattr(intake, "feed_provenance_block", lambda: _prov())
+    prog = make_prog()
+    prescan = {
+        "programs": [snap_of(prog)],
+        "feed_provenance": _prov(),
+        "feed_trust": intake.feed_trust_block(_prov()),
+    }
+
+    def contradictory(_snap):
+        return dict(prog), {
+            "source": "scan4me-db",
+            "independent": True,
+            "found": False,
+        }
+
+    report = intake.run_scan(
+        prescan,
+        out_dir=tmp_path,
+        stamp="contradictory-rescan",
+        require_trusted_prescan=True,
+        rescan_fn=contradictory,
+        probe_fn=probe_live,
+    )
+    verdict = report["verdicts"][0]
+    assert verdict["verdict"] == "unverified"
+    assert "oracle_independent_rescan" in verdict["failed_checks"]
+    assert verdict["_fresh"] is None
+
+
+def test_deep_dive_fresh_without_scopes_never_falls_back_to_snapshot():
+    aged = snap_of(make_prog(scopes=[_scope("old.acme.com")], score=70.0))
+    verdict = _verdict("Acme", 70.0, fresh={"name": "Acme", "handle": "acme"})
+    scan = _scan_report(verdict)
+    sel = intake.select_deep_dive(
+        scan, prescan_programs=[aged], top_n=1
+    )
+    assert sel["ranked_verified"] == []
+    assert any("deep-dive-stale" in e["reason"] for e in sel["excluded_named"])
 
 
 def test_provenance_unknowns_when_db_empty(tmp_path, monkeypatch):

@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# LAYER: seal
+# DEST: basilisk
+# ENDPOINTS: census, classify, finding_paths, main
+# TOPICS: teardown census, rejection reasons, hunt yield accounting
 """Rejection-reason census over a hunt's finding JSONs.
 
 The finish board's M6 blocker used to read "teardown demoted 53/53". That is

@@ -11,6 +11,33 @@ import oracle_mindset_context as omc
 import oracle_scan
 
 
+def _fake_download_assets(prog, base, *a, **k):
+    """Writer-realistic fake: the file lands on disk and the report
+    carries origin provenance + denominator, as summarize emits."""
+    assets = Path(base) / "assets"
+    assets.mkdir(parents=True, exist_ok=True)
+    (assets / "asset.txt").write_text("asset body")
+    return ["asset.txt"], {
+        "page_source": "test",
+        "auth_session": False,
+        "download_report": {
+            "complete": True,
+            "status": "complete",
+            "expected_urls": 1,
+            "obtained": [{
+                "file": "asset.txt",
+                "url": "https://app.example.com/asset.txt",
+                "status": 200,
+                "via": "plain-get",
+                "bytes": 10,
+            }],
+            "missing": [],
+            "obtained_count": 1,
+            "missing_count": 0,
+        },
+    }
+
+
 def test_download_one_with_existing_scopes_writes_manifest(tmp_path, monkeypatch):
     class FakeWorkspace:
         def __init__(self, prog, base):
@@ -29,12 +56,7 @@ def test_download_one_with_existing_scopes_writes_manifest(tmp_path, monkeypatch
     monkeypatch.setattr(oh, "TARGETS_DIR", tmp_path)
     monkeypatch.setattr(oh, "_extract_repo_urls", lambda *a, **k: [])
     monkeypatch.setattr(
-        oracle_scan,
-        "download_program_assets",
-        lambda *a, **k: (
-            ["asset.txt"],
-            {"page_source": "test", "auth_session": False},
-        ),
+        oracle_scan, "download_program_assets", _fake_download_assets
     )
     prog = {
         "name": "Acme",
@@ -70,9 +92,7 @@ def _patched_download(monkeypatch, tmp_path, intake_result):
     monkeypatch.setattr(oh, "_extract_repo_urls", lambda *a, **k: [])
     monkeypatch.setattr(obd, "intake_program_scopes", lambda prog: intake_result)
     monkeypatch.setattr(
-        oracle_scan,
-        "download_program_assets",
-        lambda *a, **k: (["asset.txt"], {"page_source": "test", "auth_session": False}),
+        oracle_scan, "download_program_assets", _fake_download_assets
     )
     return captured
 

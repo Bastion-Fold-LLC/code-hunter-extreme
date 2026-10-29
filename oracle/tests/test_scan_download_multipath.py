@@ -29,7 +29,7 @@ def _prog():
 
 def _setup(monkeypatch, cascade_text="x", asset_urls=None):
     monkeypatch.setattr(oracle_scan, "_cdp_available", lambda port=9227: False)
-    monkeypatch.setattr(oracle_scan, "_cascade_fetch", lambda url, timeout=45: cascade_text)
+    monkeypatch.setattr(oracle_scan, "_cascade_fetch_with_via", lambda url, timeout=45: (cascade_text, "cascade"))
     monkeypatch.setattr(oracle_scan, "_collect_asset_urls", lambda prog: asset_urls or [])
     monkeypatch.setattr(oracle_scan, "_route_scope_records", lambda prog: {})
 
@@ -90,10 +90,10 @@ def test_non_renderable_asset_failure_never_calls_cascade(tmp_path, monkeypatch)
 
     def _spy(url, timeout=45):
         calls.append(url)
-        return "nope " * 30
+        return ("nope " * 30, "cascade")
 
     _setup(monkeypatch, asset_urls=[("app__openapi.json", "https://app.acme.example/openapi.json")])
-    monkeypatch.setattr(oracle_scan, "_cascade_fetch", _spy)
+    monkeypatch.setattr(oracle_scan, "_cascade_fetch_with_via", _spy)
 
     def _fail(*a, **k):
         raise ConnectionError("refused")

@@ -35,6 +35,11 @@ def _prog(name, handle, platform, rank, score, payout=1000):
         "currency": "USD",
         "verdict": "verified",
         "checks": {},
+        "oracle_rescan": {
+            "source": "test-independent-adapter",
+            "independent": True,
+            "found": True,
+        },
         "deep_dive": {
             "assets": [{"asset_identifier": f"app.{handle}.com"}],
             "company": {
@@ -392,27 +397,59 @@ def test_malformed_handoff_rejected(tmp_path):
         queue.load_handoff(None, out_dir=tmp_path)
 
 
-def test_trusted_handoff_required_when_requested(tmp_path):
+def test_product_handoff_requires_oracle_independent_verification(tmp_path):
     handoff = _handoff_dict(_six_progs())
+    # Fresh public Scan4Me discovery is raw, not a queue blocker by itself:
+    # every ranked entry already carries independent Oracle verification.
     handoff["feed_trust"] = {
         "ok": False,
+        "raw_candidate_ok": True,
         "issues": ["unauthenticated public-file rows: hackerone"],
     }
-    with pytest.raises(QueueConfigError, match="not authenticated/trusted"):
-        queue.build_schedule(
-            handoff,
-            out_dir=tmp_path,
-            stamp="untrusted",
-            require_trusted_handoff=True,
-        )
-    handoff["feed_trust"] = {"ok": True, "issues": []}
     sched = queue.build_schedule(
         handoff,
         out_dir=tmp_path,
-        stamp="trusted",
+        stamp="public-verified",
         require_trusted_handoff=True,
     )
-    assert sched["feed_trust"]["ok"] is True
+    assert sched["feed_trust"]["ok"] is False
+    assert sched["count"] == 6
+
+    handoff["ranked_verified"][0]["oracle_rescan"] = {
+        "source": "scan4me-db",
+        "independent": False,
+    }
+    with pytest.raises(QueueConfigError, match="not independently verified"):
+        queue.build_schedule(
+            handoff,
+            out_dir=tmp_path,
+            stamp="bridge-only",
+            require_trusted_handoff=True,
+        )
+
+    # An independent stamp cannot rescue a contradictory entry: the
+    # product gate judges the whole scan-shaped record, not one flag.
+    mutations = [
+        lambda e: e.update({"verdict": "unverified"}),
+        lambda e: e.update({"failed_checks": ["scope_live"]}),
+        lambda e: e["oracle_rescan"].update({"found": False}),
+        lambda e: e["oracle_rescan"].update(
+            {"source": "scan4me-db", "independent": True, "found": True}
+        ),
+    ]
+    for i, mutate in enumerate(mutations):
+        bad = _handoff_dict(_six_progs())
+        bad["feed_trust"] = {"ok": True, "issues": []}
+        mutate(bad["ranked_verified"][0])
+        with pytest.raises(
+            QueueConfigError, match="not independently verified"
+        ):
+            queue.build_schedule(
+                bad,
+                out_dir=tmp_path,
+                stamp=f"contradictory-{i}",
+                require_trusted_handoff=True,
+            )
 
 
 def test_p11_writer_output_is_consumed_verbatim(tmp_path):
@@ -449,6 +486,8 @@ def test_schedule_item_refs(tmp_path):
     assert first["program_url"].endswith("/a1")
     assert first["score"] == 90.0
     assert first["handoff_rank"] == 1
+    assert first["verdict"] == "verified"
+    assert first["failed_checks"] == []
     assert first["deep_dive"] == {
         "asset_count": 1,
         "assets": [{"asset_identifier": "app.a1.com"}],
@@ -506,6 +545,12 @@ def _fake_report(snaps):
                 "verdict": "verified",
                 "failed_checks": [],
                 "checks": {},
+                "oracle_rescan": {
+                    "source": "test-independent-adapter",
+                    "independent": True,
+                    "found": True,
+                },
+                "_fresh": dict(s),
             }
             for s in snaps
         ],

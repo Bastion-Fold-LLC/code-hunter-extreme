@@ -57,7 +57,11 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Mapping, Optional, Tuple
 
 # P11 handoff format — imported, NEVER redefined here (P11 owns it).
-from oracle_intake import HANDOFF_SCHEMA, latest_report
+from oracle_intake import (
+    HANDOFF_SCHEMA,
+    is_independently_verified_entry,
+    latest_report,
+)
 
 HERE = Path(__file__).resolve().parent
 REPORTS_DIR = HERE / "reports"
@@ -358,6 +362,10 @@ def _schedule_item(prog: Dict[str, Any], position: int, wave: int) -> Dict[str, 
     if not isinstance(ws, dict):
         ws = {}
     rank = prog.get("rank")
+    raw_failed = prog.get("failed_checks", [])
+    failed_checks = (
+        list(raw_failed) if isinstance(raw_failed, list) else raw_failed
+    )
     return {
         "position": position,
         "wave": wave,
@@ -370,6 +378,8 @@ def _schedule_item(prog: Dict[str, Any], position: int, wave: int) -> Dict[str, 
         "score": prog.get("score", 0) or 0,
         "max_payout_usd": prog.get("max_payout_usd"),
         "handoff_rank": rank if type(rank) is int else None,
+        "verdict": prog.get("verdict", ""),
+        "failed_checks": failed_checks,
         "oracle_rescan": prog.get("oracle_rescan", {}),
         "workspace": {
             "path": ws.get("path", "") or "",
@@ -427,6 +437,11 @@ def _schedule_fingerprint(
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
+def _entry_independently_verified(entry: Any) -> bool:
+    """Shared strict P11 entry check (verdict + failures + re-scan meta)."""
+    return is_independently_verified_entry(entry)
+
+
 def build_schedule(
     handoff: Any = None,
     *,
@@ -445,8 +460,11 @@ def build_schedule(
     carries its file path under ``_report_path``. An empty handoff still
     writes a file (fail-closed empty), never nothing.
 
-    ``require_trusted_handoff=True`` is the product path: a handoff whose
-    Scan4Me feed was public/stale/unstamped can never become a schedule.
+    ``require_trusted_handoff=True`` is the product path (historical
+    name): every ranked entry must carry an independent Oracle re-scan.
+    Public Scan4Me discovery provenance is raw candidate material and is
+    neither sufficient nor, by itself, a blocker once Oracle verified
+    the entry; a bridge-only entry can never become a schedule.
     """
     spec = resolve_queue(
         cli={
@@ -459,16 +477,15 @@ def build_schedule(
     directory = out_dir or REPORTS_DIR
     loaded = load_handoff(handoff, out_dir=directory)
     if require_trusted_handoff:
-        trust = loaded.get("feed_trust")
-        if not isinstance(trust, dict) or not trust.get("ok"):
-            issues = (
-                trust.get("issues")
-                if isinstance(trust, dict)
-                else None
-            ) or ["handoff has no feed_trust stamp"]
+        unverified = [
+            str(entry.get("name") or entry.get("handle") or "<unnamed>")
+            for entry in loaded["ranked_verified"]
+            if not _entry_independently_verified(entry)
+        ]
+        if unverified:
             raise QueueConfigError(
-                "handoff feed is not authenticated/trusted: "
-                + "; ".join(str(i) for i in issues)
+                "handoff entries are not independently verified by Oracle: "
+                + ", ".join(unverified)
                 + f" ({loaded.get('_handoff_path', '')})"
             )
     ranked = list(loaded["ranked_verified"])
@@ -574,7 +591,10 @@ def pick_hunt_target(
     out-of-range picks fail closed with :class:`QueueConfigError` — a
     hunt over an empty chain must die loudly, never auto-pick silently.
     Returns ``{name, handle, site, program_url, score, position, count,
-    wave, origin}`` where origin is the artifact path (or "handoff:…").
+    wave, origin, verdict, failed_checks, oracle_rescan, deep_dive}``
+    where origin is the artifact path (or "handoff:…"). The deep-dive
+    scope travels with the pick so a chain hunt can pin the exact
+    scan-verified assets instead of re-resolving scope from a DB.
     """
     if pick is None:
         pick = 1
@@ -596,6 +616,9 @@ def pick_hunt_target(
         company = item.get("company", {})
         if not isinstance(company, dict):
             company = {}
+        deep = item.get("deep_dive", {})
+        if not isinstance(deep, dict):
+            deep = {}
         return {
             "name": company.get("name", ""),
             "handle": company.get("handle", ""),
@@ -606,8 +629,16 @@ def pick_hunt_target(
             "count": len(items),
             "wave": item.get("wave", 0),
             "origin": origin,
+            "verdict": item.get("verdict", ""),
+            "failed_checks": item.get("failed_checks", []),
             "feed_trust": sched.get("feed_trust", {}),
             "oracle_rescan": item.get("oracle_rescan", {}),
+            "deep_dive": {
+                "assets": list(deep.get("assets") or []),
+                "out_of_scope": list(deep.get("out_of_scope") or []),
+                "website": deep.get("website", "") or "",
+                "sources": list(deep.get("sources") or []),
+            },
         }
     loaded = load_handoff(handoff, out_dir=out_dir)
     ranked = loaded["ranked_verified"]
@@ -619,6 +650,12 @@ def pick_hunt_target(
             f"--pick {pick} out of range: handoff holds {len(ranked)} programs"
         )
     prog = ranked[pick - 1]
+    deep = prog.get("deep_dive", {})
+    if not isinstance(deep, dict):
+        deep = {}
+    deep_company = deep.get("company", {})
+    if not isinstance(deep_company, dict):
+        deep_company = {}
     return {
         "name": prog.get("name", ""),
         "handle": prog.get("handle", ""),
@@ -629,8 +666,16 @@ def pick_hunt_target(
         "count": len(ranked),
         "wave": 0,
         "origin": origin,
+        "verdict": prog.get("verdict", ""),
+        "failed_checks": prog.get("failed_checks", []),
         "feed_trust": loaded.get("feed_trust", {}),
         "oracle_rescan": prog.get("oracle_rescan", {}),
+        "deep_dive": {
+            "assets": list(deep.get("assets") or []),
+            "out_of_scope": list(deep.get("out_of_scope") or []),
+            "website": deep_company.get("website", "") or "",
+            "sources": list(deep.get("sources") or []),
+        },
     }
 
 

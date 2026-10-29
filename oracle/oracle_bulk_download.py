@@ -34,10 +34,406 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 HERE = Path(__file__).resolve().parent
 MANIFEST = ".oracle_bulk.json"
+
+# ── Canonical download-completeness report (Stage 3) ─────────────────────────
+# One schema, written at the workspace root by BOTH the scan/bulk path
+# (oracle_scan.download_program_assets) and the hunt path
+# (ProgramWorkspace.download_assets). It is the honesty layer: what was
+# expected, attempted, obtained, and missing — per file, with the method
+# that served it. `complete`/`status` describe the *enumerated*
+# denominator only; lanes v1 does not enumerate are named in
+# `not_enumerated` so nobody can mistake the report for total coverage.
+DOWNLOAD_REPORT = "download_report.json"
+DOWNLOAD_REPORT_SCHEMA = "oracle.download-report/v1"
+NOT_ENUMERATED_V1 = [
+    "js-bundle/script-src/linked-docs crawl (deferred, Stage 3b)",
+    "authenticated in-scope application crawl (deferred, Stage 3b)",
+]
+_CASCADE_VIAS = {"cdp", "crawl4ai", "jina", "firecrawl", "cascade"}
+
+
+def _via_tokens(rec) -> Optional[List[str]]:
+    """Normalized serving-method tokens, or None for unknown provenance.
+
+    A missing, empty, or non-string ``via`` proves nothing about how a
+    file was served — unknown provenance is never origin-obtained.
+    Compound labels ("jina-render", "cdp+plain-get") tokenize so a
+    cascade component cannot hide inside a decorated string."""
+    if not isinstance(rec, dict):
+        return None
+    via = rec.get("via")
+    if not isinstance(via, str) or not via.strip():
+        return None
+    return [t for t in re.split(r"[^a-z0-9]+", via.strip().lower()) if t]
+
+
+def _via_is_cascade(rec) -> bool:
+    tokens = _via_tokens(rec)
+    return bool(tokens) and any(t in _CASCADE_VIAS for t in tokens)
+
+
+def _result_obtained(rec: dict) -> bool:
+    """Origin-obtained only: cached/ok/2xx served by an origin method.
+
+    A cascade render (cdp/crawl4ai/jina/firecrawl) is a saved independent
+    copy, not the origin asset — it lands in ``rendered``, never in
+    ``obtained``, whatever status label rides along: ``via`` is checked
+    first so an ok/200/cached status can never launder a render into an
+    origin fetch. Unknown provenance (missing/non-string via) is not
+    origin-obtained either."""
+    if not isinstance(rec, dict):
+        return False
+    if _via_tokens(rec) is None or _via_is_cascade(rec):
+        return False
+    st = rec.get("status")
+    if st in ("cached", "ok"):
+        return True
+    return isinstance(st, int) and not isinstance(st, bool) and 200 <= st < 300
+
+
+def _result_rendered(rec: dict) -> bool:
+    """Saved cascade copy: cascade status or any cascade serving method."""
+    if not isinstance(rec, dict) or _result_obtained(rec):
+        return False
+    return rec.get("status") == "cascade" or _via_is_cascade(rec)
+
+
+def summarize_download_results(
+    results,
+    *,
+    expected_urls: int,
+    unattempted_items=(),
+    extra_missing=(),
+    not_enumerated=None,
+) -> Dict[str, Any]:
+    """Obtained/missing/methods rollup shared by every report writer."""
+    # Dedupe by file: the same asset recorded twice is one obtained
+    # asset — duplicates can never fill another file's denominator slot.
+    def _dedupe(records):
+        seen = set()
+        out = []
+        for r in records:
+            fname = r.get("file")
+            if fname in seen:
+                continue
+            seen.add(fname)
+            out.append(r)
+        return out
+
+    obtained = _dedupe(
+        [
+            r
+            for r in results
+            if isinstance(r, dict)
+            and isinstance(r.get("file"), str)
+            and r.get("file", "").strip()
+            and _result_obtained(r)
+        ]
+    )
+    rendered = _dedupe([r for r in results if _result_rendered(r)])
+    missing = [
+        r for r in results if isinstance(r, dict) and not _result_obtained(r)
+    ]
+    for item in unattempted_items or ():
+        if isinstance(item, dict):
+            missing.append(
+                {
+                    "file": item.get("file", ""),
+                    "url": item.get("url", ""),
+                    "status": "unattempted",
+                    "error": item.get("error", "beyond fetch cap"),
+                }
+            )
+    missing.extend(m for m in (extra_missing or ()) if isinstance(m, dict))
+    methods: Dict[str, Dict[str, int]] = {}
+    for rec in results:
+        if not isinstance(rec, dict):
+            continue
+        via = str(rec.get("via") or "plain-get")
+        bucket = methods.setdefault(via, {"attempted": 0, "ok": 0, "fail": 0})
+        bucket["attempted"] += 1
+        bucket["ok" if _result_obtained(rec) else "fail"] += 1
+    # Producer-side counts are real ints (len()); anything else
+    # (bool/float/str) is a malformed denominator and reads as zero.
+    _expected = (
+        expected_urls
+        if isinstance(expected_urls, int)
+        and not isinstance(expected_urls, bool)
+        else 0
+    )
+    # Complete means the whole enumerated denominator was origin-obtained:
+    # a zero/absent denominator, any missing entry, or fewer obtained
+    # than enumerated can never complete.
+    complete = (
+        _expected > 0 and len(obtained) >= _expected and not missing
+    )
+    coverage_pct = (
+        round(min(100.0, 100.0 * len(obtained) / _expected), 1)
+        if _expected > 0
+        else 0
+    )
+    status = (
+        "complete"
+        if complete
+        else ("partial" if (obtained or rendered) else "empty")
+    )
+    return {
+        "obtained": obtained,
+        "rendered": rendered,
+        "missing": missing,
+        "methods": methods,
+        "obtained_count": len(obtained),
+        "missing_count": len(missing),
+        "expected_urls": _expected,
+        "coverage_pct": coverage_pct,
+        "attempted_urls": len([r for r in results if isinstance(r, dict)]),
+        "unattempted_urls": len(list(unattempted_items or ())),
+        "complete": complete,
+        "status": status,
+        "not_enumerated": list(
+            NOT_ENUMERATED_V1 if not_enumerated is None else not_enumerated
+        ),
+    }
+
+
+def write_download_report(base: Path, report: Dict[str, Any]) -> Path:
+    """Write the canonical report at the workspace root. Returns path."""
+    base = Path(base)
+    base.mkdir(parents=True, exist_ok=True)
+    payload = {"schema": DOWNLOAD_REPORT_SCHEMA, **report}
+    path = base / DOWNLOAD_REPORT
+    path.write_text(json.dumps(payload, indent=1), encoding="utf-8")
+    return path
+
+
+def load_download_report(base: Path) -> Optional[Dict[str, Any]]:
+    """Parsed canonical report, or None when absent/malformed/foreign."""
+    try:
+        data = json.loads(
+            (Path(base) / DOWNLOAD_REPORT).read_text(encoding="utf-8")
+        )
+    except (OSError, ValueError):
+        return None
+    if not isinstance(data, dict) or data.get("schema") != DOWNLOAD_REPORT_SCHEMA:
+        return None
+    return data
+
+
+def _entry_shape_ok(entry) -> bool:
+    """Dict with a flat, non-empty filename — required in every mode.
+
+    Bundle verification drops the on-disk check (asset bodies are not
+    packed) but never the shape check: a nameless or traversing entry
+    names no asset anywhere."""
+    if not isinstance(entry, dict):
+        return False
+    fname = entry.get("file")
+    return (
+        isinstance(fname, str)
+        and bool(fname.strip())
+        and fname != DOWNLOAD_REPORT  # the report is not its own asset
+        and Path(fname).name == fname  # writer filenames are flat
+    )
+
+
+def _entry_on_disk(base: Path, entry: dict) -> bool:
+    """An obtained entry must name a non-empty file that actually landed."""
+    if not _entry_shape_ok(entry):
+        return False
+    fname = entry["file"]
+    base = Path(base)
+    for candidate in (base / "assets" / fname, base / fname):
+        try:
+            if candidate.is_file() and candidate.stat().st_size > 0:
+                return True
+        except OSError:
+            continue
+    return False
+
+
+def validated_obtained_files(base: Path, report: Optional[dict]) -> set:
+    """Files a prior report proves origin-obtained (origin via + on disk).
+
+    This is the only provenance a later run may treat as a cache hit: a
+    file merely existing proves nothing about how it got there (a cascade
+    render also writes the file)."""
+    out = set()
+    if not isinstance(report, dict):
+        return out
+    obtained = report.get("obtained")
+    if not isinstance(obtained, list):
+        # A schema-valid report can still carry a non-iterable obtained
+        # field; no provenance can be proven from it (fail closed to
+        # re-fetch, never crash the download paths).
+        return out
+    for entry in obtained:
+        if _result_obtained(entry) and _entry_on_disk(base, entry):
+            out.add(str(entry.get("file")))
+    return out
+
+
+def _safe_count(value) -> Optional[int]:
+    if isinstance(value, bool) or not isinstance(value, int):
+        return None
+    return value
+
+
+def download_completeness(base: Path, *, require_files: bool = True) -> Dict[str, Any]:
+    """Compact completeness verdict for a workspace (never raises).
+
+    Recompute, never trust self-asserted flags. ``complete`` requires:
+    obtained/missing lists present; every obtained entry a dict with
+    origin provenance (status/via) whose file is on disk; a strictly
+    positive int denominator (expected_urls/enumerated) no larger than
+    the validated obtained count; zero missing; and self-asserted
+    counts, when present, equal to the list lengths. A counts-only
+    report can never be complete — there is nothing to recompute from.
+    Malformed anything fails closed.
+
+    ``require_files=False`` exists only for extracted product bundles,
+    which by design do not pack asset bodies (only the report, whose
+    integrity the bundle manifest hashes); provenance, denominator,
+    and count consistency are still fully recomputed there.
+    """
+    report = load_download_report(base)
+    if report is None:
+        return {
+            "present": False,
+            "complete": False,
+            "status": "unknown",
+            "obtained_count": 0,
+            "missing_count": 0,
+            "expected_urls": None,
+            "methods": {},
+            "missing_entries": [],
+            "not_enumerated": [],
+            "report": None,
+        }
+    obtained_list = report.get("obtained")
+    missing_list = report.get("missing")
+    rendered = report.get("rendered")
+    rendered_count = (
+        sum(1 for r in rendered if _result_rendered(r))
+        if isinstance(rendered, list)
+        else 0
+    )
+    denominator: Optional[int] = None
+    methods: Dict[str, Dict[str, int]] = {}
+    missing_entries: List[dict] = []
+    _not_enumerated_raw = report.get("not_enumerated")
+    not_enumerated = (
+        [x for x in _not_enumerated_raw if isinstance(x, str)]
+        if isinstance(_not_enumerated_raw, list)
+        else []
+    )
+    if isinstance(obtained_list, list) and isinstance(missing_list, list):
+        missing_entries = [e for e in missing_list if isinstance(e, dict)]
+        valid_files = {
+            str(e.get("file"))
+            for e in obtained_list
+            if _entry_shape_ok(e)
+            and _result_obtained(e)
+            and (not require_files or _entry_on_disk(base, e))
+        }
+        # Unique files only: duplicates and invalid entries alike are
+        # uncovered denominator slots, never extra coverage.
+        obtained_count = len(valid_files)
+        missing_count = len(missing_list) + (
+            len(obtained_list) - obtained_count
+        )
+        # Writer invariant: every rendered (cascade-saved) file is also
+        # listed missing (its origin was not obtained) or obtained. A
+        # rendered file hidden from both lists conceals an un-obtained
+        # origin — it counts as missing here.
+        _missing_files = {
+            str(e.get("file"))
+            for e in missing_list
+            if isinstance(e, dict) and e.get("file")
+        }
+        _rendered_files = {
+            str(e.get("file"))
+            for e in (rendered if isinstance(rendered, list) else [])
+            if _entry_shape_ok(e) and _result_rendered(e)
+        }
+        missing_count += len(
+            _rendered_files - valid_files - _missing_files
+        )
+        # A present-but-malformed (or non-positive) denominator field
+        # poisons the report even when a second denominator parses.
+        denominator_malformed = False
+        for _dkey in ("expected_urls", "enumerated"):
+            if _dkey in report:
+                _dval = _safe_count(report.get(_dkey))
+                if _dval is None or _dval <= 0:
+                    denominator_malformed = True
+        denominators = [
+            d
+            for d in (
+                _safe_count(report.get("expected_urls")),
+                _safe_count(report.get("enumerated")),
+            )
+            if d is not None
+        ]
+        denominator = max(denominators) if denominators else None
+        counts_consistent = not denominator_malformed
+        for key, actual in (
+            ("obtained_count", len(obtained_list)),
+            ("missing_count", len(missing_list)),
+        ):
+            asserted = _safe_count(report.get(key))
+            if key in report and asserted != actual:
+                counts_consistent = False
+        complete = (
+            denominator is not None
+            and denominator > 0
+            and obtained_count >= denominator
+            and missing_count == 0
+            and counts_consistent
+        )
+        for entry in (
+            list(obtained_list)
+            + list(missing_list)
+            + (list(rendered) if isinstance(rendered, list) else [])
+        ):
+            if not isinstance(entry, dict):
+                continue
+            via = entry.get("via")
+            via = via if isinstance(via, str) and via.strip() else "unknown"
+            bucket = methods.setdefault(via, {"attempted": 0, "ok": 0, "fail": 0})
+            bucket["attempted"] += 1
+            _ok = (
+                _entry_shape_ok(entry)
+                and _result_obtained(entry)
+                and (not require_files or _entry_on_disk(base, entry))
+            )
+            bucket["ok" if _ok else "fail"] += 1
+    else:
+        obtained_count = _safe_count(report.get("obtained_count")) or 0
+        missing_count = _safe_count(report.get("missing_count")) or 0
+        complete = False
+    if complete:
+        status = "complete"
+    elif obtained_count > 0 or rendered_count > 0:
+        status = "partial"
+    else:
+        status = "empty"
+    return {
+        "present": True,
+        "complete": complete,
+        "status": str(status),
+        "obtained_count": obtained_count,
+        "missing_count": missing_count,
+        "expected_urls": denominator,
+        "methods": methods,
+        "missing_entries": missing_entries,
+        "not_enumerated": not_enumerated,
+        "page_source": report.get("page_source"),
+        "report": report,
+    }
 
 
 # ── GAP 1: policy extraction from downloaded program page ────────────────────
@@ -1746,7 +2142,16 @@ def workspace_base_for(prog: dict):
 
 
 def already_downloaded(prog: dict) -> bool:
-    return (workspace_base_for(prog) / MANIFEST).exists()
+    """True only for a workspace whose download is *complete*.
+
+    A bare manifest proves a download ran, not that it finished: partial,
+    empty, NO_AUTH, legacy (pre-report), and corrupt workspaces all
+    re-fetch instead of being frozen as ``present``.
+    """
+    base = workspace_base_for(prog)
+    if not (base / MANIFEST).exists():
+        return False
+    return download_completeness(base)["complete"] is True
 
 
 def download_one(prog: dict, *, cdp_port: int, take_screenshot: bool) -> dict:
@@ -1795,6 +2200,34 @@ def download_one(prog: dict, *, cdp_port: int, take_screenshot: bool) -> dict:
             for p in _clone_program_repos(repo_urls, ws.base / "repos", prog=prog)
         ]
 
+    # Fold repo attempts into the canonical report before judging status:
+    # attempted clone URLs that produced no clone are missing coverage,
+    # not silent skips.
+    report = dl_info.get("download_report") or load_download_report(ws.base) or {}
+    if report:
+        cloned_names = {Path(p).name.lower() for p in cloned}
+        report = dict(report)
+        report["repos"] = {
+            "attempted": list(repo_urls),
+            "cloned": list(cloned),
+            "missing": [
+                u
+                for u in repo_urls
+                if Path(str(u).rstrip("/")).name.lower() not in cloned_names
+                and str(u).rstrip("/").removesuffix(".git").rsplit("/", 1)[-1].lower()
+                not in cloned_names
+            ],
+        }
+        if report["repos"]["missing"]:
+            report.setdefault("missing", []).extend(
+                {"file": "", "url": u, "status": "repo-clone-failed"}
+                for u in report["repos"]["missing"]
+            )
+            report["missing_count"] = len(report["missing"])
+            report["complete"] = False
+            report["status"] = "partial" if report.get("obtained") else "empty"
+        write_download_report(ws.base, report)
+    completeness = download_completeness(ws.base)
     assets = [s for s in saved if not s.startswith("repo:")]
     manifest = {
         "program": prog.get("name"),
@@ -1808,20 +2241,39 @@ def download_one(prog: dict, *, cdp_port: int, take_screenshot: bool) -> dict:
         "structured_scopes": len(prog.get("structured_scopes") or []),
         "repos": cloned,
         "repo_count": len(cloned),
+        "download_report": DOWNLOAD_REPORT if completeness["present"] else None,
+        "download_status": completeness["status"],
+        "download_complete": completeness["complete"],
+        "obtained_count": completeness["obtained_count"],
+        "missing_count": completeness["missing_count"],
         "by": "oracle_bulk_download.py",
     }
     (ws.base / MANIFEST).write_text(json.dumps(manifest, indent=2))
 
-    if assets or cloned:
+    obtained_any = bool(assets or cloned or completeness["obtained_count"])
+    if obtained_any and completeness["complete"]:
         return {
             "status": "downloaded",
-            "detail": f"{len(assets)} asset(s), {len(cloned)} repo(s)",
+            "detail": f"{len(assets)} asset(s), {len(cloned)} repo(s), complete",
             "manifest": manifest,
+            "download_report": report or None,
+        }
+    if obtained_any:
+        return {
+            "status": "partial",
+            "detail": (
+                f"{len(assets)} asset(s), {len(cloned)} repo(s), "
+                f"completeness={completeness['status']} "
+                f"(missing {completeness['missing_count']})"
+            ),
+            "manifest": manifest,
+            "download_report": report or None,
         }
     return {
         "status": "empty",
         "detail": "no downloadable assets or in-scope repos found",
         "manifest": manifest,
+        "download_report": report or None,
     }
 
 

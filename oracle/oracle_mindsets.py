@@ -675,46 +675,96 @@ def mindset_yield_ledger(
       * unserved         — everything else, including an unearned clean.
     Unknown mindset stamps count into no bucket — only effective names asked.
     """
-    raw_outcomes = dict(lens_outcomes or {})
-    regime_receipts = dict(regime_receipts or {})
+    raw_outcomes = dict(lens_outcomes) if isinstance(lens_outcomes, dict) else {}
+    regime_receipts = (
+        dict(regime_receipts) if isinstance(regime_receipts, dict) else {}
+    )
     minted = {}
     for s in seams or []:
-        m = str(s.get("mindset") or "").strip()
+        if not isinstance(s, dict):
+            continue
+        m = str(s.get("mindset") or "").strip() or mindset_of_origin(
+            s.get("origin")
+        )
         if m:
             minted[m] = minted.get(m, 0) + 1
     # Lens outcomes are keyed by engine origin tag ("cloud-mitre",
-    # "local-paradox", "local-tactic:X" — oracle_hunter futures), not by
-    # mindset name; translate through the build_seam_sets law before the
-    # cause chain reads them (mindset_of_origin handles unknown tags).
-    lens_outcomes: Dict[str, str] = {}
+    # "cloud-paradox-2", "local-tactic:X" — oracle_hunter futures), not
+    # by mindset name; translate every pass through mindset_of_origin and
+    # aggregate per lens. Aggregation law: any error/refusal makes the
+    # lens "error" — a partial slice set can never masquerade as served,
+    # even when another slice minted; otherwise any "seams" wins; a lens
+    # is "clean" only when EVERY pass is clean; anything else is "empty".
+    per_lens: Dict[str, List[str]] = {}
     for k, v in raw_outcomes.items():
-        if k in (effective or []):
-            lens_outcomes[k] = v
+        lens = k if k in (effective or []) else mindset_of_origin(str(k))
+        per_lens.setdefault(lens, []).append(str(v or "").strip().lower())
+    lens_outcomes = {}
+    for lens, values in per_lens.items():
+        # Fail closed on vocabulary: anything outside the produced
+        # outcome tokens (error, refusal, or an unknown token like
+        # "error: timeout") poisons the lens like an error slice.
+        if any(v not in ("seams", "clean", "empty") for v in values):
+            lens_outcomes[lens] = "error"
+        elif any(v == "seams" for v in values):
+            lens_outcomes[lens] = "seams"
+        elif values and all(v == "clean" for v in values):
+            lens_outcomes[lens] = "clean"
         else:
-            tail = str(k).split("-", 1)[1] if "-" in str(k) else ""
-            if tail:
-                tail = tail.split(":", 1)[0]
-            lens_outcomes.setdefault(tail, v)
+            lens_outcomes[lens] = "empty"
 
     ledger = []
     for m in effective or []:
         n = minted.get(m, 0)
-        if n:
+        if n and str(lens_outcomes.get(m, "")).strip().lower() != "error":
             cause = "minted"
         else:
             outcome = str(lens_outcomes.get(m, "")).strip().lower()
-            rec = regime_receipts.get(m) or {}
-            try:
-                served = int(rec.get("endpoints_served_200", 0) or 0)
-            except (TypeError, ValueError):
-                served = 0
-            sessioned = bool(rec.get("session_regime"))
+            rec = regime_receipts.get(m)
+            if not isinstance(rec, dict):
+                rec = {}
+            # Strict receipt typing: a forged "false"/"8"/1 must never
+            # qualify a clean — only a real bool True and a real int
+            # count (bool excluded) are receipts.
+            _served_raw = rec.get("endpoints_served_200", 0)
+            served = (
+                _served_raw
+                if isinstance(_served_raw, int)
+                and not isinstance(_served_raw, bool)
+                else 0
+            )
+            sessioned = rec.get("session_regime") is True
             if outcome == "clean" and served >= MIN_SERVED_ENDPOINTS:
                 cause = "qualified-clean" if sessioned else "unserved"
             else:
                 cause = "unserved"
         ledger.append({"mindset": m, "minted": n, "cause": cause})
     return ledger
+
+
+def build_regime_receipts(mindsets, *, auth_configured: bool, served_200) -> dict:
+    """Regime receipts from observed evidence only.
+
+    ``served_200`` is the count of recon live-host lines explicitly
+    tagged [200] — responses actually served during this hunt's recon,
+    which ran with the hunt's configured auth materials when any.
+    ``session_regime`` claims no more than that: auth materials were
+    configured AND recon carrying them actually served 200s. Garbage
+    credentials against a wall serve no 200s and earn no regime; a
+    credential string alone proves nothing. Non-int counts fail closed.
+    """
+    count = (
+        served_200
+        if isinstance(served_200, int) and not isinstance(served_200, bool)
+        else 0
+    )
+    if count < 0:
+        count = 0
+    sessioned = bool(auth_configured) and count > 0
+    return {
+        m: {"endpoints_served_200": count, "session_regime": sessioned}
+        for m in (mindsets or [])
+    }
 
 
 def yield_unserved(ledger):

@@ -564,14 +564,31 @@ def generate_code_audit_report(
             lines.append(f"- **Architectural Question:** {s['question']}")
         lines.append("")
 
-    if compound_report and compound_report.get("report"):
+    _compound_text = (
+        (compound_report or {}).get("report")
+        or (compound_report or {}).get("summary")
+        or ""
+    )
+    _compound_counts = ""
+    if isinstance(compound_report, dict):
+        try:
+            from oracle_hunter import _correlation_counts_line
+
+            _compound_counts = _correlation_counts_line(compound_report)
+        except Exception:
+            _compound_counts = ""
+    if compound_report and (_compound_text or _compound_counts):
         lines += [
             "---",
             "",
             "## Compound Threat Modeling (Multi-Seam Chain Analysis)",
             "",
-            compound_report["report"],
-            "",
         ]
+        if _compound_counts:
+            lines.append(f"*{_compound_counts}*")
+            lines.append("")
+        if _compound_text:
+            lines.append(_compound_text)
+            lines.append("")
 
     return "\n".join(lines)

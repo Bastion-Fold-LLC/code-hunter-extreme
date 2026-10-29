@@ -7,13 +7,14 @@
 
 Doctrine ORACLE_DOCTRINE.md §3 pipeline, implemented against Scan4Me intel:
 
-  1. ``prescan`` — fast Scan4Me sweep (local ranked DB via the
-     ``oracle_scan4me`` bridge; ``--sync`` refreshes first). Produces a
-     **prescan report**. Raw output; ``trusted: false`` — nothing downstream
-     trusts it. The product path refuses a stale feed, a failed refresh, a
-     `public-file` (unauthenticated) platform rows, or a feed with no
-     authenticated platform rows. The rejected report is written first so
-     the evidence and runlog survive the failure.
+  1. ``prescan`` — fast no-login Scan4Me sweep (local ranked DB via the
+     ``oracle_scan4me`` bridge; ``--sync`` refreshes first with
+     ``use_auth=False``). Produces a **prescan report**. Raw output;
+     ``trusted: false`` — nothing downstream trusts it. Public provenance
+     is candidate material for Oracle's verify pass, never product truth.
+     The product path still refuses an unavailable, stale, or
+     failed-refresh feed. The rejected report is written first so the
+     evidence and runlog survive the failure.
   2. ``scan`` — Oracle's verification pass over the prescan. Produces a
      **scan report** with a per-program verdict. A program is verified iff
      no leg blocks (doctrine §3 verify-pass definition):
@@ -94,6 +95,10 @@ REPORTS_DIR = HERE / "reports"
 PRESCAN_SCHEMA = "oracle.intake.prescan/v1"
 SCAN_SCHEMA = "oracle.intake.scan/v1"
 HANDOFF_SCHEMA = "oracle.p12.handoff/v1"
+
+# Scan4Me's own freshness bound (scan4me.STALE_AFTER_HOURS). The raw gate
+# re-checks the numeric age instead of trusting a stale flag alone.
+RAW_FEED_MAX_AGE_HOURS = 48.0
 
 ProbeFn = Callable[[str, float], Dict[str, Any]]
 FetchFn = Callable[[], List[Dict[str, Any]]]
@@ -705,13 +710,17 @@ def run_prescan(
     stamp: Optional[str] = None,
     allow_public_feed: bool = False,
 ) -> Dict[str, Any]:
-    """Fast Scan4Me sweep → prescan report (raw, untrusted). Returns report.
+    """Fast no-login Scan4Me sweep → prescan report (raw, untrusted).
 
-    Product callers (``fetch_fn is None``) must have an authenticated, fresh
-    Scan4Me feed. When that is not true the report is still written with its
-    ``feed_trust`` verdict, then :class:`FeedTrustError` is raised so the
-    runlog and the artifact both tell the truth. ``allow_public_feed`` is an
-    injected-test/embedded escape hatch, never an operator flag.
+    Product callers (``fetch_fn is None``) need a fresh, successfully
+    refreshed feed. Public provenance is accepted only as raw candidate
+    material (``feed_trust.raw_candidate_ok``); it never sets the
+    authenticated ``feed_trust.ok`` verdict. When the raw gate fails the
+    report is still written with its ``feed_trust`` verdict, then
+    :class:`FeedTrustError` is raised so the runlog and the artifact both
+    tell the truth. ``allow_public_feed`` is a deprecated compatibility
+    argument: accepted, recorded, and never able to mint authenticated
+    truth.
 
     The returned dict carries its file path under ``_report_path``.
     Empty fetch is a valid fail-closed outcome for synthetic callers.
@@ -731,9 +740,9 @@ def run_prescan(
         import scan4me as s4m
 
         try:
-            # Auth is the product default. Missing keys fall back inside
-            # Scan4Me to public feeds, which the trust gate then rejects.
-            s4m.sync_data(refresh=True, use_auth=True)
+            # Owner design: Scan4Me discovery is no-login. Oracle creates
+            # trust later, in its own independent verify pass.
+            s4m.sync_data(refresh=True, use_auth=False)
         except Exception as e:
             raise RuntimeError(f"Scan4Me sync failed: {e}") from e
 
@@ -768,10 +777,12 @@ def run_prescan(
     }
     path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     report["_report_path"] = str(path)
-    if fetch_fn is None and not trust["ok"]:
-        issues = trust.get("issues") or ["unknown feed trust failure"]
+    if fetch_fn is None and not trust["raw_candidate_ok"]:
+        issues = trust.get("raw_candidate_issues") or [
+            "unknown raw feed failure"
+        ]
         raise FeedTrustError(
-            "Scan4Me feed is not authenticated/trusted: "
+            "Scan4Me feed is not fresh enough for raw candidates: "
             + "; ".join(issues)
             + f". Prescan report preserved: {path}",
             report=report,
@@ -805,7 +816,7 @@ def feed_provenance_block() -> Dict[str, Any]:
 
 
 class FeedTrustError(RuntimeError):
-    """The Scan4Me feed is not authenticated/fresh enough to be truth.
+    """The Scan4Me feed is not fresh enough to supply raw candidates.
 
     Carries the rejected prescan report so the caller can preserve/name the
     artifact instead of losing the evidence when the process exits.
@@ -822,35 +833,102 @@ def feed_trust_block(
     *,
     allow_public_feed: bool = False,
 ) -> Dict[str, Any]:
-    """Pure trust verdict for a Scan4Me provenance stamp.
+    """Pure trust verdicts for a Scan4Me provenance stamp.
 
-    Product truth must be authenticated and fresh. Only rows whose source
-    is exactly ``authenticated`` are trusted; every other counted source
-    (``public-file``, live boards/listings, public mirrors, unlabeled, or
-    a label invented tomorrow) is public truth and fails closed. Neither
-    can a stale snapshot or a failed refresh pass. ``allow_public_feed``
-    is an injected-test/embedded escape hatch only — the operator CLI does
-    not expose it and never sets it.
+    Two verdicts stay separate. ``ok`` is the authenticated-feed verdict:
+    only rows whose source is exactly ``authenticated`` count, and every
+    other counted source (``public-file``, live boards/listings, public
+    mirrors, unlabeled, or a label invented tomorrow) fails it.
+    ``raw_candidate_ok`` is the no-login discovery verdict: public rows
+    may pass as raw candidates for Oracle's independent verify pass, but
+    an unavailable feed, failed refresh, missing sync timestamp, stale
+    flag, age over Scan4Me's 48h bound, or platform refresh error fails.
+    Public provenance therefore reaches ``scan`` without ever becoming
+    product truth. ``allow_public_feed`` is deprecated compatibility
+    only: it is recorded and never changes either verdict.
+
+    Malformed provenance fails closed on both verdicts: a missing or
+    non-boolean ``refresh_ok``/``stale``, a non-numeric, NaN, boolean, or
+    negative ``age_hours``, a non-object ``platforms`` map, or a platform
+    entry/count that cannot be read as a non-negative number is never
+    coerced into freshness.
     """
     prov = provenance if isinstance(provenance, dict) else {}
     issues: List[str] = []
+    raw_issues: List[str] = []
     warnings: List[str] = []
+
+    def _both(message: str) -> None:
+        issues.append(message)
+        raw_issues.append(message)
+
+    if not isinstance(provenance, dict):
+        _both("feed provenance is malformed (not an object)")
     if prov.get("unavailable"):
-        issues.append(str(prov["unavailable"]))
-    if prov.get("refresh_ok") is False:
-        issues.append("last Scan4Me refresh failed (refresh_ok=false)")
+        _both(str(prov["unavailable"]))
+    if prov.get("refresh_ok") is not True:
+        _both(
+            "last Scan4Me refresh did not succeed "
+            f"(refresh_ok={prov.get('refresh_ok')!r})"
+        )
     age = prov.get("age_hours")
-    if prov.get("stale") is True:
-        issues.append(f"feed is stale ({age}h old)")
-    elif age is None:
-        issues.append("feed has no successful sync timestamp")
-    platforms = prov.get("platforms") if isinstance(prov.get("platforms"), dict) else {}
+    stale = prov.get("stale")
+    if stale is True:
+        _both(f"feed is stale ({age}h old)")
+    elif stale is not False:
+        _both(f"feed stale flag is malformed (stale={stale!r})")
+    if age is None:
+        _both("feed has no successful sync timestamp")
+    elif (
+        isinstance(age, bool)
+        or not isinstance(age, (int, float))
+        or not math.isfinite(age)
+        or age < 0
+    ):
+        _both(f"feed age_hours is malformed ({age!r})")
+    elif age > RAW_FEED_MAX_AGE_HOURS:
+        _both(
+            f"feed is stale ({age}h old; raw limit {RAW_FEED_MAX_AGE_HOURS:g}h)"
+        )
+    raw_platforms = prov.get("platforms")
+    if isinstance(raw_platforms, dict):
+        platforms = raw_platforms
+    else:
+        platforms = {}
+        _both(
+            "feed platforms provenance is malformed "
+            f"(platforms={raw_platforms!r})"
+        )
+
+    def _count(entry: Dict[str, Any]) -> Optional[float]:
+        value = entry.get("count", 0)
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(value)
+            or value < 0
+        ):
+            return None
+        return float(value)
+
+    malformed_platforms = sorted(
+        str(name)
+        for name, entry in platforms.items()
+        if not isinstance(entry, dict) or _count(entry) is None
+    )
+    if malformed_platforms:
+        _both(
+            "platform provenance entries are malformed: "
+            + ", ".join(malformed_platforms)
+        )
+
+    def _counted(entry: Any) -> bool:
+        return isinstance(entry, dict) and (_count(entry) or 0) > 0
+
     public_rows = sorted(
         str(name)
         for name, entry in platforms.items()
-        if isinstance(entry, dict)
-        and (entry.get("count") or 0) > 0
-        and entry.get("source") != "authenticated"
+        if _counted(entry) and entry.get("source") != "authenticated"
     )
     public_labels = {
         str(name): str(entry.get("source"))
@@ -860,9 +938,7 @@ def feed_trust_block(
     authenticated = sorted(
         str(name)
         for name, entry in platforms.items()
-        if isinstance(entry, dict)
-        and (entry.get("count") or 0) > 0
-        and entry.get("source") == "authenticated"
+        if _counted(entry) and entry.get("source") == "authenticated"
     )
     errored = sorted(
         str(name)
@@ -872,23 +948,24 @@ def feed_trust_block(
     labeled_public = ", ".join(
         f"{name} ({public_labels.get(name)})" for name in public_rows
     )
-    if public_rows and not allow_public_feed:
+    if public_rows:
         issues.append("unauthenticated feed rows: " + labeled_public)
-    elif public_rows:
-        warnings.append(
-            "unauthenticated rows explicitly allowed for this call: "
-            + labeled_public
-        )
-    if not authenticated:
         if allow_public_feed:
-            warnings.append("no authenticated platform rows (explicit public override)")
-        else:
-            issues.append("no authenticated platform rows in the feed")
+            warnings.append(
+                "allow_public_feed is deprecated and has no effect; "
+                "unauthenticated rows remain raw candidates only: "
+                + labeled_public
+            )
+    if not authenticated:
+        issues.append("no authenticated platform rows in the feed")
     if errored:
         issues.append("platform refresh errors: " + ", ".join(errored))
+        raw_issues.append("platform refresh errors: " + ", ".join(errored))
     return {
         "ok": not issues,
         "issues": issues,
+        "raw_candidate_ok": not raw_issues,
+        "raw_candidate_issues": raw_issues,
         "warnings": warnings,
         "stale": prov.get("stale"),
         "age_hours": age,
@@ -896,49 +973,78 @@ def feed_trust_block(
         "public_sources": public_labels,
         "authenticated_platforms": authenticated,
         "errored_platforms": errored,
+        "malformed_platforms": malformed_platforms,
         "allow_public_feed": bool(allow_public_feed),
-        "overridden": bool(allow_public_feed and public_rows),
+        "overridden": False,
     }
 
 
 def _prescan_trust(prescan: Dict[str, Any]) -> Dict[str, Any]:
-    """Trust block for an existing prescan; fail closed when unstamped.
+    """Trust block for an existing prescan, re-derived from provenance.
 
-    Older prescans predate the trust field. Their provenance can be
-    re-evaluated, but a report with neither a trust block nor provenance
-    cannot establish authenticated truth and is rejected.
+    A stored ``feed_trust`` block is a claim, not evidence: whenever the
+    prescan carries provenance, both verdicts are recomputed from that
+    provenance and the stored block is ignored. A prescan with no usable
+    provenance object cannot establish even raw-candidate freshness —
+    however green its stored trust block claims to be — and is rejected.
     """
-    trust = prescan.get("feed_trust")
-    if isinstance(trust, dict) and "ok" in trust:
-        return trust
     prov = prescan.get("feed_provenance")
     if isinstance(prov, dict) and prov:
         return feed_trust_block(prov)
     return {
         "ok": False,
-        "issues": ["prescan carries no feed_trust/feed_provenance stamp"],
+        "issues": ["prescan carries no feed_provenance stamp to re-derive trust"],
+        "raw_candidate_ok": False,
+        "raw_candidate_issues": [
+            "prescan carries no feed_provenance stamp to re-derive trust"
+        ],
         "warnings": [],
         "stale": None,
         "age_hours": None,
         "public_platforms": [],
+        "public_sources": {},
         "authenticated_platforms": [],
         "errored_platforms": [],
+        "malformed_platforms": [],
         "allow_public_feed": False,
         "overridden": False,
     }
 
 
+def _raw_candidate_ok(trust: Any) -> bool:
+    """Fresh raw-candidate verdict, with an authenticated-ok fallback."""
+    if not isinstance(trust, dict):
+        return False
+    if "raw_candidate_ok" in trust:
+        return trust.get("raw_candidate_ok") is True
+    return trust.get("ok") is True
+
+
+def _raw_candidate_issues(trust: Any) -> List[str]:
+    if not isinstance(trust, dict):
+        return ["missing feed_trust stamp"]
+    raw = trust.get("raw_candidate_issues")
+    if isinstance(raw, list) and raw:
+        return [str(x) for x in raw]
+    issues = trust.get("issues")
+    if isinstance(issues, list) and issues:
+        return [str(x) for x in issues]
+    return ["unknown raw feed failure"]
+
+
 def require_trusted_prescan(prescan: Dict[str, Any]) -> Dict[str, Any]:
     """Return the prescan trust block or raise FeedTrustError.
 
-    Product scan consumes only authenticated, fresh prescans. Synthetic
+    Historical name kept for API compatibility. Product scan now requires
+    fresh raw candidates, not an authenticated Scan4Me feed: trust is
+    created per program by Oracle's independent re-scan. Synthetic
     callers/tests can call run_scan directly for pure verdict tests.
     """
     trust = _prescan_trust(prescan)
-    if not trust.get("ok"):
-        issues = trust.get("issues") or ["unknown feed trust failure"]
+    if not _raw_candidate_ok(trust):
         raise FeedTrustError(
-            "prescan feed is not authenticated/trusted: " + "; ".join(issues)
+            "prescan feed is not fresh enough for raw candidates: "
+            + "; ".join(_raw_candidate_issues(trust))
         )
     return trust
 
@@ -975,14 +1081,15 @@ def oracle_rescan(
 
     HackerOne programs are fetched from HackerOne's own authenticated Hacker
     API with Oracle's credentials, never from Scan4Me's DB copy. Other
-    platforms have no Oracle-side API adapter yet and fall back to the bridge,
-    explicitly marked ``independent: false``. HackerOne credentials missing or
-    rejected raise (H1AuthError) — an auth failure must never masquerade as a
-    vanished program.
+    platforms have no Oracle-side API/browser adapter yet: they return no
+    fresh program, explicitly marked ``independent: false`` with source
+    ``no-oracle-adapter``, and therefore cannot verify. The Scan4Me bridge
+    is never read here — a DB copy cannot corroborate itself. HackerOne
+    credentials missing or rejected raise (H1AuthError) — an auth failure
+    must never masquerade as a vanished program.
     """
     platform = str(prog.get("platform") or "").strip()
     handle = str(prog.get("handle") or prog.get("name") or "").strip()
-    key = handle or str(prog.get("name") or "")
     if platform.lower() == "hackerone":
         import oracle_h1_api as h1
 
@@ -1011,12 +1118,12 @@ def oracle_rescan(
             fresh["out_of_scope"] = sorted(known_oos | fresh_oos)
             meta["out_of_scope_union"] = sorted(known_oos - fresh_oos)
         return fresh, meta
-    fresh = _default_resolve(key) if key else None
-    return fresh, {
-        "source": "scan4me-db" if fresh is not None else "missing",
+    return None, {
+        "source": "no-oracle-adapter",
         "independent": False,
         "platform": platform,
         "handle": handle,
+        "found": False,
     }
 
 
@@ -1033,40 +1140,46 @@ def run_scan(
 ) -> Dict[str, Any]:
     """Oracle verification pass over a prescan → scan report with verdicts.
 
-    Product scan passes ``require_trusted_prescan=True`` and
-    ``rescan_fn=oracle_rescan``: a public-file/stale prescan can never be
-    laundered into a verified handoff, and HackerOne scope must come from
-    Oracle's own authenticated API rather than Scan4Me's DB copy. Synthetic
-    callers/tests may leave both unset for pure verdict fixtures.
+    Product scan passes ``require_trusted_prescan=True`` (historical name;
+    now the fresh raw-candidate gate) and ``rescan_fn=oracle_rescan``.
+    A fresh public prescan may enter, but trust is created here per
+    program: a verdict is ``verified`` only when the three verify legs
+    pass **and** the re-scan metadata says ``independent is True``.
+    Bridge/DB copies, missing adapters, and absent re-scans therefore
+    never verify and never contribute ``_fresh`` scope downstream.
+    HackerOne scope must come from Oracle's own authenticated API rather
+    than Scan4Me's DB copy.
+
+    Synthetic callers may inject ``rescan_fn`` or, only outside product
+    mode, ``resolve_fn`` as an independent-fetch seam. In product mode
+    (``require_trusted_prescan=True``) a ``resolve_fn`` is never called
+    and can never verify — only ``rescan_fn`` can. The Scan4Me bridge
+    resolver (``_default_resolve``) is never independent under any mode,
+    and contradictory metadata (bridge source, ``found`` not true, or a
+    handle bound to a different program) can never verify.
     """
     report_in = load_prescan(prescan)
     if not isinstance(report_in.get("programs"), list):
         raise ValueError("prescan report has no 'programs' list")
     if require_trusted_prescan:
         prescan_trust = _prescan_trust(report_in)
-        if not prescan_trust.get("ok"):
-            issues = prescan_trust.get("issues") or ["unknown feed trust failure"]
+        if not _raw_candidate_ok(prescan_trust):
             raise FeedTrustError(
-                "prescan feed is not authenticated/trusted: "
-                + "; ".join(issues)
+                "prescan feed is not fresh enough for raw candidates: "
+                + "; ".join(_raw_candidate_issues(prescan_trust))
                 + f". Prescan: {report_in.get('_report_path', '')}"
             )
     provenance = feed_provenance_block()
     feed_trust = feed_trust_block(provenance)
     feed_trust["enforced"] = bool(require_trusted_prescan)
-    if require_trusted_prescan and not feed_trust["ok"]:
-        issues = feed_trust.get("issues") or ["unknown feed trust failure"]
+    if require_trusted_prescan and not _raw_candidate_ok(feed_trust):
         raise FeedTrustError(
-            "current Scan4Me feed is not authenticated/trusted: " + "; ".join(issues)
+            "current Scan4Me feed is not fresh enough for raw candidates: "
+            + "; ".join(_raw_candidate_issues(feed_trust))
         )
-    resolve = resolve_fn or _default_resolve
     verdicts: List[Dict[str, Any]] = []
     for snap in report_in["programs"]:
         key = snap.get("handle") or snap.get("name") or ""
-        rescan_meta: Dict[str, Any] = {
-            "source": "scan4me-db",
-            "independent": False,
-        }
         if rescan_fn is not None:
             # Product path: an auth/transport failure is a failed scan, not a
             # vanished program. Never convert it into a silent fresh=None.
@@ -1076,23 +1189,87 @@ def run_scan(
                 raise RuntimeError(
                     f"Oracle re-scan failed for {key or '<unknown>'}: {exc}"
                 ) from exc
-        else:
+        elif require_trusted_prescan:
+            # Product mode has exactly one verification seam: rescan_fn.
+            # A resolve_fn is not called here at all.
+            fresh = None
+            rescan_meta = {
+                "source": "no-oracle-adapter",
+                "independent": False,
+                "found": False,
+            }
+        elif resolve_fn is _default_resolve:
+            # The bridge resolver reads Scan4Me's own DB copy. It is never
+            # an independent fetch, however the caller labels the seam.
+            fresh = None
+            rescan_meta = {
+                "source": "scan4me-db",
+                "independent": False,
+                "found": False,
+            }
+        elif resolve_fn is not None:
+            # Explicit synthetic injection is the caller's independent
+            # fetch seam (never reached in product mode, handled above).
             try:
-                fresh = resolve(key) if key else None
+                fresh = resolve_fn(key) if key else None
             except Exception:
                 fresh = None
+            rescan_meta = {
+                "source": "injected-resolver",
+                "independent": True,
+                "found": isinstance(fresh, dict),
+                "handle": key,
+            }
+        else:
+            fresh = None
+            rescan_meta = {
+                "source": "no-oracle-adapter",
+                "independent": False,
+                "found": False,
+            }
+        if not isinstance(rescan_meta, dict):
+            rescan_meta = {
+                "source": "invalid-rescan-metadata",
+                "independent": False,
+                "found": False,
+            }
         verdict = verify_program(
             snap, fresh, probe_fn=probe_fn, timeout=timeout, no_cloud=no_cloud
         )
         verdict["oracle_rescan"] = rescan_meta
-        # Keep the exact scope snapshot the verify pass used. Deep-dive must
-        # consume this, not re-resolve the Scan4Me DB after an H1 re-scan.
-        verdict["_fresh"] = fresh if isinstance(fresh, dict) else None
+        independent_attempt = _rescan_source_is_independent(rescan_meta)
+        verified_allowed = isinstance(fresh, dict) and (
+            is_independent_rescan_meta(rescan_meta, snap)
+        )
+        if not verified_allowed:
+            verdict["verdict"] = "unverified"
+            # A genuinely independent "program vanished" answer already
+            # fails the three legs on its own; every other non-allowed
+            # shape (bridge, missing adapter, contradictory found/source,
+            # wrong handle) names the independent-rescan gate explicitly.
+            vanished = (
+                independent_attempt
+                and fresh is None
+                and rescan_meta.get("found") is False
+            )
+            if not vanished and (
+                "oracle_independent_rescan" not in verdict["failed_checks"]
+            ):
+                verdict["failed_checks"].append("oracle_independent_rescan")
+            verdict["_fresh"] = None
+        else:
+            # Keep the exact scope snapshot the verify pass used. Deep-dive
+            # must consume this, not re-resolve the Scan4Me DB after an
+            # independent re-scan.
+            verdict["_fresh"] = fresh
         verdicts.append(verdict)
     verified = [v for v in verdicts if v["verdict"] == "verified"]
     rescan_metas = [v.get("oracle_rescan") or {} for v in verdicts]
     independent_count = sum(
-        1 for meta in rescan_metas if meta.get("independent") is True
+        1 for meta in rescan_metas if _rescan_source_is_independent(meta)
+    )
+    rescan_sources = sorted(
+        {str(meta.get("source")) for meta in rescan_metas if meta.get("source")}
     )
     if not rescan_metas:
         rescan_mode = "none"
@@ -1100,11 +1277,10 @@ def run_scan(
         rescan_mode = "independent"
     elif independent_count:
         rescan_mode = "mixed"
+    elif rescan_sources == ["no-oracle-adapter"]:
+        rescan_mode = "no-oracle-adapter"
     else:
         rescan_mode = "scan4me-db"
-    rescan_sources = sorted(
-        {str(meta.get("source")) for meta in rescan_metas if meta.get("source")}
-    )
     directory = out_dir or REPORTS_DIR
     directory.mkdir(parents=True, exist_ok=True)
     tag = stamp or _stamp()
@@ -1208,6 +1384,83 @@ def _matches_site(prog: Dict[str, Any], site: str) -> bool:
     return False
 
 
+_NON_INDEPENDENT_RESCAN_SOURCES = {
+    "scan4me-db",
+    "no-oracle-adapter",
+    "missing",
+    "invalid-rescan-metadata",
+}
+
+
+def _rescan_source_is_independent(meta: Any) -> bool:
+    """Source/mode half of the strict re-scan check (found may be False)."""
+    if not isinstance(meta, dict) or meta.get("independent") is not True:
+        return False
+    source = meta.get("source")
+    if (
+        not isinstance(source, str)
+        or not source.strip()
+        or source.strip().lower() in _NON_INDEPENDENT_RESCAN_SOURCES
+    ):
+        return False
+    mode = meta.get("mode")
+    if (
+        isinstance(mode, str)
+        and mode.strip().lower() in _NON_INDEPENDENT_RESCAN_SOURCES
+    ):
+        return False
+    return True
+
+
+def is_independent_rescan_meta(
+    meta: Any, entry: Optional[Dict[str, Any]] = None
+) -> bool:
+    """Strict independent-found re-scan metadata check.
+
+    This is the single downstream trust anchor shared by scan, deep-dive,
+    download, queue, queue execution, and bundle readiness. It requires
+    ``independent is True``, ``found is True``, and a non-empty source
+    that is not a known bridge/missing/adapter-absent label. When the
+    metadata carries a ``handle`` and an entry is supplied, the handle
+    must bind to that entry's handle or name — a strict stamp minted for
+    one program cannot be replayed onto another.
+    """
+    if not _rescan_source_is_independent(meta):
+        return False
+    if not isinstance(meta, dict) or meta.get("found") is not True:
+        return False
+    handle = meta.get("handle")
+    if entry is not None and isinstance(handle, str) and handle.strip():
+        wanted = handle.strip().lower()
+        candidates = {
+            str(entry.get(key) or "").strip().lower()
+            for key in ("handle", "name")
+        }
+        if wanted not in candidates:
+            return False
+    return True
+
+
+def is_independently_verified_entry(entry: Any) -> bool:
+    """True only for a whole scan-shaped independently verified entry.
+
+    Requires ``verdict == "verified"``, no failed checks, and strict
+    independent-found re-scan metadata bound to the entry. One green
+    flag on an otherwise contradictory record is never enough.
+    """
+    if not isinstance(entry, dict) or entry.get("verdict") != "verified":
+        return False
+    failed = entry.get("failed_checks", [])
+    if not isinstance(failed, list) or failed:
+        return False
+    return is_independent_rescan_meta(entry.get("oracle_rescan"), entry)
+
+
+def _is_independently_verified(entry: Dict[str, Any]) -> bool:
+    """Backward-compatible private alias for the strict entry check."""
+    return is_independently_verified_entry(entry)
+
+
 def select_deep_dive(
     scan_report: Dict[str, Any],
     prescan_programs: Optional[List[Dict[str, Any]]] = None,
@@ -1215,20 +1468,22 @@ def select_deep_dive(
     sites: Optional[List[str]] = None,
     resolve_fn: Optional[ResolveFn] = None,
 ) -> Dict[str, Any]:
-    """Pick verified programs for deep-dive. Named sites override the count.
+    """Pick independently verified programs for deep-dive.
 
-    Only ``verdict == verified`` entries are ever selected — unverified
-    programs (including named ones) land in ``excluded`` and never proceed.
-    Without ``top_n`` or ``sites``, ALL verified programs are selected,
-    ranked by score (P12 owns ``default_count`` scheduling, not P11).
+    Named sites override the count. Only entries with
+    ``verdict == verified`` **and** ``oracle_rescan.independent is True``
+    are ever selected — unverified or bridge-only programs (including
+    named ones) land in ``excluded`` and never proceed. Without ``top_n``
+    or ``sites``, ALL such programs are selected, ranked by score (P12
+    owns ``default_count`` scheduling, not P11).
 
-    When ``resolve_fn`` is given, every selected program is re-resolved at
-    deep-dive time and its assets/company/resources come from that FRESH
-    listing — a stale prescan snapshot can never feed deep-dive. A program
-    missing from (or erroring on) the fresh listing is excluded fail-closed
-    with a ``deep-dive-stale`` reason instead of falling back to snapshot
-    data. Without ``resolve_fn`` the prescan snapshot is used (legacy path;
-    callers that can reach the bridge should always pass a resolver).
+    Assets/company/resources come from the scan verdict's embedded
+    ``_fresh`` program — the exact independent listing the verify pass
+    used. For scan reports without embedded fresh data, an explicitly
+    injected ``resolve_fn`` may supply it at dive time. A program missing
+    from (or erroring on) that listing, or with neither fresh source, is
+    excluded fail-closed with a ``deep-dive-stale`` reason. The prescan
+    snapshot is never a scope fallback.
     """
     if top_n is not None and (
         isinstance(top_n, bool) or not isinstance(top_n, int) or top_n < 0
@@ -1241,7 +1496,9 @@ def select_deep_dive(
                 by_key[key] = prog
 
     verified = [
-        v for v in scan_report.get("verdicts", []) if v.get("verdict") == "verified"
+        v
+        for v in scan_report.get("verdicts", [])
+        if _is_independently_verified(v)
     ]
     verified.sort(key=lambda v: (v.get("score", 0) or 0), reverse=True)
 
@@ -1267,18 +1524,23 @@ def select_deep_dive(
                 (
                     v
                     for v in scan_report.get("verdicts", [])
-                    if v.get("verdict") != "verified" and _site_hit(v, site)
+                    if not _is_independently_verified(v) and _site_hit(v, site)
                 ),
                 None,
             )
             if unverified_hit is not None:
+                failed = list(unverified_hit.get("failed_checks", []) or [])
+                if not is_independent_rescan_meta(
+                    unverified_hit.get("oracle_rescan"), unverified_hit
+                ) and "oracle_independent_rescan" not in failed:
+                    failed.append("oracle_independent_rescan")
                 excluded.append(
                     {
                         "site": site,
                         "program": unverified_hit.get("name", ""),
                         "reason": (
                             "program is unverified "
-                            f"(failed: {','.join(unverified_hit.get('failed_checks', []))});"  # noqa: E501
+                            f"(failed: {','.join(failed)});"
                             " unverified programs never proceed"
                         ),
                     }
@@ -1299,11 +1561,24 @@ def select_deep_dive(
         fresh_used = False
         fresh_source = ""
         embedded_fresh = verdict.get("_fresh")
-        if isinstance(embedded_fresh, dict):
-            # The verify pass already fetched this scope (H1's authenticated
-            # API or the bridge). Reuse it byte-for-byte; never re-resolve
-            # through a stale DB after an independent re-scan.
+        embedded_scopes = (
+            embedded_fresh.get("structured_scopes")
+            if isinstance(embedded_fresh, dict)
+            else None
+        )
+        if isinstance(embedded_fresh, dict) and isinstance(
+            embedded_scopes, list
+        ):
+            # The verify pass already fetched this scope independently.
+            # Reuse it byte-for-byte; never re-resolve through a stale DB
+            # after an independent re-scan. Scope fields are pinned to the
+            # fresh listing after the merge so a snapshot or verdict key
+            # can never supply them by fall-through.
             merged = {**snap, **embedded_fresh, **verdict}
+            merged["structured_scopes"] = embedded_scopes
+            merged["out_of_scope"] = list(
+                embedded_fresh.get("out_of_scope") or []
+            )
             fresh_used = True
             fresh_source = str(
                 (verdict.get("oracle_rescan") or {}).get("source") or "scan-rescan"
@@ -1315,22 +1590,45 @@ def select_deep_dive(
                 fresh_prog = resolve_fn(key) if key else None
             except Exception:
                 fresh_prog = None
-            if not isinstance(fresh_prog, dict):
+            fresh_scopes = (
+                fresh_prog.get("structured_scopes")
+                if isinstance(fresh_prog, dict)
+                else None
+            )
+            if not isinstance(fresh_prog, dict) or not isinstance(
+                fresh_scopes, list
+            ):
                 excluded.append(
                     {
                         "site": verdict.get("name", ""),
                         "program": verdict.get("name", ""),
                         "reason": (
                             "deep-dive-stale: program missing from the fresh"
-                            " listing at deep-dive time; prescan snapshot"
-                            " not used (fail-closed)"
+                            " listing (or its structured_scopes) at"
+                            " deep-dive time; prescan snapshot not used"
+                            " (fail-closed)"
                         ),
                     }
                 )
                 continue
             merged = {**snap, **fresh_prog, **verdict}
+            merged["structured_scopes"] = fresh_scopes
+            merged["out_of_scope"] = list(fresh_prog.get("out_of_scope") or [])
             fresh_used = True
             fresh_source = "deep-dive:fresh-resolve"
+        else:
+            excluded.append(
+                {
+                    "site": verdict.get("name", ""),
+                    "program": verdict.get("name", ""),
+                    "reason": (
+                        "deep-dive-stale: no Oracle-verified fresh scope "
+                        "embedded in the scan verdict and no resolver "
+                        "injected; prescan snapshot not used (fail-closed)"
+                    ),
+                }
+            )
+            continue
         rank += 1
         ranked.append(
             {
@@ -1343,6 +1641,7 @@ def select_deep_dive(
                 "max_payout_usd": verdict.get("max_payout_usd"),
                 "currency": verdict.get("currency", "USD"),
                 "verdict": "verified",
+                "failed_checks": list(verdict.get("failed_checks") or []),
                 "checks": verdict.get("checks", {}),
                 "oracle_rescan": verdict.get("oracle_rescan", {}),
                 "deep_dive": _deep_dive_for(
@@ -1353,11 +1652,18 @@ def select_deep_dive(
                 ),
             }
         )
-    return {
+    selection: Dict[str, Any] = {
         "ranked_verified": ranked,
         "excluded_named": excluded,
         "oracle_rescan": scan_report.get("oracle_rescan", {}),
     }
+    # Carry the scan's own discovery stamps forward verbatim. The handoff
+    # must describe the feed this scan consumed, never a later live feed.
+    if isinstance(scan_report.get("feed_provenance"), dict):
+        selection["feed_provenance"] = dict(scan_report["feed_provenance"])
+    if isinstance(scan_report.get("feed_trust"), dict):
+        selection["feed_trust"] = dict(scan_report["feed_trust"])
+    return selection
 
 
 def write_handoff(
@@ -1374,12 +1680,23 @@ def write_handoff(
 
     The payload carries its file path under ``_report_path``. An empty
     verified set still writes a file (fail-closed empty), never nothing.
+    Discovery provenance is copied from the selection (which copies it
+    from the scan report) when present: a later live Scan4Me sync must
+    never relabel what this scan actually consumed. The trust verdicts
+    are then re-derived from that copied provenance — a stored trust
+    block paired with it is a claim and is never copied through.
+    Selections without provenance (synthetic callers) fall back to a
+    live stamp.
     """
     directory = out_dir or REPORTS_DIR
     directory.mkdir(parents=True, exist_ok=True)
     tag = stamp or _stamp()
     path = directory / f"intake_ranked_verified_{tag}.json"
-    provenance = feed_provenance_block()
+    sel_provenance = selection.get("feed_provenance")
+    if isinstance(sel_provenance, dict) and sel_provenance:
+        provenance = dict(sel_provenance)
+    else:
+        provenance = feed_provenance_block()
     feed_trust = feed_trust_block(provenance)
     feed_trust["enforced"] = True
     payload = {
@@ -1509,9 +1826,11 @@ def download_selected_workspaces(
 
     Each entry gains ``workspace: {path, status, detail}`` where status is
     ``present`` (manifest already on disk — skipped), the downloader's own
-    status (``downloaded``/``empty``), or ``error``. A failure on one
-    program never aborts the rest, and unverified/excluded programs are
-    never touched (they are not in ``ranked_verified`` by construction).
+    status (``downloaded``/``empty``), ``skipped``, or ``error``. A
+    failure on one program never aborts the rest. An entry is touched
+    only when it is ``verified`` with an independent Oracle re-scan;
+    bridge-only or unstamped entries are skipped even if a caller placed
+    them in ``ranked_verified`` by hand.
     """
     from oracle_bulk_download import (
         already_downloaded,
@@ -1538,12 +1857,16 @@ def download_selected_workspaces(
                 raise TypeError(
                     f"ranked_verified entry must be an object, got {type(entry).__name__}"
                 )
-            verdict = entry.get("verdict")
-            if verdict is not None and verdict != "verified":
+            if not is_independently_verified_entry(entry):
                 entry["workspace"] = {
                     "path": "",
                     "status": "skipped",
-                    "detail": f"not verified (verdict={verdict!r})",
+                    "detail": (
+                        "not independently Oracle-verified "
+                        f"(verdict={entry.get('verdict')!r}, "
+                        f"failed_checks={entry.get('failed_checks')!r}, "
+                        f"oracle_rescan={entry.get('oracle_rescan')!r})"
+                    ),
                 }
                 continue
             prog = _prog_for_download(entry)
@@ -1552,7 +1875,7 @@ def download_selected_workspaces(
                 entry["workspace"] = {
                     "path": base,
                     "status": "present",
-                    "detail": "manifest already on disk",
+                    "detail": "complete download report already on disk",
                 }
                 continue
             res = fn(prog) or {}

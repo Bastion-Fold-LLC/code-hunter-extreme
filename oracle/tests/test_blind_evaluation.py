@@ -313,6 +313,8 @@ def test_blind_evaluation_single_program():
     """Verify BlindEvaluationHarness executes cleanly against Scan4Me database."""
     import pytest
 
+    import sqlite3
+
     harness = BlindEvaluationHarness()
     if not Path(harness.scan4me_db).is_file():
         pytest.skip(
@@ -320,6 +322,17 @@ def test_blind_evaluation_single_program():
             "`python3 scan4me.py sync` in the Scan4Me checkout ("
             "SCAN4ME_HOME overrides the path) to enable blind evaluation"
         )
+    # A file at the path is not a schema: importing Scan4Me leaves a zero-byte
+    # stub, which is "no data", not a runnable measurement.
+    probe = sqlite3.connect(f"file:{Path(harness.scan4me_db).resolve()}?mode=ro", uri=True)
+    try:
+        has_programs = probe.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='programs'"
+        ).fetchone()
+    finally:
+        probe.close()
+    if not has_programs:
+        pytest.skip(f"Scan4Me DB at {harness.scan4me_db} has no schema — run `scan4me.py sync`")
     programs = harness.fetch_random_programs(count=1)
     assert len(programs) == 1
     details = harness.fetch_program_details(programs[0]["id"])

@@ -38,11 +38,24 @@ def _workspace(tmp_path, *, confirmed=1, poc=True, findings=True):
                     "1": {"confirmed": bool(confirmed), "verdict": "CONFIRMED"}
                 },
                 "hunt": {
-                    "feed_trust": {"ok": True, "issues": []},
+                    "unserved_mindsets": [],
+                    "effective_mindsets": ["mitre", "paradox", "seam"],
+                    "yield_ledger": [
+                        {"mindset": "mitre", "minted": 1, "cause": "minted"},
+                        {"mindset": "paradox", "minted": 1, "cause": "minted"},
+                        {"mindset": "seam", "minted": 1, "cause": "minted"},
+                    ],
+                    "feed_trust": {
+                        "ok": False,
+                        "raw_candidate_ok": True,
+                        "issues": ["unauthenticated public-file rows: hackerone"],
+                    },
                     "oracle_rescan": {
                         "mode": "independent",
                         "source": "hackerone-api-authenticated",
                         "independent": True,
+                        "found": True,
+                        "handle": "acme",
                         "programs": 1,
                         "independent_programs": 1,
                     },
@@ -196,15 +209,29 @@ def test_unserved_mindset_blocks_readiness(tmp_path):
     assert any("mindset" in r for r in result["readiness"]["reasons"])
 
 
-def test_missing_feed_trust_blocks_readiness(tmp_path):
+def test_missing_yield_accounting_blocks_readiness(tmp_path):
+    root = _workspace(tmp_path)
+    snapshot = root / "reports" / "report_verify_results_20260101_000000.md"
+    data = json.loads(snapshot.read_text())
+    data["hunt"].pop("unserved_mindsets", None)
+    data["hunt"].pop("mindsets_unserved", None)
+    snapshot.write_text(json.dumps(data))
+    result = ob.build_bundle(root, out_dir=tmp_path / "out", stamp="no-yield")
+    assert result["readiness"]["ready_for_submission"] is False
+    assert any("yield" in r for r in result["readiness"]["reasons"])
+
+
+def test_public_discovery_does_not_block_independently_verified_readiness(
+    tmp_path,
+):
     root = _workspace(tmp_path)
     snapshot = root / "reports" / "report_verify_results_20260101_000000.md"
     data = json.loads(snapshot.read_text())
     data["hunt"].pop("feed_trust")
     snapshot.write_text(json.dumps(data))
     result = ob.build_bundle(root, out_dir=tmp_path / "out", stamp="no-trust")
-    assert result["readiness"]["ready_for_submission"] is False
-    assert any("feed_trust" in r for r in result["readiness"]["reasons"])
+    assert result["readiness"]["ready_for_submission"] is True
+    assert result["readiness"]["scope_independent"] is True
 
 
 def test_hackerone_requires_independent_rescan(tmp_path):
@@ -219,7 +246,54 @@ def test_hackerone_requires_independent_rescan(tmp_path):
     assert any("independently" in r for r in result["readiness"]["reasons"])
 
 
-def test_non_hackerone_bridge_rescan_is_explicit_not_fatal(tmp_path):
+def test_contradictory_rescan_metadata_blocks_readiness(tmp_path):
+    root = _workspace(tmp_path)
+    snapshot = root / "reports" / "report_verify_results_20260101_000000.md"
+    data = json.loads(snapshot.read_text())
+    data["hunt"]["oracle_rescan"] = {
+        "source": "scan4me-db",
+        "independent": True,
+        "found": False,
+    }
+    snapshot.write_text(json.dumps(data))
+    result = ob.build_bundle(root, out_dir=tmp_path / "out", stamp="contradictory")
+    assert result["readiness"]["ready_for_submission"] is False
+    assert any("independently" in r for r in result["readiness"]["reasons"])
+
+
+def test_rescan_handle_must_bind_to_workspace_program(tmp_path):
+    for stamp, meta in (
+        (
+            "wrong-handle",
+            {
+                "source": "hackerone-api-authenticated",
+                "independent": True,
+                "found": True,
+                "handle": "other",
+            },
+        ),
+        (
+            "no-handle",
+            {
+                "source": "hackerone-api-authenticated",
+                "independent": True,
+                "found": True,
+            },
+        ),
+    ):
+        root = _workspace(tmp_path / stamp)
+        snapshot = root / "reports" / "report_verify_results_20260101_000000.md"
+        data = json.loads(snapshot.read_text())
+        data["hunt"]["oracle_rescan"] = meta
+        snapshot.write_text(json.dumps(data))
+        result = ob.build_bundle(root, out_dir=tmp_path / stamp / "out", stamp=stamp)
+        assert result["readiness"]["ready_for_submission"] is False, stamp
+        assert any(
+            "independently" in r for r in result["readiness"]["reasons"]
+        ), stamp
+
+
+def test_non_hackerone_bridge_rescan_blocks_readiness(tmp_path):
     root = _workspace(tmp_path)
     program = root / "program.json"
     data = json.loads(program.read_text())
@@ -234,9 +308,10 @@ def test_non_hackerone_bridge_rescan_is_explicit_not_fatal(tmp_path):
     }
     snapshot.write_text(json.dumps(snap))
     result = ob.build_bundle(root, out_dir=tmp_path / "out", stamp="bridge-bug")
-    assert result["readiness"]["ready_for_submission"] is True
+    assert result["readiness"]["ready_for_submission"] is False
     assert result["readiness"]["scope_independent"] is False
     assert result["readiness"]["oracle_rescan"]["independent"] is False
+    assert any("independently" in r for r in result["readiness"]["reasons"])
 
 
 def test_chain_report_is_not_a_substitute_for_seam_poc(tmp_path):

@@ -57,7 +57,7 @@ _ALEX_VOICE = _HERE / "ALEX_VOICE.md"
 _TTPS_FUSED = _HERE / "oracle_ttps_fused.json"
 
 # Per-record ATT&CK description budget inside _render_ttp. Full TTP text
-# averages ~1.2KB/record (max ~4.6KB); uncapped, the 344-record full-mode
+# averages ~1.2KB/record (max ~4.6KB); uncapped, the 342-record full-mode
 # block would add ~425KB to the system prompt and drown cloud context.
 # The first ~400 chars of a technique description carry the core
 # definition, so the cap keeps real technique text, not just code+name.
@@ -406,8 +406,8 @@ class OracleMindsetContext:
         """
         program   : active program dict (scope wall, rules, payout, company info)
         voice     : include Alex voice layers
-        ttp_mode  : "auto"   → full 344 on cloud, compact 15 on local (default)
-                    "full"   → all 344 TTPs in one block (requires large context)
+        ttp_mode  : "auto"   → full 342 on cloud, compact 15 on local (default)
+                    "full"   → all 342 TTPs in one block (requires large context)
                     "tactic" → only TTPs from one tactic group (use with ttp_tactic)
                     "compact"→ legacy 15-TTP selection
         ttp_tactic: tactic name filter when ttp_mode="tactic", e.g. "PRIVILEGE ESCALATION"
@@ -457,6 +457,296 @@ class OracleMindsetContext:
         operator/log see when the paradox corpus makes a prompt large)."""
         return len(self.system_prompt())
 
+    def feed_manifest(self) -> Dict[str, Any]:
+        """Per-mindset feed account: which owner-required feeds reach this
+        context, from where, how large, and what loss is known.
+
+        Required sets follow docs/OWNER_INTENDED_WORKFLOW.md Stages 4-6.
+        ``complete`` means every required feed for this mindset is
+        present; known loss (TTP description capping) is named in the
+        feed entry, never hidden behind a green flag. Pure inspection —
+        builds no prompt beyond the cached brief/components it measures.
+        """
+        prog = self.program or {}
+        brief = self._program_brief() if prog else ""
+        # Count assets exactly as the brief buckets them: normalized
+        # records from every scope field, non-empty identifiers,
+        # eligibility bucketing (submission+bounty = in, submission
+        # only = in, otherwise out), deduped by (ident, type, bucket)
+        # like _render_scope/_add_scope. Raw len() counted [{}],
+        # empty idents, ineligible assets, and even the characters of
+        # a string-shaped scope field as "assets".
+        _bucket_keys = {"in": set(), "submission_only": set(), "out": set()}
+
+        def _bucket_record(_rec, _forced=None):
+            _ident = str(_rec.get("asset_identifier") or "").strip()
+            if not _ident:
+                return
+            _atype = (
+                str(_rec.get("asset_type") or "").strip().upper()
+                or "UNSPECIFIED"
+            )
+            if _forced:
+                _bucket = _forced
+            elif _scope_flag(_rec, "eligible_for_submission", True) and (
+                _scope_flag(_rec, "eligible_for_bounty", True)
+            ):
+                _bucket = "in"
+            elif _scope_flag(_rec, "eligible_for_submission", True):
+                _bucket = "submission_only"
+            else:
+                _bucket = "out"
+            _bucket_keys[_bucket].add((_ident.lower(), _atype, _bucket))
+
+        for _field in ("structured_scopes", "scope", "targets"):
+            for _rec in _scope_records(prog.get(_field)):
+                _bucket_record(_rec)
+        for _field in (
+            "out_of_scope",
+            "out_of_scope_assets",
+            "excluded_assets",
+            "exclusions",
+        ):
+            for _rec in _scope_records(prog.get(_field)):
+                _bucket_record(_rec, _forced="out")
+        scopes = sorted(
+            _bucket_keys["in"] | _bucket_keys["submission_only"]
+        )
+        _oos_items = len(_bucket_keys["out"])
+        system_text = _read(_SYSTEM_PROMPT)
+        framework_text = _read(_FRAMEWORK)
+        directive = {
+            "mitre": _MITRE_REDTEAM_DIRECTIVE,
+            "paradox": _PARADOX_REDTEAM_DIRECTIVE,
+            "seam": _SEAM_REDTEAM_DIRECTIVE,
+            "redteam": _SEAM_REDTEAM_DIRECTIVE,
+        }.get(self.mindset, "")
+        seams_injected = getattr(self, "_seams_injected", None)
+
+        def _feed(required, present, source, chars=0, items=0, **extra):
+            entry = {
+                "required": bool(required),
+                "present": bool(present),
+                "source": source,
+                "chars": int(chars or 0),
+                "items": int(items or 0),
+            }
+            entry.update(extra)
+            return entry
+
+        feeds: Dict[str, Dict[str, Any]] = {}
+        # Shared-feed presence uses the brief's own predicates: the same
+        # profile helpers that decide what _program_brief renders, so a
+        # feed can never claim present for content the brief drops
+        # (whitespace-only strings, non-string policy blobs).
+        def _has_text(value) -> bool:
+            return isinstance(value, str) and bool(value.strip())
+
+        _payout = _profile_value(
+            prog, "max_payout", "max_payout_usd", "maximum_payout"
+        )
+        bounty_present = bool(
+            _has_text(_profile_value(prog, "url"))
+            or (isinstance(_payout, (int, float)) and not isinstance(_payout, bool) and _payout > 0)
+            or _has_text(_payout)
+            or any(
+                _has_text(_profile_value(prog, key))
+                for key in (
+                    "policy",
+                    "disclosure_policy",
+                    "rules",
+                    "policy_text",
+                    "rules_text",
+                    "program_rules",
+                    "guidelines",
+                    "terms",
+                )
+            )
+        )
+        company_present = bool(
+            _company_name(prog).strip()
+            or _profile_text(
+                prog,
+                "website",
+                "company_website",
+                "company_url",
+                "homepage",
+                "home_page",
+                "site_url",
+                max_chars=500,
+                oneline=True,
+            )
+            or _has_text(_profile_value(prog, "about"))
+        )
+        feeds["bounty_info"] = _feed(
+            True, bounty_present, "program_brief", chars=len(brief)
+        )
+        feeds["in_scope_assets"] = _feed(
+            True,
+            len(scopes) > 0,
+            "program_brief",
+            chars=len(brief),
+            items=len(scopes),
+        )
+        feeds["company_info"] = _feed(
+            True, company_present, "program_brief", chars=len(brief)
+        )
+        feeds["out_of_scope_assets"] = _feed(
+            False,
+            _oos_items > 0,
+            "program_brief",
+            items=_oos_items,
+        )
+        # Downloaded material proven by the canonical completeness
+        # recompute for this workspace — never a raw file glob (any
+        # planted file under assets/ would otherwise count as
+        # downloaded program material with no provenance at all).
+        _dl_items = 0
+        try:
+            from oracle_bulk_download import (
+                download_completeness as _dl_completeness,
+            )
+
+            _slug = _safe_workspace_component(
+                str(prog.get("name") or ""), lower=True, max_chars=60
+            )
+            _plat = _safe_workspace_component(str(prog.get("platform") or ""))
+            _comp = _dl_completeness(_HERE / "targets" / _plat / _slug)
+            if _comp.get("present"):
+                _dl_items = int(_comp.get("obtained_count") or 0)
+        except Exception:
+            _dl_items = 0
+        feeds["downloaded_material"] = _feed(
+            False,
+            _dl_items > 0,
+            "download_report.json (recomputed)",
+            items=_dl_items,
+        )
+        feeds["invisible_seam"] = _feed(
+            True,
+            bool(system_text),
+            "ORACLE_SYSTEM_PROMPT.md",
+            chars=len(system_text),
+        )
+        feeds["red_teaming"] = _feed(
+            True, bool(directive), "mindset-directive", chars=len(directive)
+        )
+        feeds["recon"] = _feed(
+            False,
+            bool(
+                getattr(self, "_recon_hosts", None)
+                or getattr(self, "_recon_endpoints", None)
+            ),
+            "inject_recon_context",
+            items=len(getattr(self, "_recon_hosts", []) or [])
+            + len(getattr(self, "_recon_endpoints", []) or []),
+        )
+
+        if self.mindset == "mitre":
+            records = self._load_ttps()
+            selected = self._selected_ttps(self._effective_ttp_mode())
+            truncated = sum(
+                1
+                for r in selected
+                if len(str(r.get("description") or "")) > _TTP_DESC_CHARS
+            )
+            feeds["mitre"] = _feed(
+                True,
+                bool(selected),
+                "oracle_ttps_fused.json",
+                chars=len(self._render_ttp_block(selected)),
+                items=len(selected),
+                library_total=len(records),
+                mode=self._effective_ttp_mode(),
+                desc_truncated=truncated,
+                desc_cap_chars=_TTP_DESC_CHARS,
+            )
+            feeds["pending_seams"] = _feed(
+                False,
+                seams_injected is not None,
+                "inject_pending_seams",
+                items=len(seams_injected or []),
+            )
+        elif self.mindset == "paradox":
+            from oracle_corpus import DOCUMENTS, read_document
+
+            cats: Dict[str, Dict[str, int]] = {}
+            for doc in DOCUMENTS:
+                cat = doc.path.parent.name
+                bucket = cats.setdefault(cat, {"items": 0, "chars": 0})
+                bucket["items"] += 1
+                bucket["chars"] += len(read_document(doc.identifier))
+            feeds["philosophies"] = _feed(
+                True,
+                cats.get("philosophies", {}).get("items", 0) > 0,
+                "corpus/philosophies",
+                chars=cats.get("philosophies", {}).get("chars", 0),
+                items=cats.get("philosophies", {}).get("items", 0),
+            )
+            feeds["impossible_problems"] = _feed(
+                True,
+                cats.get("impossible_problems", {}).get("items", 0) > 0,
+                "corpus/impossible_problems",
+                chars=cats.get("impossible_problems", {}).get("chars", 0),
+                items=cats.get("impossible_problems", {}).get("items", 0),
+            )
+            feeds["paradoxes"] = _feed(
+                True,
+                cats.get("paradoxes", {}).get("items", 0) > 0,
+                "corpus/paradoxes",
+                chars=cats.get("paradoxes", {}).get("chars", 0),
+                items=cats.get("paradoxes", {}).get("items", 0),
+            )
+            try:
+                iphone_chars = len(read_document("iphone-problem"))
+            except Exception:
+                iphone_chars = 0
+            feeds["iphone_framing"] = _feed(
+                True,
+                iphone_chars > 0,
+                "corpus/analysis/The_iPhone_Problem.md",
+                chars=iphone_chars,
+                items=1 if iphone_chars else 0,
+            )
+            feeds["framework"] = _feed(
+                True,
+                bool(framework_text),
+                "ORACLE_FRAMEWORK.md",
+                chars=len(framework_text),
+            )
+            feeds["pending_seams"] = _feed(
+                False,
+                seams_injected is not None,
+                "inject_pending_seams",
+                items=len(seams_injected or []),
+            )
+        else:  # seam / redteam (Mindset 3)
+            feeds["m1_m2_results"] = _feed(
+                True,
+                bool(seams_injected),
+                "inject_pending_seams",
+                chars=len(self._seam_block()),
+                items=len(seams_injected or []),
+            )
+            compact = self._selected_ttps("compact")
+            feeds["mitre_compact"] = _feed(
+                False,
+                bool(compact),
+                "oracle_ttps_fused.json (compact)",
+                items=len(compact),
+            )
+
+        complete = all(
+            entry["present"] for entry in feeds.values() if entry["required"]
+        )
+        return {
+            "schema": "oracle.feed-manifest/v1",
+            "mindset": self.mindset,
+            "program": str(prog.get("name") or ""),
+            "feeds": feeds,
+            "complete": complete,
+        }
+
     def reporting_prompt(self) -> str:
         """Lean system prompt for reporting tasks (PoC, correlation).
 
@@ -492,7 +782,7 @@ class OracleMindsetContext:
         First-wins dedupe by code (mirrors the _load_fused_ttps R3 fix):
         the appended Reflex 9/10/11 overlay stubs (T1078/T1083/T1133/
         T1190) duplicate real codes with one-line text — keep the full
-        ATT&CK record, drop the later stub. 348 records → 344 unique.
+        ATT&CK record, drop the later stub. duplicate records → 342 unique (measured).
         """
         if not _TTPS_FUSED.exists():
             return []
@@ -515,7 +805,7 @@ class OracleMindsetContext:
         """Render one TTP record as a compact block.
 
         Emits the real ATT&CK description (capped per _TTP_DESC_CHARS so
-        the full 344-record block stays inside cloud context budgets) —
+        the full 342-record block stays inside cloud context budgets) —
         the model reasons with technique text, not just code+name.
         All fields are .get-hardened: fused records and overlay stubs
         vary in shape, and a missing key must degrade the block, never
@@ -578,7 +868,7 @@ class OracleMindsetContext:
                 score += 1
         scope_assets = [
             s.get("asset_identifier", "")
-            for s in self.program.get("structured_scopes", [])
+            for s in _scope_records(self.program.get("structured_scopes"))
             if s.get("eligible_for_bounty")
         ]
         score += sum(
@@ -671,7 +961,7 @@ class OracleMindsetContext:
         """
         Emit the TTP reference block.
 
-        ttp_mode="full"    → all 344 TTPs, sorted by relevance score.
+        ttp_mode="full"    → all 342 TTPs, sorted by relevance score.
                              Use on OpenRouter/cloud (128k+ context).
         ttp_mode="tactic"  → all TTPs in self.ttp_tactic group only.
                              Use for per-tactic passes on local model.
@@ -718,6 +1008,29 @@ class OracleMindsetContext:
         self.ttp_tactic = prev_tactic
         self._prompt = prev_prompt
         return result
+
+    def tactic_prompt_slices(
+        self, tactic: str, max_system_chars: int
+    ) -> List[str]:
+        """Sliced per-tactic system prompts that each fit a char budget.
+
+        Same mode juggling as tactic_prompt, but packs the tactic's TTPs
+        across slices (skeleton repeated, every record exactly once) so a
+        large tactic can serve on a small local window instead of being
+        submitted oversized. Raises when the skeleton alone cannot fit.
+        """
+        prev_mode = self.ttp_mode
+        prev_tactic = self.ttp_tactic
+        prev_prompt = self._prompt
+        self.ttp_mode = "tactic"
+        self.ttp_tactic = tactic.upper().strip()
+        self._prompt = None
+        try:
+            return self.system_prompt_slices(max_system_chars)
+        finally:
+            self.ttp_mode = prev_mode
+            self.ttp_tactic = prev_tactic
+            self._prompt = prev_prompt
 
     def _program_brief(self) -> str:
         """Build the program brief — the scope wall baked into the system prompt."""
@@ -1106,6 +1419,64 @@ class OracleMindsetContext:
                     lines.append("\n\n".join(asset_snippets)[:3000])
                     lines.append("")
 
+            # Stage-3 honesty: gaps are always named. Absence of a report
+            # is unknown coverage, never complete coverage.
+            lines.append("**DOWNLOAD COVERAGE (download_report.json):**")
+            _report_path = ws_base / "download_report.json"
+            _report = None
+            try:
+                _report = json.loads(_report_path.read_text(encoding="utf-8"))
+            except (OSError, ValueError):
+                _report = None
+            if not isinstance(_report, dict) or _report.get("schema") != (
+                "oracle.download-report/v1"
+            ):
+                lines.append(
+                    "  • status=unknown — no canonical download report; "
+                    "treat downloaded coverage as unverified, not complete."
+                )
+            else:
+                # Recomputed verdict, never the report's self-asserted
+                # flags (a forged/stale status must not brief as fact).
+                from oracle_bulk_download import (
+                    download_completeness as _dl_completeness,
+                )
+
+                _comp = _dl_completeness(ws_base)
+                lines.append(
+                    f"  • status={_comp.get('status')} "
+                    f"complete={_comp.get('complete')} "
+                    f"obtained={_comp.get('obtained_count')} "
+                    f"missing={_comp.get('missing_count')} "
+                    f"expected={_comp.get('expected_urls')}"
+                )
+                for _m in (_comp.get("missing_entries") or [])[:12]:
+                    if isinstance(_m, dict):
+                        lines.append(
+                            f"  • MISSING {_m.get('file') or _m.get('url')} "
+                            f"({_m.get('status')}: {_m.get('error') or _m.get('url')})"
+                        )
+                _methods = _comp.get("methods") or {}
+                if isinstance(_methods, dict) and _methods:
+                    lines.append(
+                        "  • methods: "
+                        + ", ".join(
+                            f"{k} ok={v.get('ok')}/fail={v.get('fail')}"
+                            for k, v in sorted(_methods.items())
+                            if isinstance(v, dict)
+                        )
+                    )
+                for _lane in (_comp.get("not_enumerated") or [])[:4]:
+                    lines.append(f"  • NOT ENUMERATED: {_lane}")
+            lines.append("")
+        else:
+            lines.append("**DOWNLOAD COVERAGE (download_report.json):**")
+            lines.append(
+                "  • status=unknown — no downloaded workspace on disk; "
+                "treat downloaded coverage as unverified, not complete."
+            )
+            lines.append("")
+
         lines += [
             "**INVARIANT:** Any seam you find MUST have Assertion A sourced to this program's",
             "documentation, policy, or UI — and Assertion B grounded in recon data or local code from the",
@@ -1337,7 +1708,13 @@ class OracleMindsetContext:
             return self._build(ttp_block_override="")
         return self.system_prompt()
 
-    def system_prompt_slices(self, max_system_chars: int) -> List[str]:
+    def system_prompt_slices(
+        self,
+        max_system_chars: int,
+        *,
+        corpus_repeat_foundations: bool = True,
+        corpus_split_oversized: bool = False,
+    ) -> List[str]:
         """Return system prompts delivering the full library in slices.
 
         Every selected TTP (mitre) or corpus document (paradox)
@@ -1363,7 +1740,10 @@ class OracleMindsetContext:
             from oracle_corpus import source_context_chunks
 
             for chunk in source_context_chunks(
-                self._corpus_selection_query(), block_budget
+                self._corpus_selection_query(),
+                block_budget,
+                repeat_foundations=corpus_repeat_foundations,
+                split_oversized=corpus_split_oversized,
             ):
                 slices.append(self._build(corpus_override=chunk))
         else:  # mitre: pack the effective TTP working set
@@ -1451,7 +1831,7 @@ class OracleMindsetContext:
             if corpus_text:
                 parts.append(corpus_text)
 
-        # 5: MITRE TTP fused layer — full (all 344 TTPs) for mitre by default;
+        # 5: MITRE TTP fused layer — full (all 342 TTPs) for mitre by default;
         # paradox & seam get the compact reference UNLESS full was explicitly
         # requested, in which case every mindset receives the full library.
         ttp_block = (
@@ -2474,6 +2854,8 @@ class ProgramWorkspace:
         """
         saved = []
         urls = self._collect_asset_urls()
+        results: List[Dict[str, Any]] = []
+        raw_results: List[Dict[str, Any]] = []
         manifest: Dict[str, str] = {}
         try:
             manifest = json.loads(
@@ -2484,22 +2866,97 @@ class ProgramWorkspace:
 
         if max_urls <= 0:
             raise ValueError("max_urls must be positive")
+        # Cache provenance (same law as the scan path): an existing file
+        # is an origin cache hit only when the prior canonical report
+        # proves origin-obtained. A cascade leftover on disk must be
+        # re-fetched, never reclassified cached. A present-but-unreadable
+        # prior report is named in the rewrite, not silently discarded.
+        from oracle_bulk_download import (
+            DOWNLOAD_REPORT as _DL_REPORT,
+            load_download_report as _load_dl_report,
+            validated_obtained_files as _validated_files,
+        )
+
+        _prior_report = _load_dl_report(self.base)
+        _prior_malformed = (
+            _prior_report is None and (self.base / _DL_REPORT).exists()
+        )
+        _prior_obtained_files = _validated_files(self.base, _prior_report)
         for url in urls[:max_urls]:
             filename = _url_to_filename(url)
             out = self.assets_dir / filename
-            if out.exists():
+            if out.exists() and filename in _prior_obtained_files:
                 saved.append(filename)
                 manifest.setdefault(filename, url)
+                try:
+                    _st = out.stat()
+                    results.append(
+                        {
+                            "file": filename,
+                            "url": url,
+                            "status": "cached",
+                            "via": "cached",
+                            "bytes": _st.st_size,
+                        }
+                    )
+                except OSError:
+                    results.append(
+                        {"file": filename, "url": url, "status": "cached", "via": "cached"}
+                    )
                 continue
 
             content = self._fetch_asset(url, cdp_port=cdp_port, timeout=timeout)
+            # Provenance stashed by _fetch_asset (real serving method);
+            # simulated fetches in tests default to plain-get.
+            _fetch_via = (
+                getattr(self, "_fetch_via_by_url", {}) or {}
+            ).pop(url, "plain-get")
             if content and len(content) > 100:
                 out.write_text(content[:500_000], encoding="utf-8", errors="replace")
                 saved.append(filename)
                 manifest[filename] = url
+                results.append(
+                    {
+                        "file": filename,
+                        "url": url,
+                        "status": "ok",
+                        "via": _fetch_via,
+                        "bytes": len(content),
+                    }
+                )
                 raw_name = out.stem + ".raw.html"
                 raw_out = self.assets_dir / raw_name
-                if not raw_out.exists():
+                # Raw-companion cache needs the same provenance as every
+                # other lane: the prior report must record this exact
+                # companion as fetched ok. Existence alone would keep
+                # planted/stale raw content forever, silently.
+                _prior_raw_list = (_prior_report or {}).get(
+                    "raw_companions"
+                )
+                _prior_raw_ok = raw_name in {
+                    str(r.get("file"))
+                    for r in (
+                        _prior_raw_list
+                        if isinstance(_prior_raw_list, list)
+                        else []
+                    )
+                    if isinstance(r, dict) and r.get("status") == "ok"
+                }
+                if (
+                    raw_out.exists()
+                    and raw_out.stat().st_size > 0
+                    and _prior_raw_ok
+                ):
+                    raw_results.append(
+                        {
+                            "file": raw_name,
+                            "url": url,
+                            "status": "ok",
+                            "via": "cached",
+                            "bytes": raw_out.stat().st_size,
+                        }
+                    )
+                else:
                     raw = _raw_get(
                         url, timeout=timeout, redirect_validator=self._asset_url_allowed
                     )
@@ -2509,8 +2966,36 @@ class ProgramWorkspace:
                         )
                         saved.append(raw_name)
                         manifest[raw_name] = url
+                        raw_results.append(
+                            {
+                                "file": raw_name,
+                                "url": url,
+                                "status": "ok",
+                                "via": "plain-get",
+                                "bytes": len(raw),
+                            }
+                        )
                     else:
                         self.program.setdefault("raw_asset_failures", []).append(url)
+                        raw_results.append(
+                            {
+                                "file": raw_name,
+                                "url": url,
+                                "status": "fetch-failed",
+                                "via": "plain-get",
+                                "error": "raw companion empty-or-too-small",
+                            }
+                        )
+            else:
+                results.append(
+                    {
+                        "file": filename,
+                        "url": url,
+                        "status": "fetch-failed",
+                        "via": _fetch_via,
+                        "error": "empty-or-too-small",
+                    }
+                )
 
         # filename → source URL so scope-filtered readers can attribute
         # each downloaded file to its asset without guessing from names.
@@ -2520,6 +3005,166 @@ class ProgramWorkspace:
             )
         except Exception:
             pass
+        # Canonical Stage-3 completeness report (same schema as the
+        # scan/bulk path). Scan-written page fields are preserved; a
+        # previously failed authenticated page stays missing here too.
+        try:
+            from datetime import datetime, timezone
+
+            from oracle_bulk_download import (
+                summarize_download_results,
+                write_download_report,
+            )
+
+            existing = _prior_report or {}
+            extra_missing = []
+            if _prior_malformed:
+                extra_missing.append(
+                    {
+                        "file": "download_report.json",
+                        "url": "",
+                        "status": "prior-report-unreadable",
+                        "error": "prior canonical report unreadable; its "
+                        "missing set is unknown and cannot be carried",
+                    }
+                )
+            if existing.get("page_source") in (
+                "NO_AUTH_SESSION",
+                "CDP_RENDER_FAILED",
+            ):
+                extra_missing.append(
+                    {
+                        "file": "program_page.txt",
+                        "url": str(self.program.get("url") or ""),
+                        "status": existing["page_source"],
+                        "error": "authenticated program page not obtained",
+                    }
+                )
+            # A hunt rewrite must never upgrade a partial scan report by
+            # forgetting it: prior missing entries this hunt did not
+            # re-attempt (screenshot, repos, corroboration, …) carry
+            # forward, prior obtained files still on disk stay obtained,
+            # and failed raw companions count as missing coverage.
+            hunt_files = {r.get("file") for r in results if isinstance(r, dict)}
+            # A raw companion that succeeded THIS hunt supersedes a prior
+            # raw-failure carry for the same file.
+            hunt_files |= {
+                r.get("file")
+                for r in raw_results
+                if isinstance(r, dict) and r.get("status") == "ok"
+            }
+            _prior_missing_raw = existing.get("missing")
+            if _prior_missing_raw is not None and not isinstance(
+                _prior_missing_raw, list
+            ):
+                extra_missing.append(
+                    {
+                        "file": "",
+                        "url": "",
+                        "status": "prior-missing-malformed",
+                        "error": "prior missing field is not a list; "
+                        "its contents cannot be carried",
+                    }
+                )
+                _prior_missing_raw = []
+            for prior in _prior_missing_raw or []:
+                if not isinstance(prior, dict):
+                    # A malformed prior-missing entry is still missing
+                    # coverage — named, never silently dropped (dropping
+                    # it could upgrade a partial report to complete).
+                    extra_missing.append(
+                        {
+                            "file": "",
+                            "url": "",
+                            "status": "prior-missing-malformed",
+                            "error": "prior missing entry is not an object",
+                        }
+                    )
+                    continue
+                if prior.get("file") not in hunt_files:
+                    if not any(
+                        m.get("file") == prior.get("file") for m in extra_missing
+                    ):
+                        extra_missing.append(dict(prior))
+            _prior_obtained_raw = existing.get("obtained")
+            for prior in (
+                _prior_obtained_raw
+                if isinstance(_prior_obtained_raw, list)
+                else []
+            ):
+                if not isinstance(prior, dict):
+                    continue
+                pf = prior.get("file")
+                if (
+                    pf
+                    and pf in _prior_obtained_files
+                    and pf not in hunt_files
+                ):
+                    results.append(
+                        {
+                            "file": pf,
+                            "url": prior.get("url", ""),
+                            "status": "cached",
+                            "via": "cached",
+                        }
+                    )
+            for raw_rec in raw_results:
+                if raw_rec.get("status") == "fetch-failed":
+                    extra_missing.append(
+                        {
+                            "file": raw_rec.get("file", ""),
+                            "url": raw_rec.get("url", ""),
+                            "status": "fetch-failed",
+                            "error": raw_rec.get("error", "raw companion failed"),
+                        }
+                    )
+            summary = summarize_download_results(
+                results,
+                expected_urls=len(urls),
+                unattempted_items=[
+                    {"file": _url_to_filename(u), "url": u}
+                    for u in urls[max_urls:]
+                ],
+                extra_missing=extra_missing,
+            )
+            report = {
+                "program": self.program.get("name"),
+                "platform": self.program.get("platform"),
+                "downloaded_at": datetime.now(timezone.utc).isoformat(),
+                "source": "hunt-download-assets",
+                "results": results,
+                "raw_companions": raw_results,
+                **summary,
+            }
+            for key in (
+                "page_source",
+                "auth_session",
+                "page_corroboration",
+                "page_corroboration_via",
+                "screenshot",
+                "routing",
+                "repos",
+            ):
+                if key in existing:
+                    report[key] = existing[key]
+            write_download_report(self.base, report)
+            self.program["download_completeness"] = {
+                "status": summary["status"],
+                "complete": summary["complete"],
+                "obtained_count": summary["obtained_count"],
+                "missing_count": summary["missing_count"],
+                "report": "download_report.json",
+            }
+        except Exception:
+            # Completeness recording must never break asset intake; the
+            # absence of a report is itself surfaced as unknown downstream.
+            self.program["download_completeness"] = {
+                "status": "unknown",
+                "complete": False,
+                "obtained_count": len(saved),
+                "missing_count": 0,
+                "report": None,
+            }
         self.program["asset_status"] = "assets-downloaded" if saved else "no-assets"
         self.program["asset_count"] = len(saved)
         return saved
@@ -2555,11 +3200,10 @@ class ProgramWorkspace:
 
         # Scope assets can be concrete URLs, bare domains, or wildcard patterns.
         # Wildcards stay recon-only until a concrete subdomain is discovered.
-        for s in prog.get("structured_scopes", []):
-            if isinstance(s, dict):
-                add_web_identifier(
-                    s.get("asset_identifier", ""), s.get("asset_type", "")
-                )
+        for s in _scope_records(prog.get("structured_scopes")):
+            add_web_identifier(
+                s.get("asset_identifier", ""), s.get("asset_type", "")
+            )
 
         for field in ("scope", "targets"):
             scope = prog.get(field, "")
@@ -2613,13 +3257,20 @@ class ProgramWorkspace:
         intake benefits from rendered content without widening the target set.
         """
         try:
-            from oracle_programs import _fetch
-            return _fetch(
+            from oracle_programs import _fetch_with_via
+
+            _text, _via = _fetch_with_via(
                 url,
                 timeout=timeout,
                 use_cdp=False,
                 redirect_validator=self._asset_url_allowed,
             )
+            if _text:
+                self._fetch_via_by_url = getattr(
+                    self, "_fetch_via_by_url", {}
+                )
+                self._fetch_via_by_url[url] = _via or "plain-get"
+                return _text
         except Exception:
             pass
 
@@ -2665,6 +3316,14 @@ class ProgramWorkspace:
                         val = msg.get("result", {}).get("result", {}).get("value", "")
                         ws.close()
                         if val and len(val) > 50:
+                            # Operator-browser fetch: the ORIGIN served
+                            # this response to a real (logged-in)
+                            # browser — an origin method, not a
+                            # third-party cascade render.
+                            self._fetch_via_by_url = getattr(
+                                self, "_fetch_via_by_url", {}
+                            )
+                            self._fetch_via_by_url[url] = "browser"
                             return val
                         break
         except Exception:
@@ -2683,6 +3342,10 @@ class ProgramWorkspace:
                 allow_redirects=True,
             )
             if r.ok:
+                self._fetch_via_by_url = getattr(
+                    self, "_fetch_via_by_url", {}
+                )
+                self._fetch_via_by_url[url] = "plain-get"
                 return r.text
         except Exception:
             pass

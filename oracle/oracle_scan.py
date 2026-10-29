@@ -632,19 +632,26 @@ def _clone_repos_gated(git_repo_urls, workspace_root: Path, prog: Dict):
     return [f"repo:{dest.name}" for dest in cloned]
 
 
-def _cascade_fetch(url: str, timeout: int = 45) -> str:
-    """Second, independent fetch path (Crawl4AI -> Jina -> Firecrawl ->
-    plain GET via oracle_programs._fetch). CDP is excluded so this path
-    never borrows the saved session: agreement between this render and
-    the authenticated one is genuine cross-source corroboration.
-    Fail-soft: any error returns "".
+def _cascade_fetch_with_via(url: str, timeout: int = 45):
+    """Independent cascade fetch returning ``(text, via)``.
+
+    CDP is excluded so this path never borrows the saved session:
+    agreement between this render and the authenticated one is genuine
+    cross-source corroboration. Fail-soft: any error returns ("", "").
     """
     try:
-        from oracle_programs import _fetch
+        from oracle_programs import _fetch_with_via
 
-        return _fetch(url, timeout=timeout, use_cdp=False) or ""
+        text, via = _fetch_with_via(url, timeout=timeout, use_cdp=False)
+        return text or "", via or ""
     except Exception:
-        return ""
+        return "", ""
+
+
+def _cascade_fetch(url: str, timeout: int = 45) -> str:
+    """Second, independent fetch path, bare text (compat wrapper)."""
+    text, _via = _cascade_fetch_with_via(url, timeout=timeout)
+    return text
 
 
 def _corroboration_metrics(prog: Dict, text: str) -> Dict:
@@ -745,13 +752,26 @@ def download_program_assets(
     # Chromium session renders the page (JS SPAs included) with their
     # platform logins. No anonymous fallback: plain fetches return shells.
     page_source = "none"
+    corr_via = ""
     page_corroboration: Dict[str, Any] = {"fetched": False, "bytes": 0,
                                           "name_match": False,
                                           "scope_hits": [], "scope_hit_count": 0}
     auth_session = _cdp_available(cdp_port)
+    # Prior canonical report: the only provenance any cache lane below
+    # (program page, corroboration, screenshot, assets) may trust. A
+    # file merely existing proves nothing about how it got there.
+    from oracle_bulk_download import (
+        load_download_report as _load_dl_report,
+        validated_obtained_files as _validated_files,
+    )
+
+    _prior_report = _load_dl_report(workspace_root) or {}
     if prog.get("url"):
         out = workspace_assets / "program_page.txt"
-        if out.exists():
+        if out.exists() and _prior_report.get("page_source") in (
+            "cdp-authenticated",
+            "cached",
+        ):
             saved.append("program_page.txt")
             page_source = "cached"
         else:
@@ -775,11 +795,15 @@ def download_program_assets(
         # page, but it NEVER substitutes for it: page_source above stays
         # authoritative and a login-wall corroboration proves nothing.
         corr_out = workspace_assets / "program_page_corroboration.txt"
-        if corr_out.exists():
+        _prior_corr = _prior_report.get("page_corroboration")
+        if corr_out.exists() and (
+            isinstance(_prior_corr, dict) and _prior_corr.get("fetched") is True
+        ):
             corr_text = corr_out.read_text(encoding="utf-8", errors="replace")
+            corr_via = "cached"
             saved.append("program_page_corroboration.txt")
         else:
-            corr_text = _cascade_fetch(prog["url"])
+            corr_text, corr_via = _cascade_fetch_with_via(prog["url"])
             if corr_text:
                 corr_out.write_text(
                     corr_text[:300_000], encoding="utf-8", errors="replace"
@@ -798,6 +822,13 @@ def download_program_assets(
     # domain is excluded: its docs are not target assets.
     urls_to_fetch = _collect_asset_urls(prog)
 
+    # Asset cache provenance (same prior report as the page lanes): an
+    # existing file is an origin cache hit only when that report proves
+    # it was origin-obtained. A cascade render also writes the file —
+    # treating mere existence as cached would launder last run's render
+    # into this run's origin fetch.
+    _prior_obtained_files = _validated_files(workspace_root, _prior_report)
+
     # Fetch each URL — every attempt is recorded so the download is
     # verifiable: expected (from scope) vs fetched, with status/error.
     import requests as _req
@@ -807,7 +838,7 @@ def download_program_assets(
         :160
     ]:  # raised cap: homepages for all hosts + 12x7 recon paths
         out = workspace_assets / fname
-        if out.exists():
+        if out.exists() and fname in _prior_obtained_files:
             saved.append(fname)
             fetch_results.append(
                 {"file": fname, "url": url, "status": "cached", "via": "cached"}
@@ -847,8 +878,9 @@ def download_program_assets(
         # ("cascade" is not a verified 2xx fetch) so multi-path data
         # never inflates the verified-download counts.
         cascade_text = ""
+        cascade_via = ""
         if fname.endswith((".html", ".txt")):
-            cascade_text = _cascade_fetch(url)
+            cascade_text, cascade_via = _cascade_fetch_with_via(url)
         if cascade_text and len(cascade_text) > 50:
             out.write_text(
                 cascade_text[:300_000], encoding="utf-8", errors="replace"
@@ -859,7 +891,7 @@ def download_program_assets(
                     "file": fname,
                     "url": url,
                     "status": "cascade",
-                    "via": "cascade",
+                    "via": cascade_via or "cascade",
                     "bytes": len(cascade_text),
                     "plain_status": plain_status,
                     "plain_error": plain_error,
@@ -887,7 +919,6 @@ def download_program_assets(
     fetched_ok = sum(1 for r in fetch_results if _ok(r))
     fetched_fail = sum(1 for r in fetch_results if not _ok(r))
     attempted = len(fetch_results)
-    unattempted = max(0, len(urls_to_fetch) - attempted)
     scope_recs = prog.get("structured_scopes", [])
     scope_eligible = sum(
         1
@@ -906,6 +937,64 @@ def download_program_assets(
             hr["fetched"] += 1
         else:
             hr["failed"] += 1
+    # Screenshot (recorded in the report below — attempted/ok, never silent)
+    screenshot = {"attempted": False, "ok": False, "file": "screenshot.png"}
+    if take_screenshot and prog.get("url"):
+        ss_path = workspace_assets / "screenshot.png"
+        _prior_ss = _prior_report.get("screenshot")
+        if ss_path.exists() and (
+            isinstance(_prior_ss, dict) and _prior_ss.get("ok") is True
+        ):
+            screenshot = {"attempted": True, "ok": True, "file": "screenshot.png", "via": "cached"}
+            if "screenshot.png" not in saved:
+                saved.append("screenshot.png")
+        else:
+            screenshot["attempted"] = True
+            ok = _screenshot(prog["url"], ss_path, cdp_port=cdp_port)
+            screenshot["ok"] = bool(ok)
+            if ok:
+                _p("  [dim]📸 screenshot.png[/dim]")
+                saved.append("screenshot.png")
+
+    from oracle_bulk_download import summarize_download_results, write_download_report
+
+    extra_missing = []
+    if prog.get("url") and page_source in ("NO_AUTH_SESSION", "CDP_RENDER_FAILED"):
+        extra_missing.append(
+            {
+                "file": "program_page.txt",
+                "url": prog.get("url", ""),
+                "status": page_source,
+                "error": "authenticated program page not obtained",
+            }
+        )
+    if prog.get("url") and not page_corroboration.get("fetched"):
+        extra_missing.append(
+            {
+                "file": "program_page_corroboration.txt",
+                "url": prog.get("url", ""),
+                "status": "corroboration-not-fetched",
+                "error": "independent corroboration render not obtained",
+            }
+        )
+    if screenshot["attempted"] and not screenshot["ok"]:
+        extra_missing.append(
+            {
+                "file": "screenshot.png",
+                "url": prog.get("url", ""),
+                "status": "screenshot-failed",
+                "error": "screenshot attempted but not obtained",
+            }
+        )
+    summary = summarize_download_results(
+        fetch_results,
+        expected_urls=len(urls_to_fetch),
+        unattempted_items=[
+            {"file": f, "url": u} for f, u in urls_to_fetch[attempted:]
+        ],
+        extra_missing=extra_missing,
+    )
+    cascade_family = {"cdp", "crawl4ai", "jina", "firecrawl", "cascade"}
     report = {
         "program": prog.get("name"),
         "platform": prog.get("platform"),
@@ -914,9 +1003,6 @@ def download_program_assets(
         "scope_eligible": scope_eligible,
         "scope_excluded": len(scope_recs) - scope_eligible,
         "routing": {lane: len(v) for lane, v in routes.items()},
-        "expected_urls": len(urls_to_fetch),
-        "attempted_urls": attempted,
-        "unattempted_urls": unattempted,
         "fetched_ok": fetched_ok,
         "fetched_fail": fetched_fail,
         "cached": sum(1 for r in fetch_results if r["status"] == "cached"),
@@ -925,29 +1011,24 @@ def download_program_assets(
         "page_source": page_source,
         "auth_session": auth_session,
         "page_corroboration": page_corroboration,
+        "page_corroboration_via": corr_via,
+        "screenshot": screenshot,
         "cascade_fetched": sum(
-            1 for r in fetch_results if r.get("via") == "cascade"
+            1 for r in fetch_results if r.get("via") in cascade_family
         ),
+        **summary,
     }
-    (workspace_root / "download_report.json").write_text(json.dumps(report, indent=1))
+    write_download_report(workspace_root, report)
     _p(
         f"  [dim]download_report.json: {fetched_ok} ok / {fetched_fail} failed / "
-        f"{len(host_results)} hosts[/dim]"
+        f"{len(host_results)} hosts; completeness={report['status']}[/dim]"
     )
-
-    # Screenshot
-    if take_screenshot and prog.get("url"):
-        ss_path = workspace_assets / "screenshot.png"
-        if not ss_path.exists():
-            ok = _screenshot(prog["url"], ss_path, cdp_port=cdp_port)
-            if ok:
-                _p("  [dim]📸 screenshot.png[/dim]")
-                saved.append("screenshot.png")
 
     return saved, {
         "page_source": page_source,
         "auth_session": auth_session,
         "page_corroboration": page_corroboration,
+        "download_report": report,
     }
 
 

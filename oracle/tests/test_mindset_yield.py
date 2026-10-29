@@ -98,6 +98,51 @@ class TestMindsetYieldLedger(unittest.TestCase):
         )
         self.assertEqual(yield_unserved(ledger), [])
 
+    def test_sliced_origins_aggregate_to_their_lens(self):
+        # Cloud slices are tagged cloud-paradox-1/-2 (numbered), cloud
+        # mitre slices likewise. Every slice clean + receipts qualifies;
+        # one errored slice makes the whole lens incomplete, never clean.
+        receipts = {
+            "paradox": {"endpoints_served_200": 8, "session_regime": True},
+            "mitre": {"endpoints_served_200": 8, "session_regime": True},
+        }
+        ledger = mindset_yield_ledger(
+            ["mitre", "paradox"],
+            [],
+            {
+                "cloud-mitre-1": "clean",
+                "cloud-mitre-2": "clean",
+                "cloud-paradox-1": "clean",
+                "cloud-paradox-2": "clean",
+            },
+            regime_receipts=receipts,
+        )
+        self.assertEqual(yield_unserved(ledger), [])
+        ledger = mindset_yield_ledger(
+            ["paradox"],
+            [],
+            {"cloud-paradox-1": "clean", "cloud-paradox-2": "error"},
+            regime_receipts=receipts,
+        )
+        self.assertEqual(yield_unserved(ledger), ["paradox"])
+
+    def test_minted_counts_origin_when_mindset_stamp_absent(self):
+        seams = [{"origin": "cloud-paradox-2"}, {"origin": "local-tactic:X"}]
+        ledger = mindset_yield_ledger(["mitre", "paradox"], seams, {})
+        by = {e["mindset"]: e for e in ledger}
+        self.assertEqual(by["paradox"]["cause"], "minted")
+        self.assertEqual(by["mitre"]["cause"], "minted")
+
+    def test_minted_plus_error_slice_is_unserved_not_masked(self):
+        # One minted card cannot launder an errored slice of the same
+        # lens: partial coverage is not full service.
+        ledger = mindset_yield_ledger(
+            ["paradox"],
+            [{"mindset": "paradox"}],
+            {"cloud-paradox-1": "seams", "cloud-paradox-2": "error"},
+        )
+        self.assertEqual(yield_unserved(ledger), ["paradox"])
+
     def test_poisoned_string_receipts_degrade_without_crash(self):
         receipts = {"mitre": {"endpoints_served_200": "abc"}}
         ledger = mindset_yield_ledger(

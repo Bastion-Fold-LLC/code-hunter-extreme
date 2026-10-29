@@ -30,7 +30,7 @@ def _header(path: Path):
 
 def test_every_module_has_fold_header():
     mods = _modules()
-    assert len(mods) == 36, f"module roster changed: {[m.name for m in mods]}"
+    assert len(mods) == 37, f"module roster changed: {[m.name for m in mods]}"
     for mod in mods:
         fields = _header(mod)
         assert set(fields) == {

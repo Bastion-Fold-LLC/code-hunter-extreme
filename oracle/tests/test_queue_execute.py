@@ -61,6 +61,11 @@ def _entry(rank, name, platform="HackerOne", assets=None):
         "currency": "USD",
         "verdict": "verified",
         "checks": {},
+        "oracle_rescan": {
+            "source": "test-independent-adapter",
+            "independent": True,
+            "found": True,
+        },
         "deep_dive": {
             "assets": (
                 assets
@@ -104,6 +109,23 @@ def test_download_selected_exactly_the_ranked_verified(monkeypatch):
     for e in sel["ranked_verified"]:
         assert e["workspace"]["status"] == "downloaded"
         assert e["workspace"]["path"]
+
+
+def test_download_selected_skips_bridge_only_entry(monkeypatch):
+    monkeypatch.setattr(obd, "already_downloaded", lambda prog: False)
+    calls = []
+
+    def fake(prog):
+        calls.append(prog["name"])
+        return {"status": "downloaded", "detail": "ok"}
+
+    bridge = _entry(1, "Bridge Only")
+    bridge["oracle_rescan"] = {"source": "scan4me-db", "independent": False}
+    sel = {"ranked_verified": [bridge, _entry(2, "Verified Two")]}
+    oi.download_selected_workspaces(sel, download_fn=fake)
+    assert calls == ["Verified Two"]
+    assert bridge["workspace"]["status"] == "skipped"
+    assert "independent" in bridge["workspace"]["detail"]
 
 
 def test_download_selected_present_skip_and_error_isolation(monkeypatch):
@@ -522,14 +544,50 @@ def test_cmd_queue_execute_resumes_across_rebuilt_schedule(monkeypatch, tmp_path
     assert s2["_execution"]["skipped_done"] == 1
 
 
-def test_execute_queue_schedule_rejects_untrusted_feed(tmp_path):
+def test_execute_queue_schedule_rejects_bridge_only_items(tmp_path):
     sched = _schedule(tmp_path, [_entry(1, "Acme One")])
+    # Public discovery provenance alone is not the blocker; a bridge-only
+    # (not independently Oracle-verified) schedule item is.
     sched["feed_trust"] = {
         "ok": False,
+        "raw_candidate_ok": True,
         "issues": ["unauthenticated public-file rows: hackerone"],
     }
-    with pytest.raises(oq.QueueConfigError, match="not authenticated/trusted"):
+    sched["items"][0]["oracle_rescan"] = {
+        "source": "scan4me-db",
+        "independent": False,
+    }
+    with pytest.raises(oq.QueueConfigError, match="not independently verified"):
         oh._execute_queue_schedule(types.SimpleNamespace(), sched, tmp_path)
+
+
+def test_execute_queue_schedule_rejects_unverified_item(tmp_path, monkeypatch):
+    sched = _schedule(tmp_path, [_entry(1, "Acme One")])
+    sched["items"][0]["verdict"] = "unverified"
+    # Pre-fix this item reached ensure+hunt; fake both seams so the
+    # fail-first run can never touch a real download or hunt.
+    monkeypatch.setattr(obd, "already_downloaded", lambda prog: True)
+    monkeypatch.setattr(oh, "cmd_hunt", lambda name, args: None)
+    with pytest.raises(oq.QueueConfigError, match="not independently verified"):
+        oh._execute_queue_schedule(types.SimpleNamespace(), sched, tmp_path)
+
+
+def test_execute_queue_schedule_rejects_rejoin_identity_mismatch(
+    tmp_path, monkeypatch
+):
+    sched = _schedule(tmp_path, [_entry(1, "Right One", "HackerOne")], stamp="right2")
+    wrong = oi.write_handoff(
+        {"ranked_verified": [_entry(1, "Wrong One", "HackerOne")]},
+        out_dir=tmp_path,
+        stamp="wrong-rejoin",
+    )
+    sched["handoff_report"] = wrong["_report_path"]
+    hunted = []
+    monkeypatch.setattr(obd, "already_downloaded", lambda prog: True)
+    monkeypatch.setattr(oh, "cmd_hunt", lambda name, args: hunted.append(name))
+    with pytest.raises(oq.QueueConfigError, match="does not match"):
+        oh._execute_queue_schedule(types.SimpleNamespace(), sched, tmp_path)
+    assert hunted == []
 
 
 def test_cmd_queue_execute_bad_max_items_dies_before_schedule(tmp_path):
@@ -581,6 +639,7 @@ def test_schedule_preserves_product_provenance(tmp_path):
         "mode": "independent",
         "source": "hackerone-api-authenticated",
         "independent": True,
+        "found": True,
     }
     handoff = {
         "_schema": oi.HANDOFF_SCHEMA,

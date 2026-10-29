@@ -108,11 +108,11 @@ def test_asset_intake_uses_shared_firecrawl_aware_fetch(monkeypatch, tmp_path):
 
     monkeypatch.setattr(
         oracle_programs,
-        "_fetch",
+        "_fetch_with_via",
         lambda url, timeout, use_cdp, redirect_validator=None: calls.append(
             (url, timeout, use_cdp, redirect_validator is not None)
         )
-        or "rendered asset",
+        or ("rendered asset", "plain-get"),
     )
     workspace = mindset.ProgramWorkspace(
         {"name": "Example", "platform": "test"}, base=tmp_path

@@ -33,6 +33,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from oracle_bulk_download import download_completeness
+from oracle_intake import is_independent_rescan_meta
+
 BUNDLE_SCHEMA = "oracle.product.bundle/v1"
 READINESS_SCHEMA = "oracle.product.readiness/v1"
 MANIFEST_NAME = "manifest.json"
@@ -122,6 +125,7 @@ def _candidate_paths(workspace: Path) -> List[Path]:
         "hunt_scope.json",
         "program_brief.md",
         ".oracle_bulk.json",
+        "download_report.json",
         "site.log",
         "assets/_manifest.json",
     ]
@@ -218,7 +222,9 @@ def _has_poc(
     return False
 
 
-def assess_workspace(workspace: Path) -> Dict[str, Any]:
+def assess_workspace(
+    workspace: Path, *, bundle_contents: bool = False
+) -> Dict[str, Any]:
     """Score a hunt workspace against the submission-readiness gate."""
     root = workspace.resolve()
     if not root.is_dir():
@@ -299,32 +305,156 @@ def assess_workspace(workspace: Path) -> Dict[str, Any]:
 
     hunt = snapshot.get("hunt") if isinstance(snapshot, dict) else None
     hunt = hunt if isinstance(hunt, dict) else {}
-    unserved = hunt.get("unserved_mindsets") or []
+    if "unserved_mindsets" not in hunt or not isinstance(
+        hunt.get("unserved_mindsets"), list
+    ):
+        # Missing yield accounting is not an all-served hunt. (Fail-open
+        # defaulting here once let accounting failures mint readiness.)
+        reasons.append(
+            "hunt snapshot carries no mindset yield accounting "
+            "(unserved_mindsets missing); lens service is unproven"
+        )
+        unserved = []
+    else:
+        unserved = hunt.get("unserved_mindsets") or []
     if unserved:
         reasons.append("mindset(s) unserved: " + ", ".join(str(x) for x in unserved))
+    # The yield ledger is required, well-formed accounting — the hunt
+    # snapshot writer always emits one entry per effective lens beside
+    # unserved_mindsets. An omitted, non-list, empty, or malformed
+    # ledger proves nothing about lens service and blocks readiness;
+    # a well-formed one is cross-checked against the declared list so
+    # a recorded-unserved lens cannot be declared away.
+    _ledger = hunt.get("yield_ledger")
+    _ledger_causes = {"minted", "qualified-clean", "unserved"}
+    if not isinstance(_ledger, list) or not _ledger:
+        reasons.append(
+            "hunt snapshot carries no yield_ledger (missing, non-list, "
+            "or empty); lens service is unproven"
+        )
+    else:
+        _ledger_unserved = set()
+        _ledger_malformed = False
+        for _entry in _ledger:
+            if not isinstance(_entry, dict):
+                _ledger_malformed = True
+                continue
+            _mindset = _entry.get("mindset")
+            _cause = str(_entry.get("cause") or "").strip().lower()
+            if (
+                not isinstance(_mindset, str)
+                or not _mindset.strip()
+                or _cause not in _ledger_causes
+            ):
+                _ledger_malformed = True
+                continue
+            if _cause == "unserved":
+                _ledger_unserved.add(_mindset.strip())
+        if _ledger_malformed:
+            reasons.append(
+                "yield_ledger contains malformed entries (non-object, "
+                "missing mindset, or unknown cause); lens service is "
+                "unproven"
+            )
+        _undeclared = sorted(
+            _ledger_unserved - {str(x).strip() for x in unserved}
+        )
+        if _undeclared:
+            reasons.append(
+                "yield_ledger records unserved mindset(s) missing from "
+                "unserved_mindsets: " + ", ".join(_undeclared)
+            )
+    # Coverage: the ledger must account for exactly the hunt's
+    # effective mindsets (the snapshot writer emits both from the same
+    # list). A subset or bogus-lens ledger proves nothing about the
+    # lenses that were supposed to run.
+    _effective = hunt.get("effective_mindsets")
+    _effective_set = (
+        {str(x).strip() for x in _effective if isinstance(x, str) and x.strip()}
+        if isinstance(_effective, list)
+        else set()
+    )
+    if not _effective_set or len(_effective_set) != len(
+        _effective if isinstance(_effective, list) else []
+    ):
+        reasons.append(
+            "hunt snapshot carries no effective_mindsets list for "
+            "yield_ledger coverage; lens service is unproven"
+        )
+    elif isinstance(_ledger, list) and _ledger:
+        _ledger_mindsets = {
+            str(e.get("mindset")).strip()
+            for e in _ledger
+            if isinstance(e, dict)
+            and isinstance(e.get("mindset"), str)
+            and e.get("mindset", "").strip()
+        }
+        if _ledger_mindsets != _effective_set:
+            reasons.append(
+                "yield_ledger does not cover effective_mindsets "
+                f"exactly (ledger={sorted(_ledger_mindsets)}, "
+                f"effective={sorted(_effective_set)}); lens service "
+                "is unproven"
+            )
 
+    # Scan4Me provenance is discovery evidence only. A fresh public feed
+    # (or even a missing feed stamp on an older snapshot) neither creates
+    # nor destroys product truth; Oracle's independent re-scan does.
     feed_trust = hunt.get("feed_trust")
     feed_ok = isinstance(feed_trust, dict) and feed_trust.get("ok") is True
     checks["feed_trust_ok"] = feed_ok
-    if not feed_ok:
-        reasons.append(
-            "hunt has no authenticated Scan4Me feed_trust.ok stamp; "
-            "this workspace did not come from the trusted queue path"
-        )
 
     rescan = hunt.get("oracle_rescan")
-    rescan_ok = isinstance(rescan, dict) and bool(
-        rescan.get("mode") or rescan.get("source")
-    )
-    checks["oracle_rescan"] = rescan if rescan_ok else None
-    if not rescan_ok:
-        reasons.append(
-            "hunt has no Oracle re-scan provenance; scope truth is unverified"
+    # Shared strict check, handle-bound to this workspace's program:
+    # independent + found + a real adapter source + a handle stamp that
+    # is present and matches program.json. A contradictory stamp (bridge
+    # source, found=false, missing/foreign handle) never passes, however
+    # its independent flag is set.
+    independent = (
+        isinstance(rescan, dict)
+        and isinstance(rescan.get("handle"), str)
+        and bool(rescan.get("handle", "").strip())
+        and is_independent_rescan_meta(
+            rescan,
+            {
+                "handle": program.get("handle", ""),
+                "name": program.get("name", ""),
+            },
         )
-    else:
-        platform = str(program.get("platform") or "").strip().lower()
-        if platform == "hackerone" and rescan.get("independent") is not True:
-            reasons.append("HackerOne product scope was not independently re-scanned")
+    )
+    checks["oracle_rescan"] = rescan if isinstance(rescan, dict) else None
+    checks["oracle_independent"] = independent
+    if not independent:
+        reasons.append(
+            "hunt scope was not independently re-scanned by Oracle; "
+            "Scan4Me/bridge provenance alone is not product truth"
+        )
+
+    # Download completeness is recorded either way; only a proven-empty
+    # download blocks readiness in v1 (stricter partial/NO_AUTH gating
+    # is an open owner decision). An absent report is unknown, named in
+    # checks, but does not by itself block a wire-confirmed finding.
+    # Live workspaces must have the obtained files on disk; extracted
+    # bundle contents never pack asset bodies, so there the report is
+    # judged on provenance/denominator/counts (its integrity is covered
+    # by the bundle manifest hashes checked by the verifier).
+    completeness = download_completeness(
+        root, require_files=not bundle_contents
+    )
+    checks["download_completeness"] = {
+        "present": completeness["present"],
+        "complete": completeness["complete"],
+        "status": completeness["status"],
+        "obtained_count": completeness["obtained_count"],
+        "missing_count": completeness["missing_count"],
+    }
+    if completeness["present"] and (
+        completeness["status"] == "empty" or completeness["obtained_count"] == 0
+    ):
+        reasons.append(
+            "download report shows zero obtained assets (status=empty); "
+            "hunt context had no downloaded program material"
+        )
 
     if summary_confirmed <= 0:
         reasons.append("no confirmed findings (zero-confirmed)")
@@ -343,9 +473,7 @@ def assess_workspace(workspace: Path) -> Dict[str, Any]:
         "checks": checks,
         "feed_trust": feed_trust if isinstance(feed_trust, dict) else None,
         "oracle_rescan": rescan if isinstance(rescan, dict) else None,
-        "scope_independent": bool(
-            isinstance(rescan, dict) and rescan.get("independent") is True
-        ),
+        "scope_independent": bool(independent),
         "verify_results": str(snapshot_path) if snapshot_path else None,
         "full_report": str(full_report) if full_report else None,
     }
@@ -485,7 +613,7 @@ def _verify_entries(
 def _recomputed_readiness(workspace: Path) -> Dict[str, Any]:
     """Re-assess readiness from artifact contents; never trust a manifest."""
     try:
-        return assess_workspace(workspace)
+        return assess_workspace(workspace, bundle_contents=True)
     except BundleError as exc:
         return {
             "ready_for_submission": False,

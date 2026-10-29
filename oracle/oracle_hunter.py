@@ -11,7 +11,7 @@ everything through the Oracle mindset. The active interface model is the
 controller; Oracle's configured providers supply bounded research passes.
 
 The supported pipeline is three commands:
-    oracle-hunter prescan --sync                       # signed-in Scan4Me sweep
+    oracle-hunter prescan --sync                       # no-login Scan4Me sweep
     oracle-hunter scan -N 1 --download                 # Oracle re-scan + handoff
     oracle-hunter queue --execute                      # hunt the handoff
 
@@ -41,6 +41,7 @@ Examples:
     oracle-hunter list --min-payout 1000 --fast-triage --web2
 """
 
+import hashlib
 import os
 import re
 import sys
@@ -191,7 +192,7 @@ def _tool_ok(name: str) -> bool:
 
 
 def _direct_probe_fallback(
-    hosts: List[str], scope_gate=None, timeout: int = 10
+    hosts: List[str], scope_gate=None, timeout: int = 10, headers=None
 ) -> List[str]:
     """Direct urllib live-host probe — fallback when httpx hangs/empty.
 
@@ -199,6 +200,10 @@ def _direct_probe_fallback(
     _is_dns_target. No redirects followed (unapproved probe targets).
     Fail-closed: with no scope gate, nothing is probed.
     Returns ["https://host [status]", ...] for hosts that answered.
+    ``headers`` ("Name: value" strings, the _recon_headers shape) ride
+    every probe so a returned status was served under the same
+    authenticated regime as httpx/katana — regime receipts read these
+    status tags, anonymous answers must not impersonate them.
     """
     import urllib.request
     import ssl
@@ -214,6 +219,11 @@ def _direct_probe_fallback(
     opener = urllib.request.build_opener(
         _NoRedirect, urllib.request.HTTPSHandler(context=ctx)
     )
+    _probe_headers = {"User-Agent": "oracle-recon/1.0"}
+    for _h in headers or []:
+        _name, _, _value = str(_h).partition(":")
+        if _name.strip() and _value.strip():
+            _probe_headers[_name.strip()] = _value.strip()
     live = []
     for h in hosts or []:
         h = (h or "").strip().lower().split()[0].rstrip("/")
@@ -225,7 +235,7 @@ def _direct_probe_fallback(
             continue
         try:
             req = urllib.request.Request(
-                url, method="HEAD", headers={"User-Agent": "oracle-recon/1.0"}
+                url, method="HEAD", headers=dict(_probe_headers)
             )
             with opener.open(req, timeout=timeout) as r:
                 live.append(f"{url} [{r.status}]")
@@ -233,7 +243,7 @@ def _direct_probe_fallback(
             # HEAD rejected? One GET try before giving up on this host.
             try:
                 req = urllib.request.Request(
-                    url, headers={"User-Agent": "oracle-recon/1.0"}
+                    url, headers=dict(_probe_headers)
                 )
                 with opener.open(req, timeout=timeout) as r:
                     live.append(f"{url} [{r.status}]")
@@ -1739,6 +1749,43 @@ def _lens_systems_for(ctx, task: str, cfg=None, env=None, no_cloud: bool = False
     return systems
 
 
+def _local_lens_systems(
+    ctx, task: str, local_ctx_tokens: int, reserve_tokens: int = 1024
+) -> List[str]:
+    """System prompts for one LOCAL lens pass set, sliced to fit.
+
+    Returns [full] when it fits the local window (minus a response
+    reserve); otherwise library slices via ctx.system_prompt_slices so
+    every TTP/corpus unit is delivered exactly once. Raises RuntimeError
+    when even the mandatory skeleton + task cannot fit — the caller
+    records an explicit failed pass instead of silently not submitting.
+    """
+    budget = int(local_ctx_tokens) - max(0, int(reserve_tokens))
+    full = ctx.system_prompt()
+    if estimate_tokens(full, task) <= budget:
+        return [full]
+    task_tok = estimate_tokens("", task)
+    max_system_chars = max(0, (budget - task_tok) * 4 - 8)
+    if max_system_chars <= 0:
+        raise RuntimeError(
+            f"{ctx.mindset} local task alone needs ~{task_tok}tok of the "
+            f"{budget}tok local budget; no room for the mandatory skeleton"
+        )
+    systems = ctx.system_prompt_slices(
+        max_system_chars,
+        corpus_repeat_foundations=False,
+        corpus_split_oversized=True,
+    )
+    for system in systems:
+        need = estimate_tokens(system, task)
+        if need > budget:
+            raise RuntimeError(
+                f"{ctx.mindset} local slice need~{need}tok exceeds local "
+                f"budget {budget}tok"
+            )
+    return systems
+
+
 def _effective_recon_auth(args) -> Optional[str]:
     """Auth value for recon: explicit --auth wins, else Account A.
 
@@ -1755,6 +1802,65 @@ def _effective_recon_auth(args) -> Optional[str]:
     if not acct_a:
         return None
     return acct_a if acct_a.lower().startswith("bearer ") else f"Bearer {acct_a}"
+
+
+_STATUS_TOKEN_RE = re.compile(r"^\[(\d{3})\]$")
+
+
+_LENS_OUTCOME_TOKENS = {"clean", "empty", "error", "seams", "refusal"}
+
+
+def complete_lens_outcomes(recorded, submitted) -> Dict[str, str]:
+    """Fill every submitted pass origin missing from the outcome map.
+
+    Failed passes are deliberately withheld from _lens_outcomes during
+    collection (so build_seam_sets/ladder treat them as missing), but
+    the yield ledger aggregates only recorded slices — a withheld
+    cage-rejected slice would vanish and its lens could aggregate to
+    clean over the surviving slices. At the accounting boundary every
+    submitted origin must be present: with its recorded fallback
+    outcome when the submit record carries one (failed-pass and
+    escalation-attempt records do), else "error"."""
+    out = dict(recorded or {})
+    for rec in submitted or []:
+        if not isinstance(rec, dict):
+            continue
+        origin = str(rec.get("origin") or "")
+        if not origin or origin in out:
+            continue
+        fallback = str(rec.get("outcome") or "").strip().lower()
+        out[origin] = fallback if fallback in _LENS_OUTCOME_TOKENS else "error"
+    return out
+
+
+def count_served_200_lines(lines, hosts=None) -> int:
+    """Count recon live-host lines whose observed status token is [200].
+
+    httpx-style output is ``url [status] [len] [title] ...``: the FIRST
+    bracketed 3-digit token is the status. Substring counting would
+    credit "[403] [200]" (200 = content length) and URLs whose path
+    contains "[200]". When ``hosts`` is given, only lines whose host
+    token was actually injected into lens context count. Untagged
+    lines count for nothing."""
+    host_filter = None
+    if hosts is not None:
+        host_filter = {str(h).strip() for h in hosts if str(h).strip()}
+    count = 0
+    for ln in lines or []:
+        tokens = str(ln).split()
+        if not tokens:
+            continue
+        if host_filter is not None and tokens[0] not in host_filter:
+            continue
+        status = None
+        for tok in tokens[1:]:
+            m = _STATUS_TOKEN_RE.match(tok)
+            if m:
+                status = m.group(1)
+                break
+        if status == "200":
+            count += 1
+    return count
 
 
 def _recon_headers(
@@ -1990,23 +2096,27 @@ def recon(
             # wherever the target redirects to — including out-of-scope
             # hosts the gate never approved. -location still shows the
             # redirect target for recon without probing it.
-            _, stdout, _ = _run(
-                [
-                    _bin("httpx"),
-                    "-u",
-                    target,
-                    "-silent",
-                    "-status-code",
-                    "-title",
-                    "-tech-detect",
-                    "-location",
-                    "-o",
-                    str(live_file),
-                ],
-                timeout=60,
-            )
+            _httpx_cmd = [
+                _bin("httpx"),
+                "-u",
+                target,
+                "-silent",
+                "-status-code",
+                "-title",
+                "-tech-detect",
+                "-location",
+            ]
+            # Authenticated regime: the probe that produces live_hosts
+            # status tags must carry the hunt's auth, or a [200] proves
+            # only anonymous reachability (regime receipts read these).
+            for _h in _rheaders:
+                _httpx_cmd += ["-H", _h]
+            _httpx_cmd += ["-o", str(live_file)]
+            _, stdout, _ = _run(_httpx_cmd, timeout=60)
             if not live_file.exists() or live_file.stat().st_size == 0:
-                live_file.write_text(f"{target} [200]\n")
+                # Untagged: the target stays a probe candidate, but no
+                # status was observed — never fabricate a [200].
+                live_file.write_text(f"{target}\n")
             lines = len(live_file.read_text().splitlines())
             _ok(f"httpx: {lines} live hosts")
     elif _tool_ok("httpx"):
@@ -2020,21 +2130,20 @@ def recon(
             _info("httpx: probing live hosts + fingerprinting (scope-filtered)")
             # NOTE: no -follow-redirects here either (see above): redirect
             # chains are unapproved probe targets.
-            _, stdout, _ = _run(
-                [
-                    _bin("httpx"),
-                    "-l",
-                    str(scoped_subs_file),
-                    "-silent",
-                    "-status-code",
-                    "-title",
-                    "-tech-detect",
-                    "-location",
-                    "-o",
-                    str(live_file),
-                ],
-                timeout=180,
-            )
+            _httpx_cmd = [
+                _bin("httpx"),
+                "-l",
+                str(scoped_subs_file),
+                "-silent",
+                "-status-code",
+                "-title",
+                "-tech-detect",
+                "-location",
+            ]
+            for _h in _rheaders:
+                _httpx_cmd += ["-H", _h]
+            _httpx_cmd += ["-o", str(live_file)]
+            _, stdout, _ = _run(_httpx_cmd, timeout=180)
             lines = len(live_file.read_text().splitlines()) if live_file.exists() else 0
             _ok(f"httpx: {lines} live hosts")
     else:
@@ -2050,11 +2159,15 @@ def recon(
     if not any(existing.strip() for existing in _live_lines):
         _warn("httpx produced no live hosts — falling back to direct urllib probe")
         _fallback_live = _direct_probe_fallback(
-            [s for s in (seed_hosts or [])] or [domain], scope_gate
+            [s for s in (seed_hosts or [])] or [domain],
+            scope_gate,
+            headers=_rheaders,
         )
         if not _fallback_live:
             _subs = subs_file.read_text().splitlines() if subs_file.exists() else []
-            _fallback_live = _direct_probe_fallback(_subs[:25], scope_gate)
+            _fallback_live = _direct_probe_fallback(
+                _subs[:25], scope_gate, headers=_rheaders
+            )
         if _fallback_live:
             live_file.write_text("\n".join(_fallback_live) + "\n")
             _ok(f"fallback probe: {len(_fallback_live)} live hosts")
@@ -5069,7 +5182,16 @@ def _finalize_verify(
             mindset_compact=mindset_compact,
         )
         if correlation_report and correlation_report.get("summary"):
-            ws.save_report(correlation_report["summary"], label="correlation")
+            _corr_counts = _correlation_counts_line(correlation_report)
+            ws.save_report(
+                (
+                    f"{_corr_counts}\n\n"
+                    if _corr_counts
+                    else ""
+                )
+                + correlation_report["summary"],
+                label="correlation",
+            )
             if RICH:
                 console.print(
                     Panel(
@@ -5079,6 +5201,15 @@ def _finalize_verify(
             else:
                 print(
                     f"\n=== Compound Threat Analysis ===\n{correlation_report['summary']}"
+                )
+        elif correlation_report:
+            # Skipped/failed correlation still persists its counted
+            # omission accounting — never only a transient warning.
+            _corr_counts = _correlation_counts_line(correlation_report)
+            if _corr_counts:
+                ws.save_report(
+                    f"Compound Threat Analysis not produced.\n{_corr_counts}",
+                    label="correlation",
                 )
 
     # ── 5. Final report: per-seam verdicts + wire evidence ─────────────────────
@@ -5189,6 +5320,27 @@ def _synthesize_poc(
     )
 
 
+def _correlation_counts_line(correlation) -> str:
+    """One-line omission accounting for saved reports (empty when the
+    correlation result carries no counts)."""
+    if not isinstance(correlation, dict):
+        return ""
+    count = correlation.get("count")
+    omitted = correlation.get("omitted")
+    total = correlation.get("total")
+    if not all(isinstance(v, int) for v in (count, omitted, total)):
+        return ""
+    line = (
+        f"Correlation coverage: {count} of {total} confirmed finding(s) "
+        f"included, {omitted} omitted"
+    )
+    if correlation.get("skipped"):
+        line += f" (skipped: {correlation['skipped']})"
+    if correlation.get("error"):
+        line += f" (backend error: {correlation['error']})"
+    return line
+
+
 def _correlate_seams(
     confirmed_seams: List[Dict],
     target: str,
@@ -5233,13 +5385,22 @@ def _correlate_seams(
             f"  - Claimed Impact: {s.get('impact', '')}"
         )
 
-    prompt = textwrap.dedent(
-        f"""
+    # Budget the correlation prompt to the lane that will serve it.
+    # Findings beyond the budget are omitted *and counted* in the result
+    # — correlation is advisory compound analysis, never a reason to
+    # submit an oversized prompt for silent server truncation.
+    _budget = 16000 if _local_only else 65536
+    _included = list(seam_summaries)
+    _omitted = 0
+
+    def _build_prompt(summaries):
+        return textwrap.dedent(
+            f"""
         Target: {target}
 
-        Below are {len(confirmed_seams)} verified security findings discovered on this target:
+        Below are {len(summaries)} verified security findings discovered on this target:
 
-        {"\n\n".join(seam_summaries)}
+        {"\n\n".join(summaries)}
 
         Analyze whether these findings can be correlated into a compound risk scenario:
         1. Can the data or state exposed in one finding satisfy a prerequisite for another?
@@ -5253,7 +5414,32 @@ def _correlate_seams(
         - **Compound Impact:** [2-3 sentences explaining how the combined flaws break system invariants]
         - **Defensive Remediation:** [Comprehensive fix to address the underlying architectural gap]
     """
-    ).strip()
+        ).strip()
+
+    prompt = _build_prompt(_included)
+    while len(_included) > 2 and estimate_tokens(system, prompt) > _budget:
+        _included.pop()
+        _omitted += 1
+        prompt = _build_prompt(_included)
+    if estimate_tokens(system, prompt) > _budget:
+        _warn(
+            "correlation: even 2 findings exceed the "
+            f"{_budget}tok lane budget — skipping compound analysis"
+        )
+        # Counted skip, not a bare None: the omission total is part of
+        # the result (and the saved report) on every path.
+        return {
+            "summary": None,
+            "count": 0,
+            "omitted": len(confirmed_seams),
+            "total": len(confirmed_seams),
+            "skipped": "over-budget",
+        }
+    if _omitted:
+        _warn(
+            f"correlation: {_omitted} finding(s) omitted to fit the "
+            f"{_budget}tok budget (counted, not hidden)"
+        )
 
     import oracle_llm
 
@@ -5263,9 +5449,20 @@ def _correlate_seams(
         )
     except RuntimeError as e:
         _warn(f"correlation: all backends failed — {e}")
-        return None
+        return {
+            "summary": None,
+            "count": len(_included),
+            "omitted": _omitted,
+            "total": len(confirmed_seams),
+            "error": str(e),
+        }
 
-    return {"summary": analysis, "count": len(confirmed_seams)}
+    return {
+        "summary": analysis,
+        "count": len(_included),
+        "omitted": _omitted,
+        "total": len(confirmed_seams),
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -5285,14 +5482,22 @@ def is_target_clean(raw: Optional[str]) -> bool:
     return bool(raw) and bool(_TARGET_CLEAN_RE.search(raw))
 
 
-def lens_outcome(raw: Optional[str], parsed: Optional[List[Dict]]) -> str:
-    """Classify one engine pass into clean / empty / error / seams.
+_REFUSAL_RE = re.compile(
+    r"(?i)\b(?:i can't|i cannot|i won't|i am unable to|i'm unable to|"
+    r"i must decline|i can't assist|i cannot assist)\b"
+    r"[^.]{0,100}\b(?:help|assist|comply|provide|generate|that|this)\b"
+)
 
-    Four causes used to collapse into one `[]`: an explicit TARGET
-    CLEAN verdict, unparseable-but-harmless prose, an engine failure,
-    and a real seam list. The return value keeps them distinct:
+
+def lens_outcome(raw: Optional[str], parsed: Optional[List[Dict]]) -> str:
+    """Classify one engine pass into clean / empty / error / refusal / seams.
+
+    Causes used to collapse into one `[]`: an explicit TARGET CLEAN
+    verdict, unparseable-but-harmless prose, a model refusal, an engine
+    failure, and a real seam list. The return value keeps them distinct:
       - "seams": cards parsed (whatever the prose around them says);
       - "clean": explicit TARGET CLEAN verdict, no cards;
+      - "refusal": the model declined the task (no cards);
       - "empty": prose with neither cards nor a verdict;
       - "error": no output object at all (None, blank, or a backend
         placeholder like "[no engines available]").
@@ -5303,6 +5508,8 @@ def lens_outcome(raw: Optional[str], parsed: Optional[List[Dict]]) -> str:
         return "error"
     if is_target_clean(raw):
         return "clean"
+    if _REFUSAL_RE.search(str(raw)):
+        return "refusal"
     return "empty"
 
 
@@ -5327,9 +5534,11 @@ def pass_failed(outcome: Optional[str]) -> bool:
     analysis-only, or otherwise unparseable), which is
     indistinguishable from a loss. Crediting it as "lens ran" once let
     a Databricks OK response silently zero the paradox lens (hunt7).
-    Only explicit "clean" and card-bearing "seams" count as ran.
+    Only explicit "clean" and card-bearing "seams" count as ran. A
+    "refusal" is likewise a failed pass (distinctly named so yield
+    accounting and diagnostics never confuse it with empty prose).
     """
-    return outcome in ("error", "empty")
+    return outcome in ("error", "empty", "refusal")
 
 
 def _persist_raw_response(recon_dir, origin: str, raw_out) -> Optional[Path]:
@@ -5367,15 +5576,141 @@ def tactic_coverage(futures_meta, lens_outcomes) -> Dict[str, List[str]]:
     for m in futures_meta or []:
         origin = (m or {}).get("origin", "")
         if origin.startswith("local-tactic:"):
-            attempted.append(origin.split(":", 1)[1])
+            tactic = origin.split(":", 1)[1].split("#", 1)[0]
+            if tactic not in attempted:
+                attempted.append(tactic)
     outcomes = lens_outcomes or {}
-    returned = [
-        t
-        for t in attempted
-        if outcomes.get(f"local-tactic:{t}", "error") != "error"
-    ]
+    returned = []
+    for t in attempted:
+        slice_outcomes = [
+            v
+            for o, v in outcomes.items()
+            if o == f"local-tactic:{t}" or o.startswith(f"local-tactic:{t}#")
+        ]
+        if slice_outcomes and any(v != "error" for v in slice_outcomes):
+            returned.append(t)
     dropped = [t for t in attempted if t not in returned]
     return {"attempted": attempted, "returned": returned, "dropped": dropped}
+
+
+def mitre_coverage_ledger(records, futures_meta, lens_outcomes, seams) -> Dict:
+    """Per-TTP-code coverage ledger for one hunt's MITRE sweep.
+
+    Every fused record gets exactly one disposition, derived only from
+    recorded hunt facts (never from a whole-pass claim alone without
+    naming its basis):
+      * minted       — a seam card cites this code;
+      * served-clean — a pass whose system prompt contained this code
+                       returned TARGET CLEAN;
+      * served       — such a pass returned (seams/empty) without citing it;
+      * error / refusal / not-submitted — the serving pass failed that way;
+      * not-served   — no submitted pass contained this code.
+    ``complete`` requires every code minted or served-clean/served with
+    no failed serving pass. Pure — no network, no models.
+    """
+    outcomes = lens_outcomes or {}
+    # code -> best serving-pass outcome (priority: clean > seams/empty >
+    # refusal > error), from pass system prompts / tactic origins.
+    _rank = {"clean": 3, "seams": 2, "empty": 2, "refusal": 1, "error": 0}
+    served: Dict[str, str] = {}
+    served_origin: Dict[str, str] = {}
+    code_re = re.compile(r"\bT\d{4}(?:\.\d{3})?\b")
+    by_tactic: Dict[str, List[str]] = {}
+    for rec in records or []:
+        by_tactic.setdefault(
+            str(rec.get("tactic") or "").upper(), []
+        ).append(str(rec.get("code") or ""))
+    for m in futures_meta or []:
+        if not isinstance(m, dict):
+            continue
+        origin = str(m.get("origin") or "")
+        outcome = str(outcomes.get(origin, "error") or "error").lower()
+        if origin.startswith("local-tactic:"):
+            tactic = origin.split(":", 1)[1].split("#", 1)[0].upper()
+            codes = by_tactic.get(tactic, [])
+            # Sliced tactic passes carry only part of the tactic: narrow
+            # to codes actually present when the system text is recorded.
+            system = str(m.get("system") or "")
+            if system and "#" in origin:
+                present = set(code_re.findall(system))
+                codes = [c for c in codes if c in present]
+        elif "mitre" in origin.lower():
+            codes = code_re.findall(str(m.get("system") or ""))
+        else:
+            continue
+        for code in codes:
+            if _rank.get(outcome, 0) >= _rank.get(served.get(code, ""), -1):
+                served[code] = outcome
+                served_origin[code] = origin
+    minted_codes = set()
+    for s in seams or []:
+        if isinstance(s, dict):
+            minted_codes.update(code_re.findall(str(s.get("mitre") or "")))
+    entries = []
+    for rec in records or []:
+        code = str(rec.get("code") or "")
+        if code in minted_codes:
+            disposition = "minted"
+        elif code in served:
+            oc = served[code]
+            disposition = {
+                "clean": "served-clean",
+                "seams": "served",
+                "empty": "served",
+                "refusal": "refusal",
+                "error": "error",
+            }.get(oc, "error")
+        else:
+            disposition = "not-served"
+        entries.append(
+            {
+                "code": code,
+                "tactic": str(rec.get("tactic") or ""),
+                "disposition": disposition,
+                "origin": served_origin.get(code, ""),
+            }
+        )
+    complete = bool(entries) and all(
+        e["disposition"] in ("minted", "served-clean", "served")
+        for e in entries
+    )
+    return {
+        "schema": "oracle.mitre-coverage/v1",
+        "total": len(entries),
+        "complete": complete,
+        "entries": entries,
+    }
+
+
+def slice_coverage_ledger(futures_meta, lens_outcomes, lens: str) -> Dict:
+    """Per-pass coverage account for one sliced lens (paradox/mitre).
+
+    Complete only when at least one pass was submitted for the lens and
+    every pass outcome is clean/seams. Error, refusal, empty, and
+    missing outcomes are all named per pass — a partial slice set can
+    never read as a served lens.
+    """
+    outcomes = lens_outcomes or {}
+    passes: Dict[str, str] = {}
+    for m in futures_meta or []:
+        if not isinstance(m, dict):
+            continue
+        origin = str(m.get("origin") or "")
+        low = origin.lower()
+        if lens == "paradox" and "paradox" not in low:
+            continue
+        if lens == "mitre" and "mitre" not in low and "tactic" not in low:
+            continue
+        passes[origin] = str(outcomes.get(origin, "error") or "error").lower()
+    complete = bool(passes) and all(
+        v in ("clean", "seams") for v in passes.values()
+    )
+    return {
+        "schema": "oracle.slice-coverage/v1",
+        "lens": lens,
+        "passes": passes,
+        "complete": complete,
+    }
 
 
 def _raise_on_tactic_drops(coverage, allow_incomplete: bool = False) -> None:
@@ -5497,8 +5832,12 @@ def corroborate_synth_seams(rt_seams, existing_seams, allow_new: bool = False):
     """Enforce the M3 no-invention rule on the §7c synthesis pass.
 
     The synthesis pass may only corroborate/rank seams the lenses or the
-    deterministic feed already produced: an rt seam is kept iff its
-    subject key matches a known candidate. Brand-new subjects are dropped
+    deterministic feed already produced: an rt seam is kept iff it is
+    bound to a known candidate — identical probe-bound URL subject
+    (restated prose on the identical probe is synthesis; the wire still
+    verifies that probe), or, for non-URL subjects, an exact claim
+    content match (normalized Assertion A/B + expected + check). New
+    probes/subjects and rewritten non-URL assertions are dropped
     (returned separately for the ledger). The allow_new parameter exists
     only for isolated pure-function tests; the operator CLI has no
     invention toggle. Pure — no network.
@@ -5509,9 +5848,67 @@ def corroborate_synth_seams(rt_seams, existing_seams, allow_new: bool = False):
     rt_seams = list(rt_seams or [])
     if allow_new:
         return rt_seams, []
-    known = {_skey(s) for s in (existing_seams or [])}
-    kept = [s for s in rt_seams if _skey(s) in known]
-    dropped = [s for s in rt_seams if _skey(s) not in known]
+    # Content-bound, not merely subject-labelled:
+    #  * URL subjects are already probe-bound (subject key = method +
+    #    URL + auth-header signature), so a synth card on the identical
+    #    probe may restate/compound Assertions — that is synthesis of a
+    #    produced seam, not a new one.
+    #  * src:/code: subjects bind only file/function/source, so there a
+    #    synth card must reproduce a known candidate's normalized
+    #    Assertion A/B/check content exactly; rewriting Assertion B on a
+    #    borrowed source is invention and is dropped.
+    # (Originals are preserved by _merge_seams regardless, so a dropped
+    # rephrase loses nothing the lenses actually produced.)
+    # Non-URL corroboration keys on claim content only — normalized
+    # Assertion A/B + expected + check. Production synthesis cards come
+    # from _parse_seams and carry none of the provenance fields the
+    # candidate key embeds (file/function/source/check_output, lens),
+    # so keying on seam_candidate_key dropped every faithful
+    # restatement of a src/code candidate on the real path. Content is
+    # the seam: identical A/B/expected/check is the produced seam,
+    # any rewrite of them is invention.
+    import hashlib as _hashlib
+
+    def _content_key(s) -> str:
+        if not isinstance(s, dict):
+            return ""
+
+        def _norm(value) -> str:
+            return " ".join(str(value or "").lower().split())
+
+        material = "\x1f".join(
+            [
+                _norm(s.get("assertion_a")),
+                _norm(s.get("assertion_b")),
+                _norm(s.get("expected")),
+                " ".join(str(s.get("check") or "").split()),
+            ]
+        )
+        if not material.strip("\x1f "):
+            return ""
+        return _hashlib.md5(
+            material.encode("utf-8"), usedforsecurity=False
+        ).hexdigest()
+
+    known_content = {_content_key(s) for s in (existing_seams or [])}
+    known_subjects = {_skey(s) for s in (existing_seams or [])}
+
+    def _is_corroborated(s) -> bool:
+        if not isinstance(s, dict):
+            return False
+        if not (
+            str(s.get("assertion_a") or "").strip()
+            or str(s.get("assertion_b") or "").strip()
+        ):
+            return False
+        subject = _skey(s)
+        if subject.startswith("url:"):
+            return subject in known_subjects
+        key = _content_key(s)
+        return bool(key) and key in known_content
+
+    kept = [s for s in rt_seams if _is_corroborated(s)]
+    dropped = [s for s in rt_seams if not _is_corroborated(s)]
     return kept, dropped
 
 
@@ -6172,12 +6569,26 @@ def _write_report(
     ]
 
     if correlation and correlation.get("summary"):
+        _corr_counts = _correlation_counts_line(correlation)
+        if _corr_counts:
+            lines.append(f"*{_corr_counts}*")
+            lines.append("")
         lines += [
             correlation["summary"],
             "",
             "---",
             "",
         ]
+    elif correlation:
+        _corr_counts = _correlation_counts_line(correlation)
+        if _corr_counts:
+            lines += [
+                "## Compound Threat Analysis",
+                f"*{_corr_counts}; no compound analysis produced.*",
+                "",
+                "---",
+                "",
+            ]
 
     if seams:
         lines.append("## Finding Cards\n")
@@ -6569,14 +6980,15 @@ def cmd_scan(args):
     if no_cloud:
         _warn(
             "--no-cloud: independent platform re-scan skipped (offline); "
-            "HackerOne products from this scan cannot become "
-            "submission-ready until re-scanned with cloud enabled."
+            "no program from this scan can verify until re-scanned with "
+            "cloud enabled."
         )
     elif not _rescan.get("independent"):
         _warn(
-            "Scan scope verification used the Scan4Me DB bridge, not an "
-            "Oracle-owned platform API. HackerOne re-scan is independent; "
-            "other platforms remain bridge-only."
+            "Not every program had an independent Oracle re-scan. "
+            "HackerOne uses Oracle's authenticated API; platforms without "
+            "an Oracle adapter cannot verify (the Scan4Me bridge never "
+            "corroborates itself)."
         )
     for v in report["verdicts"]:
         mark = "✓" if v["verdict"] == "verified" else "✗"
@@ -6633,7 +7045,9 @@ def cmd_scan(args):
             prescan_programs=prescan.get("programs", []),
             top_n=top_n,
             sites=sites,
-            resolve_fn=None if no_cloud else _intake._default_resolve,
+            # Deep-dive consumes the scan verdicts' embedded independent
+            # fresh scope. It never re-resolves through the Scan4Me DB.
+            resolve_fn=None,
         )
     except ValueError as exc:
         _die(str(exc))
@@ -6962,14 +7376,35 @@ def _execute_queue_schedule(args, sched, out_dir):
     import oracle_intake as _intake
     import oracle_queue as _queue
 
-    trust = sched.get("feed_trust")
-    if not isinstance(trust, dict) or trust.get("ok") is not True:
-        issues = (
-            trust.get("issues") if isinstance(trust, dict) else None
-        ) or ["schedule has no trusted feed stamp"]
+    unverified_items = []
+    for item in sched.get("items") or []:
+        company = item.get("company") if isinstance(item, dict) else None
+        company = company if isinstance(company, dict) else {}
+        pseudo_entry = {
+            "name": company.get("name", ""),
+            "handle": company.get("handle", ""),
+            "verdict": item.get("verdict") if isinstance(item, dict) else None,
+            "failed_checks": (
+                item.get("failed_checks", []) if isinstance(item, dict) else []
+            ),
+            "oracle_rescan": (
+                item.get("oracle_rescan") if isinstance(item, dict) else None
+            ),
+        }
+        if not _intake.is_independently_verified_entry(pseudo_entry):
+            name = (
+                company.get("name")
+                or (
+                    item.get("position", "<unnamed>")
+                    if isinstance(item, dict)
+                    else "<unnamed>"
+                )
+            )
+            unverified_items.append(str(name))
+    if unverified_items:
         raise _queue.QueueConfigError(
-            "schedule feed is not authenticated/trusted: "
-            + "; ".join(str(i) for i in issues)
+            "schedule items are not independently verified by Oracle: "
+            + ", ".join(unverified_items)
         )
     schedule_path = str(sched.get("_report_path", ""))
     out_path = Path(out_dir) if out_dir else None
@@ -6989,6 +7424,50 @@ def _execute_queue_schedule(args, sched, out_dir):
         for entry in loaded.get("ranked_verified", []):
             if isinstance(entry, dict) and type(entry.get("rank")) is int:
                 by_rank[entry["rank"]] = entry
+        # The schedule item and its re-joined handoff entry must both be
+        # strict-verified before anything downloads or hunts. Checking
+        # here (not inside _ensure) matters: the generic executor records
+        # ensure failures and still hunts, by design for download errors.
+        bad_entries = [
+            str(entry.get("name") or entry.get("handle") or "<unnamed>")
+            for entry in by_rank.values()
+            if not _intake.is_independently_verified_entry(entry)
+        ]
+        if bad_entries:
+            raise _queue.QueueConfigError(
+                "handoff entries are not independently verified by Oracle: "
+                + ", ".join(bad_entries)
+            )
+        def _norm_id(s):
+            return re.sub(r"[^a-z0-9]+", "", str(s or "").lower())
+        mismatched = []
+        for item in sched.get("items") or []:
+            if not isinstance(item, dict):
+                continue
+            entry = by_rank.get(item.get("handoff_rank"))
+            company = item.get("company") or {}
+            company = company if isinstance(company, dict) else {}
+            label = str(
+                company.get("name") or item.get("position", "<unnamed>")
+            )
+            if entry is None:
+                mismatched.append(f"{label} (rank missing from handoff)")
+                continue
+            item_ids = {
+                _norm_id(company.get("name")),
+                _norm_id(company.get("handle")),
+            } - {""}
+            entry_ids = {
+                _norm_id(entry.get("name")),
+                _norm_id(entry.get("handle")),
+            } - {""}
+            if not item_ids or not entry_ids or not (item_ids & entry_ids):
+                mismatched.append(label)
+        if mismatched:
+            raise _queue.QueueConfigError(
+                "handoff entry does not match schedule item: "
+                + ", ".join(mismatched)
+            )
 
     def _ensure(item):
         entry = by_rank.get(item.get("handoff_rank"))
@@ -7013,6 +7492,12 @@ def _execute_queue_schedule(args, sched, out_dir):
                 "handle": company.get("handle", ""),
                 "platform": item.get("site", ""),
                 "url": item.get("program_url", ""),
+                # Copied from the schedule item (which copied the handoff
+                # entry at build time and was strict-gated above) — never
+                # minted here.
+                "verdict": item.get("verdict", ""),
+                "failed_checks": item.get("failed_checks", []),
+                "oracle_rescan": item.get("oracle_rescan", {}),
                 "deep_dive": {
                     "assets": deep.get("assets", []),
                     "out_of_scope": deep.get("out_of_scope", []),
@@ -7429,6 +7914,86 @@ def _seed_hosts(scope_gate: "ProgramScopeGate") -> List[str]:
 # history if a real consumer appears — never as blind per-seam spend.
 
 
+def _scope_sha256(scopes) -> str:
+    raw = json.dumps(
+        scopes or [], sort_keys=True, separators=(",", ":"), default=str
+    )
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def _chain_scope_prog(chain, resolved):
+    """Pin a chain hunt to the scan-verified deep-dive scope.
+
+    The schedule/handoff pick carries the exact assets Oracle verified
+    at scan time. A queued hunt hunts those assets: whatever
+    ``_scope_from_programs`` resolved (workspace file, Scan4Me DB, or
+    cache) may supply program metadata, but its scope fields are always
+    replaced by the chain's. Missing chain assets fail closed — a chain
+    hunt never falls back to DB scope. The hunt-time platform refresh
+    still runs afterwards and may authoritatively replace this set; the
+    stamp records both sides. Never mutates ``resolved``.
+    """
+    deep = chain.get("deep_dive") if isinstance(chain, dict) else None
+    deep = deep if isinstance(deep, dict) else {}
+    assets = deep.get("assets")
+    if not isinstance(assets, list) or not assets:
+        raise ValueError(
+            "chain scope missing: pick carries no deep-dive assets; "
+            "refusing to re-resolve scope from the Scan4Me DB"
+        )
+    scopes = []
+    for item in assets:
+        if isinstance(item, dict):
+            scopes.append(dict(item))
+        elif isinstance(item, str) and item.strip():
+            scopes.append({"asset_identifier": item.strip()})
+        else:
+            raise ValueError(
+                "chain scope malformed: deep-dive assets must be objects "
+                "or strings"
+            )
+    prog = dict(resolved) if isinstance(resolved, dict) else {}
+    prog.setdefault("name", chain.get("name", ""))
+    prog.setdefault("handle", chain.get("handle", ""))
+    prog.setdefault("platform", chain.get("site", ""))
+    prog.setdefault("url", chain.get("program_url", ""))
+    prog.setdefault("website", deep.get("website", "") or "")
+    prog.setdefault("score", chain.get("score", 0) or 0)
+    prog["structured_scopes"] = scopes
+    prog["out_of_scope"] = list(deep.get("out_of_scope") or [])
+    prog["_chain_scope"] = {
+        "source": "scan-deep-dive",
+        "origin": chain.get("origin", ""),
+        "asset_count": len(scopes),
+        "out_of_scope_count": len(prog["out_of_scope"]),
+        "sha256": _scope_sha256(scopes),
+    }
+    return prog
+
+
+def _hunt_scope_stamp(chain_prog, final_prog):
+    """Provenance stamp binding chain scope to the hunted scope."""
+    chain = {}
+    if isinstance(chain_prog, dict):
+        raw = chain_prog.get("_chain_scope")
+        chain = raw if isinstance(raw, dict) else {}
+    final = final_prog if isinstance(final_prog, dict) else {}
+    final_scopes = final.get("structured_scopes") or []
+    return {
+        "source": chain.get("source", "scan-deep-dive"),
+        "origin": chain.get("origin", ""),
+        "chain_sha256": chain.get("sha256", ""),
+        "chain_asset_count": chain.get("asset_count", 0),
+        "intake_status": final.get("scope_intake_status"),
+        "intake_at": final.get("scope_intake_at"),
+        "intake_fresh": final.get("scope_intake_fresh"),
+        "final_asset_count": len(final_scopes)
+        if isinstance(final_scopes, list)
+        else 0,
+        "final_sha256": _scope_sha256(final_scopes),
+    }
+
+
 def _hunt_target_from_chain(name, args):
     """Resolve the hunt target from an internal handoff/schedule chain (#19).
 
@@ -7500,7 +8065,29 @@ def cmd_hunt(name: str, args):
     _chain = _hunt_target_from_chain(name, args)
     _chain_feed_trust = None
     _chain_rescan = None
+    _chain_prog = None
+    _hunt_scope_stamp_value = None
     if _chain is not None:
+        # A chain hunt is a product hunt: the pick itself must be a whole
+        # strict-verified record, not merely carry one green flag.
+        import oracle_intake as _chain_intake
+
+        if not _chain_intake.is_independently_verified_entry(
+            {
+                "name": _chain.get("name", ""),
+                "handle": _chain.get("handle", ""),
+                "verdict": _chain.get("verdict"),
+                "failed_checks": _chain.get("failed_checks", []),
+                "oracle_rescan": _chain.get("oracle_rescan"),
+            }
+        ):
+            _die(
+                "chain entry is not independently verified by Oracle "
+                f"(verdict={_chain.get('verdict')!r}, "
+                f"failed_checks={_chain.get('failed_checks')!r}, "
+                f"oracle_rescan={_chain.get('oracle_rescan')!r}); "
+                "refusing to hunt it"
+            )
         name = _chain["name"] or _chain["handle"]
         _chain_feed_trust = _chain.get("feed_trust")
         _chain_rescan = _chain.get("oracle_rescan")
@@ -7517,9 +8104,8 @@ def cmd_hunt(name: str, args):
             rescan_mode=(_chain_rescan or {}).get("mode")
             if isinstance(_chain_rescan, dict)
             else None,
-            scope_independent=bool(
-                isinstance(_chain_rescan, dict)
-                and _chain_rescan.get("independent") is True
+            scope_independent=_chain_intake.is_independent_rescan_meta(
+                _chain_rescan, _chain
             ),
         )
 
@@ -7534,6 +8120,15 @@ def cmd_hunt(name: str, args):
 
     # ── 1. Resolve program (FULL scope) ────────────────────────────────────────
     prog = _scope_from_programs(name)
+    if _chain is not None:
+        # Pin the hunt to the exact scan-verified deep-dive scope carried
+        # by the pick. Resolution above may supply metadata only; its
+        # scope (possibly a Scan4Me DB copy) is never hunt truth here.
+        try:
+            prog = _chain_scope_prog(_chain, prog)
+        except ValueError as _scope_exc:
+            _die(str(_scope_exc))
+        _chain_prog = prog
     _full_prog = prog
     if prog:
         _ok(
@@ -7615,6 +8210,14 @@ def cmd_hunt(name: str, args):
                 f"Run: oracle-hunter download {prog_name}\n"
                 f"Or pass a direct target: oracle-hunter hunt https://example.com"
             )
+
+    if _chain is not None:
+        # Bind what was actually hunted (post-refresh scope) back to the
+        # scan-verified chain scope in the runlog and the hunt snapshot.
+        _hunt_scope_stamp_value = _hunt_scope_stamp(
+            _chain_prog, _full_prog if isinstance(_full_prog, dict) else prog
+        )
+        _runlog_event("hunt.scope", **_hunt_scope_stamp_value)
 
     # ── 1b. Hunt filter: program gates + phase-1 asset scoping ────────────────
     # Downloads, repo clones, and the workspace program.json use the FULL
@@ -7920,15 +8523,23 @@ def cmd_hunt(name: str, args):
     )
     _live_hosts: List[str] = []
     _live_endpoints: List[str] = []
+    _served_200_hosts = 0
     for fname in ("clean_live_hosts.txt", "live_hosts.txt"):
         lf = recon_dir / fname
         if lf.exists() and lf.stat().st_size > 0:
-            _live_hosts = [
-                host_line.split()[0]
+            _host_lines = [
+                host_line
                 for host_line in lf.read_text().splitlines()
                 if host_line.strip()
+            ]
+            _live_hosts = [
+                host_line.split()[0] for host_line in _host_lines
             ][:_max_hosts]
             break
+    # Observed-200 evidence comes from the TAGGED live_hosts.txt —
+    # clean_live_hosts.txt is written tag-stripped for tooling, so
+    # counting there would always read zero. Counted below, after the
+    # scope filter, against the hosts actually injected.
     # Discovered endpoints land in several recon files depending on source:
     #   crawl.txt / known_urls.txt      — full URLs (katana crawl, archives)
     #   js_endpoints.txt / listed_paths.txt — paths (JS mining, content listing)
@@ -7965,6 +8576,12 @@ def cmd_hunt(name: str, args):
                 _live_endpoints.append(tok)
     _live_endpoints = _live_endpoints[:_max_endpoints]
     _live_hosts = [h for h in _live_hosts if scope_gate.is_in_scope(h)[0]]
+    _tagged_live = recon_dir / "live_hosts.txt"
+    if _tagged_live.exists() and _tagged_live.stat().st_size > 0:
+        _served_200_hosts = count_served_200_lines(
+            _tagged_live.read_text(errors="ignore").splitlines(),
+            hosts=_live_hosts,
+        )
     _kept_eps = [e for e in _live_endpoints if scope_gate.is_in_scope(e)[0]]
     if len(_kept_eps) != len(_live_endpoints):
         _info(
@@ -8155,6 +8772,10 @@ def cmd_hunt(name: str, args):
 
     # ── Build the futures ─────────────────────────────────────────────────────
     futures_meta: List[Dict] = []  # {future, label, origin}
+    # Passes that cannot even be submitted (local fit failures) are
+    # recorded here and merged into outcome accounting at collection —
+    # never silently absent from the yield ledger.
+    _presubmit_failed: List[Dict] = []
     executor = ThreadPoolExecutor(max_workers=16)
 
     # Deterministic engine observations are generated once and appended to
@@ -8336,20 +8957,37 @@ def cmd_hunt(name: str, args):
         _par_local.inject_recon_context(_live_hosts, _live_endpoints)
         if _seam_feed_ran:
             _par_local.inject_pending_seams(_inv_seams)
-        _par_sys = _par_local.system_prompt()
         _par_task = _reflex_task() + "\n\n" + _det_block
-        _par_need = oracle_llm.estimate_tokens(_par_sys, _par_task)
         _local_ctx_tok = int(_llm_cfg.get("local_context_tokens", 16000))
-        if _par_need > _local_ctx_tok:
-            # ALL-corpus paradox cannot physically fit the local window:
-            # never submit it to be silently server-truncated. The lens
-            # then has no output object and synthesis dies loud naming it.
-            _warn(
-                f"Engine B (Local, paradox lens): NOT submitted — prompt "
-                f"~{_par_need}tok exceeds local context {_local_ctx_tok}tok "
-                f"(ALL-corpus paradox needs a larger-context engine)"
+        try:
+            # Slice the ALL-corpus paradox prompt to the local window
+            # (every corpus doc exactly once) instead of not submitting:
+            # an unsubmitted lens with no outcome object starved yield
+            # accounting while looking like a clean skip.
+            _par_systems = _local_lens_systems(
+                _par_local, _par_task, _local_ctx_tok
             )
-        else:
+        except RuntimeError as _fit_exc:
+            _warn(
+                f"Engine B (Local, paradox lens): NOT submitted — {_fit_exc}"
+            )
+            _presubmit_failed.append(
+                {
+                    "label": "local-paradox",
+                    "origin": "local-paradox",
+                    "reason": f"local fit: {_fit_exc}",
+                    "prompt": _par_task,
+                    "system": "",
+                    "no_cloud": True,
+                }
+            )
+            _par_systems = []
+        for _pi, _par_sys in enumerate(_par_systems):
+            _origin = (
+                "local-paradox"
+                if len(_par_systems) == 1
+                else f"local-paradox-{_pi + 1}"
+            )
             f_paradox = executor.submit(
                 oracle_llm.complete,
                 _par_task,
@@ -8364,40 +9002,94 @@ def cmd_hunt(name: str, args):
             futures_meta.append(
                 {
                     "future": f_paradox,
-                    "label": "local-paradox",
-                    "origin": "local-paradox",
+                    "label": _origin,
+                    "origin": _origin,
                     "prompt": _par_task,
                     "system": _par_sys,
                     "no_cloud": True,
                 }
             )
-            _info("Engine B (Local, paradox lens): submitted")
+        if _par_systems:
+            _info(
+                f"Engine B (Local, paradox lens): submitted "
+                f"({len(_par_systems)} slice pass(es))"
+            )
     if _local_generates and "mitre" in _profiles:
         all_tactics = _mitre_ctx.all_tactics()
+        _local_ctx_tok = int(_llm_cfg.get("local_context_tokens", 16000))
+        _submitted_tactics = 0
         for tactic in all_tactics:
-            tactic_sys = _mitre_ctx.tactic_prompt(tactic)
-            f_tactic = executor.submit(
-                oracle_llm.complete,
-                _reflex_task(tactic) + "\n\n" + _det_block,
-                tactic_sys,
-                "reflex",
-                _ENGINE_B_TACTIC_TIMEOUT_S,
-                None,
-                None,
-                True,  # no_cloud=True (local only)
-                return_model=True,
-            )
-            futures_meta.append(
-                {
-                    "future": f_tactic,
-                    "label": f"local-{tactic}",
-                    "origin": f"local-tactic:{tactic}",
-                    "prompt": _reflex_task(tactic) + "\n\n" + _det_block,
-                    "system": tactic_sys,
-                    "no_cloud": True,
-                }
-            )
-        _info(f"Engine B (Local, {len(all_tactics)} tactic passes): submitted")
+            tactic_task = _reflex_task(tactic) + "\n\n" + _det_block
+            try:
+                # Fit-check every tactic pass and slice oversized tactics
+                # (records exactly once) — an oversized prompt is never
+                # submitted to be silently server-truncated.
+                _budget = _local_ctx_tok - 1024
+                _task_tok = estimate_tokens("", tactic_task)
+                _max_chars = max(0, (_budget - _task_tok) * 4 - 8)
+                if _max_chars <= 0:
+                    raise RuntimeError(
+                        f"task alone needs ~{_task_tok}tok of the "
+                        f"{_budget}tok local budget"
+                    )
+                tactic_systems = _mitre_ctx.tactic_prompt_slices(
+                    tactic, _max_chars
+                )
+                for _sys in tactic_systems:
+                    _need = estimate_tokens(_sys, tactic_task)
+                    if _need > _budget:
+                        raise RuntimeError(
+                            f"tactic slice need~{_need}tok exceeds local "
+                            f"budget {_budget}tok"
+                        )
+            except RuntimeError as _fit_exc:
+                _warn(
+                    f"Engine B (Local, tactic {tactic}): NOT submitted "
+                    f"— {_fit_exc}"
+                )
+                _presubmit_failed.append(
+                    {
+                        "label": f"local-{tactic}",
+                        "origin": f"local-tactic:{tactic}",
+                        "reason": f"local fit: {_fit_exc}",
+                        "prompt": tactic_task,
+                        "system": "",
+                        "no_cloud": True,
+                    }
+                )
+                continue
+            for _ti, tactic_sys in enumerate(tactic_systems):
+                _origin = (
+                    f"local-tactic:{tactic}"
+                    if len(tactic_systems) == 1
+                    else f"local-tactic:{tactic}#{_ti + 1}"
+                )
+                f_tactic = executor.submit(
+                    oracle_llm.complete,
+                    tactic_task,
+                    tactic_sys,
+                    "reflex",
+                    _ENGINE_B_TACTIC_TIMEOUT_S,
+                    None,
+                    None,
+                    True,  # no_cloud=True (local only)
+                    return_model=True,
+                )
+                futures_meta.append(
+                    {
+                        "future": f_tactic,
+                        "label": f"local-{tactic}",
+                        "origin": _origin,
+                        "prompt": tactic_task,
+                        "system": tactic_sys,
+                        "no_cloud": True,
+                    }
+                )
+            _submitted_tactics += 1
+        _info(
+            f"Engine B (Local, {_submitted_tactics}/{len(all_tactics)} "
+            f"tactics submitted)"
+        )
 
     if not futures_meta:
         _warn(
@@ -8408,6 +9100,9 @@ def cmd_hunt(name: str, args):
         _engine_models: List[str] = []
         _lens_outcomes: Dict[str, str] = {}
         _failed_passes: List[Dict] = []
+        for _pf in _presubmit_failed:
+            _lens_outcomes[_pf["origin"]] = "error"
+            _failed_passes.append(_pf)
         _tactic_coverage = {"attempted": [], "returned": [], "dropped": []}
         _cage_rejected: List[Dict] = []
     else:
@@ -8420,6 +9115,9 @@ def cmd_hunt(name: str, args):
         # so L1 can resubmit the exact same pass.
         _lens_outcomes: Dict[str, str] = {}
         _failed_passes: List[Dict] = []  # {label, origin, reason, prompt, system, no_cloud}
+        for _pf in _presubmit_failed:
+            _lens_outcomes[_pf["origin"]] = "error"
+            _failed_passes.append(_pf)
         # Overall deadline so slow engines (e.g. the 14 local tactic passes on a
         # 30B model) cannot block the whole hunt — proceed with whatever returned.
         _COLLECT_BUDGET_S = 420
@@ -8519,6 +9217,7 @@ def cmd_hunt(name: str, args):
                     {
                         "label": _meta.get("label", origin),
                         "origin": origin,
+                        "outcome": _outcome,
                         "reason": _fail_reason,
                         "prompt": _meta.get("prompt", ""),
                         "system": _meta.get("system", ""),
@@ -9090,9 +9789,19 @@ def cmd_hunt(name: str, args):
             else:
                 _info("Mindset 3 synthesis produced no new cards")
         except Exception as e:
-            _die(
-                f"Mindset 3 Adversarial Synthesis failed — refusing to "
-                f"continue short a mindset: {e}"
+            # Same law as a dead lens (2026-10-25): a failed synthesis
+            # pass must not incinerate wire-verifiable candidates before
+            # verify/report exist. Record the failure, mark the seam
+            # lens unserved at yield accounting, and let the hunt fail
+            # loud AFTER the report is preserved.
+            _m3_record["synthesis_failed"] = f"{type(e).__name__}: {e}"
+            _lens_outcomes[
+                "local-seam-synth" if no_cloud else "cloud-seam-synth"
+            ] = "error"
+            _warn(
+                f"Mindset 3 Adversarial Synthesis failed — continuing to "
+                f"wire verification short the synth pass; this hunt will "
+                f"fail as LENS-STARVED after the report: {e}"
             )
 
     # Mindset tagging + Mindset 3 synthesis (triangulation). LLM seams take
@@ -9536,6 +10245,22 @@ def cmd_hunt(name: str, args):
     _yield_ledger: List[Dict[str, Any]] = []
     _yield_lines = None
     _yield_unserved: List[str] = []
+    # Accounting boundary: every submitted pass origin must carry an
+    # outcome. Failed passes were withheld from _lens_outcomes during
+    # collection (ladder semantics); completing the map here keeps a
+    # withheld slice from vanishing out of the yield aggregation.
+    _submitted_passes = (
+        list(futures_meta or [])
+        + [f for f in (_failed_passes or []) if isinstance(f, dict)]
+        + [
+            a
+            for a in ((_escalation_record or {}).get("attempts") or [])
+            if isinstance(a, dict)
+        ]
+    )
+    _completed_outcomes = complete_lens_outcomes(
+        dict(_lens_outcomes or {}), _submitted_passes
+    )
     try:
         from oracle_mindsets import (
             mindset_yield_ledger as _mindset_yield_ledger,
@@ -9543,19 +10268,103 @@ def cmd_hunt(name: str, args):
             yield_unserved as _yield_unserved_f,
         )
 
+        # Regime receipts from observed evidence only: the count is
+        # recon live-host lines explicitly tagged [200] (responses this
+        # hunt's recon actually served — recon ran with the hunt's
+        # configured auth), and session_regime requires both configured
+        # auth materials and at least one such observed 200. A bare
+        # credential string, discovered-URL line counts, and host
+        # counts prove nothing and receipt nothing.
+        from oracle_mindsets import build_regime_receipts as _build_receipts
+
+        _regime_receipts = _build_receipts(
+            _effective,
+            auth_configured=bool(
+                _effective_recon_auth(args) or getattr(args, "cookie", None)
+            ),
+            served_200=_served_200_hosts,
+        )
         _yield_ledger = _mindset_yield_ledger(
-            _effective, list(seams or []), dict(_lens_outcomes or {})
+            _effective,
+            list(seams or []),
+            dict(_completed_outcomes or {}),
+            regime_receipts=_regime_receipts,
         )
         _yield_unserved = _yield_unserved_f(_yield_ledger)
+        if _m3_record.get("synthesis_failed") and "seam" in (_effective or []):
+            # The M3 LLM synthesis pass itself failed: deterministic feed
+            # cards minting under "seam" do not retroactively serve it.
+            if "seam" not in _yield_unserved:
+                _yield_unserved = list(_yield_unserved) + ["seam"]
     except Exception as _yle:  # noqa: BLE001
-        _warn(f"Mindset yield accounting failed: {_yle}")
+        # Fail closed: accounting failure proves no lens served. (This
+        # once left _yield_unserved=[] and minted readiness downstream.)
+        _yield_unserved = list(_effective or [])
+        _warn(f"Mindset yield accounting failed (all lenses unserved): {_yle}")
+    # Per-code / per-slice coverage ledgers: the denominators behind the
+    # yield verdicts, persisted for audit and summarized into hunt meta.
+    _lens_coverage: Dict[str, Any] = {"status": "unknown"}
+    try:
+        _all_passes = list(_submitted_passes or [])
+        _mitre_ledger = mitre_coverage_ledger(
+            _mitre_ctx._load_ttps(),
+            _all_passes,
+            dict(_completed_outcomes or {}),
+            list(seams or []),
+        )
+        _paradox_ledger = slice_coverage_ledger(
+            _all_passes, dict(_completed_outcomes or {}), "paradox"
+        )
+        _coverage_doc = {
+            "schema": "oracle.lens-coverage/v1",
+            "mitre": _mitre_ledger,
+            "paradox": _paradox_ledger,
+            "tactic_coverage": _tactic_coverage,
+        }
+        (ws.base / "reports" / "lens_coverage_ledger.json").write_text(
+            json.dumps(_coverage_doc, indent=1), encoding="utf-8"
+        )
+        # Feed manifest: which owner-required feeds actually reach each
+        # mindset this hunt (present/source/size/known loss), persisted
+        # beside the coverage ledger it explains.
+        _seam_manifest_ctx = OracleMindsetContext(
+            program=dict(_full_prog) if isinstance(_full_prog, dict) else {},
+            ttp_mode="compact",
+            mindset="seam",
+        )
+        _seam_manifest_ctx.inject_pending_seams(list(seams or []))
+        _feed_doc = {
+            "schema": "oracle.hunt-feed-manifests/v1",
+            "mitre": _mitre_ctx.feed_manifest(),
+            "paradox": ctx.feed_manifest(),
+            "seam": _seam_manifest_ctx.feed_manifest(),
+        }
+        (ws.base / "reports" / "feed_manifests.json").write_text(
+            json.dumps(_feed_doc, indent=1), encoding="utf-8"
+        )
+        _lens_coverage["feed_manifests"] = {
+            k: bool(v.get("complete")) for k, v in _feed_doc.items() if k != "schema"
+        }
+        _lens_coverage = {
+            "status": "recorded",
+            "mitre_total": _mitre_ledger["total"],
+            "mitre_complete": _mitre_ledger["complete"],
+            "paradox_complete": _paradox_ledger["complete"],
+            "report": "reports/lens_coverage_ledger.json",
+        }
+        _runlog_event("lens.coverage", **_lens_coverage)
+    except Exception as _cle:  # noqa: BLE001
+        _warn(f"Lens coverage ledger failed: {_cle}")
     _hunt_meta: Dict[str, Any] = {
         "requested_mindsets": list(_profiles),
         "effective_mindsets": list(_effective),
         "unserved_mindsets": list(_yield_unserved),
+        "yield_ledger": list(_yield_ledger),
+        "lens_coverage": _lens_coverage,
         "feed_trust": _chain_feed_trust,
         "oracle_rescan": _chain_rescan,
-        "lens_outcomes": dict(_lens_outcomes),
+        "hunt_scope": _hunt_scope_stamp_value,
+        "lens_outcomes": dict(_completed_outcomes),
         "tactic_coverage": _tactic_coverage,
         "template_errors": list(_det_template_errors),
         "cage_rejected": list(_cage_rejected),
@@ -9596,7 +10405,10 @@ def cmd_hunt(name: str, args):
         "finalize.complete",
         report=str(finalized.get("report") or ""),
         cloud_results=len(cloud_results or {}),
-        correlation=bool(finalized.get("correlation")),
+        correlation=bool(
+            isinstance(finalized.get("correlation"), dict)
+            and finalized["correlation"].get("summary")
+        ),
         duration_s=round(time.monotonic() - _finalize_started, 3),
     )
 

@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import oracle_bulk_download as obd
+import oracle_bundle as ob
 import oracle_hunter as oh
 import oracle_intake as oi
 import oracle_llm
@@ -105,8 +106,24 @@ def test_full_chain_offline(monkeypatch, tmp_path):
         base = obd.workspace_base_for(prog)
         (base / "recon").mkdir(parents=True, exist_ok=True)
         (base / "assets").mkdir(exist_ok=True)
+        (base / "assets" / "app__homepage.html").write_text("page " * 300)
         (base / "program.json").write_text(json.dumps(prog))
         (base / ".oracle_bulk.json").write_text("{}")
+        obd.write_download_report(
+            base,
+            obd.summarize_download_results(
+                [
+                    {
+                        "file": "app__homepage.html",
+                        "url": prog["website"],
+                        "status": 200,
+                        "via": "plain-get",
+                        "bytes": 1234,
+                    }
+                ],
+                expected_urls=1,
+            ),
+        )
         downloads.append(prog["name"])
         return {"status": "downloaded", "detail": "fake assets"}
 
@@ -129,7 +146,11 @@ def test_full_chain_offline(monkeypatch, tmp_path):
         stamp="e2e",
     )
     sched = oq.build_schedule(
-        handoff["_report_path"], config={}, out_dir=reports, stamp="e2e"
+        handoff["_report_path"],
+        config={},
+        out_dir=reports,
+        stamp="e2e",
+        require_trusted_handoff=True,
     )
     assert sched["count"] == 2
     for item in sched["items"]:
@@ -150,6 +171,47 @@ def test_full_chain_offline(monkeypatch, tmp_path):
         (base / "recon" / "clean_live_hosts.txt").write_text(f"https://{host}\n")
         (base / "recon" / "known_urls.txt").write_text(
             f"https://{host}/api/users\nhttps://evil.example.org/x\n"
+        )
+        # The hunt snapshot a real hunt guarantees: chain provenance from
+        # the schedule item, served-lens accounting, one wire-confirmed
+        # finding with a real PoC, and a full report.
+        (base / "reports").mkdir(exist_ok=True)
+        (base / "findings").mkdir(exist_ok=True)
+        (base / "reports" / "report_full_20260101_000000.md").write_text("full report")
+        (base / "findings" / "finding_001.json").write_text(
+            json.dumps({"n": 1, "verify_confirmed": True})
+        )
+        (base / "reports" / "report_seam_1_20260101_000000.md").write_text(
+            "PoC body: curl https://app.example/api/users -> 200 secret"
+        )
+        snapshot = {
+            "generated": "2026-01-01T00:00:00Z",
+            "target": f"https://{host}/",
+            "hunt": {
+                "unserved_mindsets": [],
+                "effective_mindsets": ["mitre", "paradox", "seam"],
+                "yield_ledger": [
+                    {"mindset": "mitre", "minted": 1, "cause": "minted"},
+                    {"mindset": "paradox", "minted": 1, "cause": "minted"},
+                    {"mindset": "seam", "minted": 1, "cause": "minted"},
+                ],
+                "oracle_rescan": item.get("oracle_rescan", {}),
+                "feed_trust": {"ok": False, "raw_candidate_ok": True},
+            },
+            "summary": {"confirmed": 1},
+            "results": {
+                "1": {
+                    "verdict": "confirmed",
+                    "confirmed": True,
+                    "poc_output": (
+                        "--- HTTP Request ---\nGET /api/users\n"
+                        "--- HTTP Response ---\n200 OK\nsecret"
+                    ),
+                }
+            },
+        }
+        (base / "reports" / "report_verify_results_20260101_000000.md").write_text(
+            json.dumps(snapshot)
         )
 
     summary = oq.execute_schedule(
@@ -179,3 +241,14 @@ def test_full_chain_offline(monkeypatch, tmp_path):
     assert seams == []
     assert "/api/users" in prompts["task"]
     assert "evil.example.org" not in prompts["task"]
+
+    # 7. the hunted workspace bundles submission-ready and verifies:
+    # strict chain provenance + served lenses + complete download +
+    # wire-confirmed finding with PoC, integrity-checked offline.
+    bundle = ob.build_bundle(alpha_ws, out_dir=reports / "bundle", stamp="e2e")
+    assert bundle["readiness"]["ready_for_submission"] is True, bundle[
+        "readiness"
+    ]["reasons"]
+    check = ob.verify_bundle(Path(bundle["zip_path"]))
+    assert check["integrity_ok"] is True
+    assert check["ready_for_submission"] is True

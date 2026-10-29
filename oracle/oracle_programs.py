@@ -613,20 +613,25 @@ def _firecrawl(url: str, api_key: str, timeout: int = 60) -> Optional[str]:
     return None
 
 
-def _fetch(
+def _fetch_with_via(
     url: str,
     firecrawl_key: Optional[str] = None,
     timeout: int = 60,
     use_cdp: bool = True,
     redirect_validator: Optional[Callable[[str], bool]] = None,
-) -> str:
-    """Cascade:
+):
+    """Cascade fetch returning ``(text, via)`` — download provenance.
+
+    ``via`` names the stage that actually served non-trivial content:
+    ``cdp``, ``crawl4ai``, ``jina``, ``firecrawl``, or ``plain-get``.
+    Empty text returns ``("", "")``. Never crashes.
+    Cascade:
     1. CDP (logged-in Chromium)
     2. Crawl4AI (local Playwright headless, $0, handles --no-cloud)
     3. Jina Reader (cloud markdown, 10M tokens free)
     4. Firecrawl (cloud fallback)
     5. Plain HTTP GET
-    Never crashes."""
+    """
     if "://" not in url:
         # Schemeless input (bare host from recon): curl-consistent default.
         # HTTPS redirect targets are followed by every cascade stage.
@@ -634,37 +639,58 @@ def _fetch(
     if redirect_validator:
         # Browser and cloud renderers cannot expose every redirect hop to this
         # policy boundary, so scoped asset retrieval uses the local HTTP path.
-        return _get(
-            url, timeout=timeout, redirect_validator=redirect_validator
-        ) or ""
+        text = (
+            _get(url, timeout=timeout, redirect_validator=redirect_validator)
+            or ""
+        )
+        return text, ("plain-get" if text else "")
     if use_cdp:
         html = _cdp_fetch(url)
         if html and len(html) > 200:
-            return html
+            return html, "cdp"
 
     # Local JS rendering (works even in --no-cloud mode)
     c4ai_res = _crawl4ai(url, timeout=min(timeout, 25))
     if c4ai_res and len(c4ai_res) > 200:
-        return c4ai_res
+        return c4ai_res, "crawl4ai"
 
     # Cloud renderers (skipped with --no-cloud)
     if not NO_CLOUD:
         jina_res = _jina_reader(url, timeout=min(timeout, 25))
         if jina_res and len(jina_res) > 200:
-            return jina_res
+            return jina_res, "jina"
 
         fc_key = firecrawl_key or _key("FIRECRAWL_API_KEY")
         if fc_key:
             html = _firecrawl(url, fc_key, timeout)
             if html:
-                return html
+                return html, "firecrawl"
     elif firecrawl_key or _key("FIRECRAWL_API_KEY"):
         log.warning(
             "--no-cloud: skipping cloud scrape for %s (local Crawl4AI / plain GET only)",
             url,
         )
 
-    return _get(url, timeout=timeout) or ""
+    text = _get(url, timeout=timeout) or ""
+    return text, ("plain-get" if text else "")
+
+
+def _fetch(
+    url: str,
+    firecrawl_key: Optional[str] = None,
+    timeout: int = 60,
+    use_cdp: bool = True,
+    redirect_validator: Optional[Callable[[str], bool]] = None,
+) -> str:
+    """Cascade fetch returning bare text (see :func:`_fetch_with_via`)."""
+    text, _via = _fetch_with_via(
+        url,
+        firecrawl_key=firecrawl_key,
+        timeout=timeout,
+        use_cdp=use_cdp,
+        redirect_validator=redirect_validator,
+    )
+    return text
 
 
 # ─────────────────────────────────────────────────────────────────────────────

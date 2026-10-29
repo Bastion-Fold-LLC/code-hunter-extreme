@@ -36,7 +36,7 @@ All paths are logged to stdout when written.
       "checks": {"scope_live": {}, "payouts_match": {}, "rules_unchanged": {}},
       "workspace": {"path": "...", "status": "present|downloaded|empty|error", "detail": "..."},
       "oracle_rescan": {
-        "source": "hackerone-api-authenticated|scan4me-db",
+        "source": "hackerone-api-authenticated",
         "independent": true,
         "found": true
       },
@@ -44,44 +44,73 @@ All paths are logged to stdout when written.
         "assets": [],
         "company": {},
         "resources": {},
-        "sources": ["scan4me:programs+assets"],
+        "sources": ["scan4me:programs+assets", "scan-rescan:hackerone-api-authenticated"],
         "checks": {}
       }
     }
   ],
   "excluded_named": [{"site": "...", "program": "...", "reason": "..."}],
   "oracle_rescan": {
-    "mode": "independent|mixed|scan4me-db|none",
+    "mode": "independent|mixed|scan4me-db|no-oracle-adapter|none",
     "independent": true,
     "programs": 1,
     "independent_programs": 1,
     "sources": ["hackerone-api-authenticated"]
   },
   "feed_provenance": {},
-  "feed_trust": {"ok": true, "issues": [], "enforced": true},
+  "feed_trust": {"ok": false, "raw_candidate_ok": true, "issues": ["unauthenticated feed rows: ..."], "enforced": true},
   "note": "unverified programs never appear here; see the scan report"
 }
 ```
 
 ## Contract guarantees
 
-- Prescan/scan reject stale, failed-refresh, `public-file`, or
-  no-authenticated-row Scan4Me feeds. `prescan` preserves the rejected
-  report; `scan` refuses to launder it. There is no operator bypass.
-- On the verify pass, HackerOne scope is re-fetched from HackerOne's
-  authenticated Hacker API with Oracle's own `HACKERONE_USERNAME` +
-  `HACKERONE_API_TOKEN`/`HACKERONE_API_KEY`. Auth/transport failure fails
-  the scan; a 404 is a vanished program, never stale scope. Other platforms
-  fall back to the Scan4Me bridge and stamp `independent=false`.
-- The handoff carries `feed_trust`; `build_schedule(require_trusted_handoff=True)`
-  and `queue --execute` reject untrusted handoffs/schedules before dispatch.
-- Product readiness re-checks both stamps inside the workspace snapshot:
-  `feed_trust.ok=true` and Oracle re-scan provenance are required. A
-  HackerOne product additionally requires `oracle_rescan.independent=true`.
+- Scan4Me discovery is no-login (`prescan --sync` uses `use_auth=False`).
+  Prescan/scan reject unavailable, stale (including age over 48h), or
+  failed-refresh feeds. Fresh `public-file`/public-listing rows pass only
+  as raw candidates (`feed_trust.raw_candidate_ok=true` while the separate
+  authenticated verdict `feed_trust.ok` stays false). `prescan` preserves
+  a rejected report; there is no operator bypass.
+- Trust is created on the verify pass, per program. HackerOne scope is
+  re-fetched from HackerOne's authenticated Hacker API with Oracle's own
+  `HACKERONE_USERNAME` + `HACKERONE_API_TOKEN`/`HACKERONE_API_KEY`.
+  Auth/transport failure fails the scan; a 404 is a vanished program,
+  never stale scope. Other platforms have no Oracle adapter yet, stamp
+  `source=no-oracle-adapter, independent=false`, and cannot verify. A
+  Scan4Me DB copy never corroborates itself, and a non-independent fresh
+  listing contributes no `_fresh` scope downstream.
+- Deep-dive consumes each verdict's embedded `_fresh` listing; it never
+  re-resolves through the Scan4Me DB and never falls back to prescan
+  snapshot scope. The handoff copies the scan report's
+  `feed_provenance` verbatim and re-derives `feed_trust` from it (a
+  stored trust block is never copied) — a later live sync cannot
+  relabel what the scan consumed.
+- `build_schedule(require_trusted_handoff=True)` (historical flag name),
+  `queue --execute`, downloads, and chain hunts all apply the shared
+  strict entry check (`oracle_intake.is_independently_verified_entry`):
+  `verdict=verified`, no `failed_checks`, and re-scan metadata with
+  `independent=true`, `found=true`, a non-bridge source, and — whenever
+  the adapter stamps one (HackerOne always does) — a handle bound to
+  the entry. Schedule items carry `verdict`/`failed_checks`
+  forward so execution re-checks the whole record, and re-joined
+  handoff entries are validated before any download or hunt. Public
+  discovery provenance alone is neither sufficient nor a blocker after
+  Oracle verification.
+- `pick_hunt_target` returns the entry's verdict, failed checks, and
+  deep-dive assets/out-of-scope. A chain hunt pins those scan-verified
+  assets (`_chain_scope_prog`) — DB re-resolution never supplies its
+  scope — then stamps chain-vs-final scope hashes plus hunt-time intake
+  status (`hunt_scope`) into the hunt snapshot and runlog.
+- Product readiness applies the strict re-scan metadata check
+  (`independent=true`, `found=true`, non-bridge source) with a handle
+  stamp that must be present and bound to the workspace `program.json`,
+  for every platform. `feed_trust` is discovery provenance only.
   Direct/non-queue workspaces are therefore never submission-ready.
-- `ranked_verified` contains ONLY `verdict == "verified"` programs, ranked by
-  Scan4Me score descending. Unverified programs NEVER appear here — not even
-  when named via `--sites` (those land in `excluded_named` with a reason).
+- `ranked_verified` contains ONLY independently verified programs
+  (`verdict == "verified"` and `oracle_rescan.independent is True`),
+  ranked by Scan4Me score descending. Unverified or bridge-only programs
+  NEVER appear here — not even when named via `--sites` (those land in
+  `excluded_named` with a reason).
 - Named `--sites` override `-N/--top-n` entirely. With neither flag,
   `cmd_scan` falls back to `queue.default_count`; `write_handoff` itself
   applies no count.
@@ -97,8 +126,11 @@ All paths are logged to stdout when written.
 ## Download leg (P11 --download)
 
 `download_selected_workspaces(selection, ...)` downloads one workspace
-per entry in `selection["ranked_verified"]` (unverified programs are never
-in that list by construction) and returns the **mutated `selection`**.
+per entry in `selection["ranked_verified"]` and returns the **mutated
+`selection`**. It re-checks every entry itself: only `verified` entries
+with `oracle_rescan.independent=true` are touched; anything else is
+recorded as `workspace.status=skipped`, even if a caller hand-placed it
+in the ranked list.
 Each entry gains `workspace: {path, status, detail}` where status is
 `present` (manifest already on disk), the downloader's own status
 (`downloaded`/`empty`), or `error`. A failure on one program never aborts

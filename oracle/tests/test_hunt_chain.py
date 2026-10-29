@@ -27,6 +27,15 @@ def _handoff(names=("Acme", "Beta")):
                 "url": f"https://h1/{n.lower()}",
                 "score": 80.0,
                 "rank": i + 1,
+                "verdict": "verified",
+                "failed_checks": [],
+                "deep_dive": {
+                    "assets": [
+                        {"asset_identifier": f"app.{n.lower()}.example.com"}
+                    ],
+                    "out_of_scope": [f"status.{n.lower()}.example.com"],
+                    "company": {"website": f"https://{n.lower()}.example.com"},
+                },
             }
             for i, n in enumerate(names)
         ],
@@ -46,6 +55,15 @@ def _schedule(names=("Acme", "Beta")):
                 "company": {"name": n, "handle": n.lower()},
                 "program_url": f"https://h1/{n.lower()}",
                 "score": 80.0,
+                "verdict": "verified",
+                "failed_checks": [],
+                "deep_dive": {
+                    "assets": [
+                        {"asset_identifier": f"app.{n.lower()}.example.com"}
+                    ],
+                    "out_of_scope": [f"status.{n.lower()}.example.com"],
+                    "website": f"https://{n.lower()}.example.com",
+                },
             }
             for i, n in enumerate(names)
         ],
@@ -132,3 +150,65 @@ def test_pick_carries_product_provenance():
     got = queue.pick_hunt_target(schedule=s)
     assert got["feed_trust"]["ok"] is True
     assert got["oracle_rescan"]["independent"] is False
+
+
+def test_pick_carries_verified_deep_dive_scope():
+    got = queue.pick_hunt_target(schedule=_schedule(), pick=2)
+    assert got["verdict"] == "verified"
+    assert got["failed_checks"] == []
+    assert got["deep_dive"]["assets"] == [
+        {"asset_identifier": "app.beta.example.com"}
+    ]
+    assert got["deep_dive"]["out_of_scope"] == ["status.beta.example.com"]
+    got = queue.pick_hunt_target(handoff=_handoff(), pick=1)
+    assert got["deep_dive"]["assets"] == [
+        {"asset_identifier": "app.acme.example.com"}
+    ]
+
+
+def test_chain_scope_pins_scan_verified_assets_over_db_resolution():
+    chain = queue.pick_hunt_target(schedule=_schedule(), pick=1)
+    resolved = {
+        "name": "Acme",
+        "handle": "acme",
+        "platform": "hackerone",
+        "structured_scopes": [{"asset_identifier": "db-only.example.com"}],
+        "out_of_scope": [],
+    }
+    prog = oh._chain_scope_prog(chain, resolved)
+    assert prog["structured_scopes"] == [
+        {"asset_identifier": "app.acme.example.com"}
+    ]
+    assert prog["out_of_scope"] == ["status.acme.example.com"]
+    assert prog["_chain_scope"]["source"] == "scan-deep-dive"
+    assert prog["_chain_scope"]["asset_count"] == 1
+    assert len(prog["_chain_scope"]["sha256"]) == 64
+    # The DB-resolved program is never mutated in place.
+    assert resolved["structured_scopes"] == [
+        {"asset_identifier": "db-only.example.com"}
+    ]
+
+
+def test_chain_scope_missing_assets_fails_closed():
+    chain = queue.pick_hunt_target(schedule=_schedule(), pick=1)
+    chain["deep_dive"] = {"assets": []}
+    with pytest.raises(ValueError, match="chain scope"):
+        oh._chain_scope_prog(chain, {"name": "Acme"})
+
+
+def test_hunt_scope_stamp_records_chain_and_final_scope():
+    chain_prog = {
+        "structured_scopes": [{"asset_identifier": "app.acme.example.com"}],
+        "_chain_scope": {"sha256": "a" * 64, "asset_count": 1},
+    }
+    final = {
+        "structured_scopes": [{"asset_identifier": "app.acme.example.com"}],
+        "scope_intake_status": "ok",
+        "scope_intake_at": "2026-10-28T00:00:00+00:00",
+        "scope_intake_fresh": 1,
+    }
+    stamp = oh._hunt_scope_stamp(chain_prog, final)
+    assert stamp["chain_sha256"] == "a" * 64
+    assert stamp["intake_status"] == "ok"
+    assert stamp["final_asset_count"] == 1
+    assert len(stamp["final_sha256"]) == 64
