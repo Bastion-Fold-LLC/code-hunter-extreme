@@ -23,7 +23,14 @@ from typing import Dict, List, Optional, Any
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "Scan4Me"))
+# The Scan4Me checkout is `scan4me/` in this tree and `Scan4Me/` in older
+# layouts. Resolve by existence, not by spelling: on a case-sensitive FS the
+# wrong casing is a path that is never there and every DB lookup fails open.
+for _name in ("Scan4Me", "scan4me"):
+    _cand = ROOT / _name
+    if _cand.is_dir():
+        sys.path.insert(0, str(_cand))
+        break
 
 import oracle_hunter as oh
 from oracle_mindset_context import OracleMindsetContext
@@ -304,8 +311,15 @@ def main():
 
 def test_blind_evaluation_single_program():
     """Verify BlindEvaluationHarness executes cleanly against Scan4Me database."""
+    import pytest
+
     harness = BlindEvaluationHarness()
-    assert Path(harness.scan4me_db).is_file(), f"Scan4Me DB missing at {harness.scan4me_db}"
+    if not Path(harness.scan4me_db).is_file():
+        pytest.skip(
+            f"Scan4Me DB not synced at {harness.scan4me_db} — run "
+            "`python3 scan4me.py sync` in the Scan4Me checkout ("
+            "SCAN4ME_HOME overrides the path) to enable blind evaluation"
+        )
     programs = harness.fetch_random_programs(count=1)
     assert len(programs) == 1
     details = harness.fetch_program_details(programs[0]["id"])
@@ -314,6 +328,61 @@ def test_blind_evaluation_single_program():
     res = harness.run_blind_hunt(details)
     assert res["program"] == programs[0]["name"]
     assert res["seams_final"] == 0  # Empty recon dir produces 0 false confirms
+
+
+def test_blind_evaluation_scope_contract_on_synthetic_db(tmp_path):
+    """The harness SQL contract holds without a live sync.
+
+    This is a structural test, not a capability measurement: it proves that
+    program/asset/OOS rows are read into the shape ``run_blind_hunt`` expects.
+    Measured discovery still requires a real Scan4Me sync (test above).
+    """
+    import sqlite3
+
+    db = tmp_path / "scan4me.db"
+    conn = sqlite3.connect(db)
+    conn.executescript(
+        """
+        CREATE TABLE programs (
+            id INTEGER PRIMARY KEY, name TEXT, handle TEXT, platform TEXT,
+            offers_bounties INTEGER, max_payout REAL, deleted_timestamp INTEGER,
+            rules_text TEXT, safe_harbor TEXT, out_of_scope TEXT
+        );
+        CREATE TABLE assets (
+            id INTEGER PRIMARY KEY, program_id INTEGER, asset_identifier TEXT,
+            asset_type TEXT, deleted_timestamp INTEGER
+        );
+        CREATE TABLE oos_assets (
+            id INTEGER PRIMARY KEY, program_id INTEGER, asset_identifier TEXT,
+            asset_type TEXT, deleted_timestamp INTEGER
+        );
+        INSERT INTO programs VALUES (
+            1, 'Synthetic', 'synthetic', 'hackerone', 1, 5000, 0,
+            'Rules body', 'Safe harbor body', ''
+        );
+        INSERT INTO assets VALUES (10, 1, 'api.synthetic.example', 'URL', 0);
+        INSERT INTO assets VALUES (11, 1, '*.synthetic.example', 'WILDCARD', 0);
+        INSERT INTO assets VALUES (12, 1, 'removed.synthetic.example', 'URL', 7);
+        INSERT INTO oos_assets VALUES (20, 1, 'blog.synthetic.example', 'URL', 0);
+        """
+    )
+    conn.commit()
+    conn.close()
+
+    harness = BlindEvaluationHarness(scan4me_db=str(db))
+    programs = harness.fetch_random_programs(count=5, min_score=1000)
+    assert [p["name"] for p in programs] == ["Synthetic"]
+    assert programs[0]["asset_count"] == 2  # deleted asset excluded
+
+    details = harness.fetch_program_details(programs[0]["id"])
+    assert details["name"] == "Synthetic"
+    assert sorted(a["asset_identifier"] for a in details["structured_scopes"]) == [
+        "*.synthetic.example",
+        "api.synthetic.example",
+    ]
+    assert [a["asset_identifier"] for a in details["out_of_scope_assets"]] == [
+        "blog.synthetic.example"
+    ]
 
 
 if __name__ == "__main__":

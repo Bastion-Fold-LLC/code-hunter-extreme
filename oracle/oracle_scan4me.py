@@ -49,13 +49,25 @@ def scan4me_home() -> Path:
     """Resolve the Scan4Me checkout.
 
     SCAN4ME_HOME wins; else the sibling-of-this-repo candidate. The
-    candidate is returned unverified (callers check existence) — never
-    a workstation-specific absolute path.
+    sibling lookup is case-insensitive and prefers a directory that actually
+    exists, because the canonical checkout is ``scan4me/`` while older docs
+    and the standalone layout spell it ``Scan4Me/`` — on a case-sensitive
+    filesystem the wrong spelling silently resolves to a path that is never
+    there (fail-open DB lookups). The candidate is returned unverified
+    (callers check existence) — never a workstation-specific absolute path.
     """
     env = os.environ.get("SCAN4ME_HOME")
     if env:
         return Path(env).expanduser()
-    return Path(__file__).resolve().parent.parent / "Scan4Me"
+    parent = Path(__file__).resolve().parent.parent
+    fallback = parent / "Scan4Me"
+    try:
+        for entry in sorted(parent.iterdir()):
+            if entry.is_dir() and entry.name.lower() == "scan4me":
+                return entry
+    except OSError:
+        pass
+    return fallback
 
 
 def scan4me_db_path() -> Path:
@@ -198,11 +210,27 @@ def _db() -> Optional[sqlite3.Connection]:
     The bridge never writes Scan4Me's database; a read-only handle
     makes that structural (and side-steps WAL/journal creation in a
     foreign checkout).
+
+    A file at the path is not proof of a schema: an unsynced checkout (or a
+    zero-byte stub created by importing Scan4Me) yields a handle whose every
+    query raises ``no such table: programs``. That turns "no data" into a
+    crash inside callers that only guard on ``None``, so validate the schema
+    here and fail closed instead.
     """
     db_path = scan4me_db_path()
     if not db_path.exists():
         return None
     conn = sqlite3.connect(f"{db_path.resolve().as_uri()}?mode=ro", uri=True)
+    try:
+        has_programs = conn.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='programs'"
+        ).fetchone()
+    except sqlite3.DatabaseError:
+        conn.close()
+        return None
+    if not has_programs:
+        conn.close()
+        return None
     conn.row_factory = sqlite3.Row
     return conn
 

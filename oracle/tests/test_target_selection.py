@@ -256,11 +256,20 @@ def test_oracle_hunt_filter_program_qualifies_with_managed_triage():
 
 
 def test_scan4me_bridge_records_carry_fast_triage_and_kind():
-    """oracle_scan4me bridge exports fast_triage and kind for downstream Oracle filters."""
+    """oracle_scan4me bridge exports fast_triage and kind for downstream Oracle filters.
+
+    Needs a synced Scan4Me DB with paypal's live triage stats; a fresh checkout
+    has none, so skip loudly instead of passing vacuously when the program is
+    absent.
+    """
+    import pytest
     import oracle_scan4me
 
+    if oracle_scan4me._db() is None:
+        pytest.skip("Scan4Me DB not synced — run `python3 scan4me.py sync`")
     prog = oracle_scan4me.resolve("paypal")
-    if prog:
-        assert prog.get("kind") == "web2"
-        assert prog.get("fast_triage") is True
+    if not prog:
+        pytest.skip("program 'paypal' not present in the synced Scan4Me DB")
+    assert prog.get("kind") == "web2"
+    assert prog.get("fast_triage") is True
 

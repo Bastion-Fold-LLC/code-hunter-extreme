@@ -15,9 +15,10 @@ def test_env_override_wins(monkeypatch, tmp_path):
 
 
 def test_default_resolves_to_real_checkout(monkeypatch):
+    """Sibling resolution is spelling-agnostic: this tree ships `scan4me/`."""
     monkeypatch.delenv("SCAN4ME_HOME", raising=False)
     home = bridge.scan4me_home()
-    assert home.name == "Scan4Me"
+    assert home.name.lower() == "scan4me"
     if not home.is_dir():
         pytest.skip(f"no Scan4Me sibling checkout at {home}")
     assert home.is_dir()
@@ -25,6 +26,26 @@ def test_default_resolves_to_real_checkout(monkeypatch):
 
 def test_db_none_when_missing(monkeypatch, tmp_path):
     monkeypatch.setenv("SCAN4ME_HOME", str(tmp_path))
+    assert bridge._db() is None
+    assert bridge.resolve("anything") is None
+
+
+def test_db_none_for_empty_or_stub_file(monkeypatch, tmp_path):
+    """A file at the DB path is not proof of a schema (unsynced checkout).
+
+    Importing Scan4Me creates a zero-byte `scan4me.db`; the bridge must treat
+    that as "no data" (None) instead of handing out a handle whose every query
+    raises `no such table: programs`.
+    """
+    monkeypatch.setenv("SCAN4ME_HOME", str(tmp_path))
+    (tmp_path / "scan4me.db").write_bytes(b"")
+    assert bridge._db() is None
+    assert bridge.resolve("anything") is None
+
+    conn = sqlite3.connect(tmp_path / "scan4me.db")
+    conn.execute("CREATE TABLE unrelated (x INTEGER)")
+    conn.commit()
+    conn.close()
     assert bridge._db() is None
     assert bridge.resolve("anything") is None
 
